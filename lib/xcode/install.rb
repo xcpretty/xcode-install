@@ -79,7 +79,7 @@ module XcodeInstall
 
 			`hdiutil mount -noverify #{dmgPath}`
 			puts 'Please authenticate for Xcode installation...'
-			`sudo cp -R "/Volumes/Xcode/Xcode.app" "#{xcode_path}"`
+			`sudo ditto "/Volumes/Xcode/Xcode.app" "#{xcode_path}"`
 			`umount "/Volumes/Xcode"`
 
 			`sudo xcode-select -s #{xcode_path}`
