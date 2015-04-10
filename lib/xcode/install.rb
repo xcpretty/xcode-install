@@ -23,6 +23,12 @@ module FastlaneCore
 				"url: '/downloads/seedlist.action', async: false})")['responseText'])
 		end
 	end
+
+	module Helper
+		def self.is_test?
+			true
+		end
+	end
 end
 
 module XcodeInstall
