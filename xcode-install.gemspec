@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = XcodeInstall::VERSION
   spec.authors       = ["Boris Bügling"]
   spec.email         = ["boris@icculus.org"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Xcode installation manager.}
+  spec.description   = %q{Download, install and upgrade Xcodes with ease.}
+  spec.homepage      = "https://github.com/neonichu/xcode-install"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "claide", "~> 0.8.1"
   spec.add_dependency "fastlane_core"
 
   spec.add_development_dependency "bundler", "~> 1.7"

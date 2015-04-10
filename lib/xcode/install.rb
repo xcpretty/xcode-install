@@ -1,5 +1,6 @@
 require "fastlane_core"
 require "fastlane_core/developer_center/developer_center"
+require "xcode/install/command"
 require "xcode/install/version"
 
 module FastlaneCore

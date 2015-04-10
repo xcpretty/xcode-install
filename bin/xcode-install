@@ -7,10 +7,6 @@ if $PROGRAM_NAME == __FILE__
 	$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 end
 
-require 'json'
 require 'xcode/install'
 
-ENV['DELIVER_USER'] = 'neonichu2@gmail.com'
-
-installer = XcodeInstall::Installer.new
-puts installer.list 
+XcodeInstall::Command.run(ARGV)
