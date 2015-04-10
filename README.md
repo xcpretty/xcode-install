@@ -1,8 +1,11 @@
 # Xcode::Install
 
-⚠️WIP⚠️
+Install and update your Xcodes automatically.
 
-Install and update your Xcodes.
+```bash
+$ gem install 'xcode-install'
+$ xcode-install install 6.3
+```
 
 ## Installation
 
@@ -43,13 +46,31 @@ To install a certain version, simply:
 ```bash
 $ xcode-install install 6.3
 ###########################################################               82.1%
+######################################################################## 100.0%
+Please authenticate for Xcode installation...
+
+Xcode 6.3
+Build version 6D570
 ```
 
-This will download and install that version of Xcode.
+This will download and install that version of Xcode. It will also be automatically selected.
+
+## Limitations
+
+This is a first shot, there are currently some limitations:
+
+- No cleanup of caches in `~/Library/Caches/XcodeInstall` [#6](/../../issues/6)
+- No automatic uninstallation [#3](/../../issues/3)
+- No notion of installed versions [#1](/../../issues/1)
+- No support for preleases [#5](/../../issues/5)
+
+I will be addressing those in the future, but feel free to send PRs or report additional
+bugs and shortcomings.
 
 ## Thanks
 
-[This][3] downloading script which has been used for some inspiration.
+[This][3] downloading script which has been used for some inspiration, also [this][4]
+for doing the installation.
 
 ## Contributing
 
@@ -63,3 +84,4 @@ This will download and install that version of Xcode.
 [1]: https://github.com/KrauseFx/CredentialsManager
 [2]: http://fastlane.tools
 [3]: http://atastypixel.com/blog/resuming-adc-downloads-cos-safari-sucks/
+[4]: https://github.com/magneticbear/Jenkins_Bootstrap
