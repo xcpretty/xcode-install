@@ -16,6 +16,8 @@ end
 
 module XcodeInstall
 	class Installer
+		attr_reader :xcodes
+
 		def initialize
 			@devcenter = FastlaneCore::DeveloperCenter.new
 		end
@@ -43,7 +45,7 @@ module XcodeInstall
 		def initialize(json)
 			@dateModified = json['dateModified'].to_i
 			@name = json['name']
-			@url = "https://developer.apple.com//downloads#{json['files'].first['remotePath']}"
+			@url = "http://adcdownload.apple.com#{json['files'].first['remotePath']}"
 		end
 	end
 end
