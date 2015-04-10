@@ -64,12 +64,26 @@ module XcodeInstall
 		def download(version)
 			return unless exist?(version)
 			xcode = seedlist.select { |x| x.name == version }.first
-			dmg_file = File.basename(xcode.path)
-			puts Curl.new.fetch(xcode.url, CACHE_DIR, devcenter.cookies, dmg_file)
+			dmg_file = Pathname.new(File.basename(xcode.path))
+
+			result = Curl.new.fetch(xcode.url, CACHE_DIR, devcenter.cookies, dmg_file)
+			result ? CACHE_DIR + dmg_file : nil
 		end
 
 		def exist?(version)
 			list_versions.include?(version)
+		end
+
+		def install_dmg(dmgPath, suffix = '')
+			xcode_path = "/Applications/Xcode#{suffix}.app"
+
+			`hdiutil mount -noverify #{dmgPath}`
+			puts 'Please authenticate for Xcode installation...'
+			`sudo cp -R "/Volumes/Xcode/Xcode.app" "#{xcode_path}"`
+			`umount "/Volumes/Xcode"`
+
+			`sudo xcode-select -s #{xcode_path}`
+			puts `xcodebuild -version`
 		end
 
 		def list_current

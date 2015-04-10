@@ -28,7 +28,10 @@ module XcodeInstall
 			end
 
 			def run
-				@installer.download(@version)
+				dmgPath = @installer.download(@version)
+				raise Informative, "Failed to download Xcode #{@version}." if dmgPath.nil?
+
+				@installer.install_dmg(dmgPath, "-#{@version}")
 			end
 		end
 	end
