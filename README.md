@@ -3,25 +3,15 @@
 Install and update your Xcodes automatically.
 
 ```bash
-$ gem install 'xcode-install'
+$ gem install xcode-install
 $ xcode-install install 6.3
 ```
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'xcode-install'
+```bash
+$ gem install xcode-install
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install xcode-install
 
 ## Usage
 
