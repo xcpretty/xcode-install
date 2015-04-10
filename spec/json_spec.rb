@@ -8,7 +8,7 @@ module XcodeInstall
 
 			xcode.dateModified.should == 1413472373000
 			xcode.name.should == 'Command Line Tools (OS X 10.9) for Xcode - Xcode 6.1'
-			xcode.url.should == 'http://adcdownload.apple.com/Developer_Tools/command_line_tools_os_x_10.9_for_xcode__xcode_6.1/command_line_tools_for_osx_10.9_for_xcode_6.1.dmg'
+			xcode.url.should == 'https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/command_line_tools_os_x_10.9_for_xcode__xcode_6.1/command_line_tools_for_osx_10.9_for_xcode_6.1.dmg'
 		end
 
 		it 'can parse list of all Xcodes' do
