@@ -1,4 +1,5 @@
 require 'claide'
+require "xcode/install/version"
 
 module XcodeInstall
     class Command < CLAide::Command
