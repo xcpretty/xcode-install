@@ -26,19 +26,24 @@ end
 
 module XcodeInstall
 	class Curl
-		def fetch(url, directory = nil, cookies = nil)
-			options = cookies.nil? ? '' : "-b #{cookies}"
+		COOKIES_PATH = Pathname.new('/tmp/curl-cookies.txt')
+
+		def fetch(url, directory = nil, cookies = nil, output = nil)
+			options = cookies.nil? ? '' : "-b '#{cookies}' -c #{COOKIES_PATH}"
+			#options += ' -vvv'
 
 			uri = URI.parse(url)
-			output = File.basename(uri.path)
+			output ||= File.basename(uri.path)
 			output = (Pathname.new(directory) + Pathname.new(output)) if directory
 
-			puts directory.inspect
-			puts output
-
-			IO.popen("curl #{options} -C - -# -o #{output} #{url}").each do |fd|
+			command = "curl #{options} -L -C - -# -o #{output} #{url}"
+			IO.popen(command).each do |fd|
 				puts(fd)
 			end
+			result = $?.to_i == 0
+
+			FileUtils.rm_f(COOKIES_PATH)
+			result
 		end
 	end
 
@@ -47,6 +52,17 @@ module XcodeInstall
 
 		def initialize
 			FileUtils.mkdir_p(CACHE_DIR)
+		end
+
+		def download(version)
+			return unless exist?(version)
+			xcode = seedlist.select { |x| x.name == version }.first
+			dmg_file = File.basename(xcode.path)
+			puts Curl.new.fetch(xcode.url, CACHE_DIR, devcenter.cookies, dmg_file)
+		end
+
+		def exist?(version)
+			list_versions.include?(version)
 		end
 
 		def list_current
@@ -63,9 +79,12 @@ module XcodeInstall
 		CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
 		LIST_FILE = CACHE_DIR + Pathname.new('xcodes.bin')
 
+		def devcenter
+			@devcenter ||= FastlaneCore::DeveloperCenter.new
+		end
+
 		def get_seedlist
-			@devcenter = FastlaneCore::DeveloperCenter.new if @devcenter.nil?
-			@xcodes = parse_seedlist(@devcenter.download_seedlist)
+			@xcodes = parse_seedlist(devcenter.download_seedlist)
 
 			File.open(LIST_FILE,'w') do |f|
 				f << Marshal.dump(xcodes)
@@ -93,12 +112,14 @@ module XcodeInstall
 	class Xcode
 		attr_reader :dateModified
 		attr_reader :name
+		attr_reader :path
 		attr_reader :url
 
 		def initialize(json)
 			@dateModified = json['dateModified'].to_i
 			@name = json['name'].gsub(/^Xcode /, '')
-			@url = "http://adcdownload.apple.com#{json['files'].first['remotePath']}"
+			@path = json['files'].first['remotePath']
+			@url = "https://developer.apple.com/devcenter/download.action?path=#{@path}"
 		end
 	end
 end
