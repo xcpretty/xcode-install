@@ -46,21 +46,47 @@ module XcodeInstall
 		attr_reader :xcodes
 
 		def initialize
-			@devcenter = FastlaneCore::DeveloperCenter.new
+			FileUtils.mkdir_p(CACHE_DIR)
+		end
+
+		def list_current
+			majors = list_versions.map { |v| v.split('.')[0] }.select { |v| v.length == 1 }.uniq
+			list_versions.select { |v| v.start_with?(majors.last) }.join("\n")
 		end
 
 		def list
-			parse_seedlist(@devcenter.download_seedlist)
+			list_versions.join("\n")
 		end
 
 		:private
 
-		def parse_seedlist(seedlist)
-			@xcodes = seedlist['data'].select { 
-				|t| t['name'].start_with?('Xcode') 
-			}.map { |x| Xcode.new(x) }.sort { |a,b| a.dateModified <=> b.dateModified }
+		CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
+		LIST_FILE = CACHE_DIR + Pathname.new('xcodes.bin')
 
-			@xcodes.map { |x| x.name }.join("\n")
+		def get_seedlist
+			@devcenter = FastlaneCore::DeveloperCenter.new if @devcenter.nil?
+			@xcodes = parse_seedlist(@devcenter.download_seedlist)
+
+			File.open(LIST_FILE,'w') do |f|
+				f << Marshal.dump(xcodes)
+			end
+
+			xcodes
+		end
+
+		def parse_seedlist(seedlist)
+			seedlist['data'].select { 
+				|t| /^Xcode [0-9]/.match(t['name'])
+			}.map { |x| Xcode.new(x) }.sort { |a,b| a.dateModified <=> b.dateModified }
+		end
+
+		def list_versions
+			seedlist.map { |x| x.name }
+		end
+
+		def seedlist
+			@xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
+			xcodes || get_seedlist
 		end
 	end
 
@@ -71,7 +97,7 @@ module XcodeInstall
 
 		def initialize(json)
 			@dateModified = json['dateModified'].to_i
-			@name = json['name']
+			@name = json['name'].gsub(/^Xcode /, '')
 			@url = "http://adcdownload.apple.com#{json['files'].first['remotePath']}"
 		end
 	end
