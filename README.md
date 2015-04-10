@@ -22,7 +22,34 @@ Or install it yourself as:
 
 ## Usage
 
-tbd
+XcodeInstall will ask for your credentials to access the Apple Developer Center, they are stored
+using the [CredentialsManager][1] of [Fastlane][2].
+
+To list available versions:
+
+```bash
+$ xcode-install list
+6.0.1
+6.1
+6.1.1
+6.2
+6.3
+```
+
+By default, only the latest major version is listed.
+
+To install a certain version, simply:
+
+```bash
+$ xcode-install install 6.3
+###########################################################               82.1%
+```
+
+This will download and install that version of Xcode.
+
+## Thanks
+
+[This][3] downloading script which has been used for some inspiration.
 
 ## Contributing
 
@@ -31,3 +58,8 @@ tbd
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+
+[1]: https://github.com/KrauseFx/CredentialsManager
+[2]: http://fastlane.tools
+[3]: http://atastypixel.com/blog/resuming-adc-downloads-cos-safari-sucks/
