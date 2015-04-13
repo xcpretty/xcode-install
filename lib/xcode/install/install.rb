@@ -24,6 +24,7 @@ module XcodeInstall
 			end
 
 			def validate!
+				raise Informative, "Version #{@version} already installed." if @installer.installed?(@version)
 				raise Informative, "Version #{@version} doesn't exist." unless @installer.exist?(@version)
 			end
 

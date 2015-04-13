@@ -4,6 +4,7 @@ require "xcode/install/version"
 module XcodeInstall
     class Command < CLAide::Command
         require "xcode/install/install"
+        require "xcode/install/installed"
         require "xcode/install/list"
 
         self.abstract_command = true

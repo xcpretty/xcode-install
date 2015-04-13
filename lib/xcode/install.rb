@@ -74,6 +74,14 @@ module XcodeInstall
 			list_versions.include?(version)
 		end
 
+		def installed?(version)
+			installed_versions.map { |x| x.version }.include?(version)
+		end
+
+		def installed_versions
+			@installed ||= installed.map { |x| InstalledXcode.new(x) }
+		end
+
 		def install_dmg(dmgPath, suffix = '')
 			xcode_path = "/Applications/Xcode#{suffix}.app"
 
@@ -114,6 +122,10 @@ module XcodeInstall
 			xcodes
 		end
 
+		def installed
+			`mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null`.split("\n")
+		end
+
 		def parse_seedlist(seedlist)
 			seedlist['data'].select { 
 				|t| /^Xcode [0-9]/.match(t['name'])
@@ -121,12 +133,30 @@ module XcodeInstall
 		end
 
 		def list_versions
-			seedlist.map { |x| x.name }
+			installed = installed_versions.map { |x| x.version }
+			seedlist.map { |x| x.name }.reject { |x| installed.include?(x) }
 		end
 
 		def seedlist
 			@xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
 			xcodes || get_seedlist
+		end
+	end
+
+	class InstalledXcode
+		attr_reader :path
+		attr_reader :version
+
+		def initialize(path)
+			@path = path
+			@version = get_version(path)
+		end
+
+		:private
+
+		def get_version(xcode_path)
+			output = `DEVELOPER_DIR='' #{xcode_path}/Contents/Developer/usr/bin/xcodebuild -version`
+			output.split("\n").first.split(' ')[1]
 		end
 	end
 
