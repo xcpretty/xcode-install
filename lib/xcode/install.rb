@@ -85,7 +85,7 @@ module XcodeInstall
 		def install_dmg(dmgPath, suffix = '')
 			xcode_path = "/Applications/Xcode#{suffix}.app"
 
-			`hdiutil mount -noverify #{dmgPath}`
+			`hdiutil mount -nobrowse -noverify #{dmgPath}`
 			puts 'Please authenticate for Xcode installation...'
 			`sudo ditto "/Volumes/Xcode/Xcode.app" "#{xcode_path}"`
 			`umount "/Volumes/Xcode"`
