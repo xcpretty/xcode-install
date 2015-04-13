@@ -1,14 +1,4 @@
 module XcodeInstall
-	class PlainInformative < StandardError
-    	include CLAide::InformativeError
-  	end
-
-	class Informative < PlainInformative
-    	def message
-      		"[!] #{super}".red
-    	end
-  	end
-
 	class Command
 		class Install < Command
 			self.command = 'install'

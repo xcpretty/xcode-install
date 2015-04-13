@@ -61,6 +61,10 @@ module XcodeInstall
 			FileUtils.mkdir_p(CACHE_DIR)
 		end
 
+		def current_symlink
+			File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
+		end
+
 		def download(version)
 			return unless exist?(version)
 			xcode = seedlist.select { |x| x.name == version }.first
@@ -103,10 +107,21 @@ module XcodeInstall
 			list_versions.join("\n")
 		end
 
+		def symlink(version)
+			xcode = installed_versions.select { |x| x.version == version }.first
+			`sudo rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
+			`sudo ln -sf #{xcode.path} #{SYMLINK_PATH}` unless xcode.nil? || SYMLINK_PATH.exist?
+		end
+
+		def symlinks_to
+			File.absolute_path(File.readlink(current_symlink), SYMLINK_PATH.dirname) if current_symlink
+		end
+
 		:private
 
 		CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
 		LIST_FILE = CACHE_DIR + Pathname.new('xcodes.bin')
+		SYMLINK_PATH = Pathname.new('/Applications/Xcode.app')
 
 		def devcenter
 			@devcenter ||= FastlaneCore::DeveloperCenter.new
@@ -148,7 +163,7 @@ module XcodeInstall
 		attr_reader :version
 
 		def initialize(path)
-			@path = path
+			@path = Pathname.new(path)
 			@version = get_version(path)
 		end
 
