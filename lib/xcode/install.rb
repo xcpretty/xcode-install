@@ -97,7 +97,7 @@ module XcodeInstall
 			`umount "/Volumes/Xcode"`
 
 			if switch
-				`sudo xcode-select -s #{xcode_path}`
+				`sudo xcode-select --switch #{xcode_path}`
 				puts `xcodebuild -version`
 			end
 		end
