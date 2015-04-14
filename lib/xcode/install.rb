@@ -108,6 +108,10 @@ module XcodeInstall
 			list_versions.join("\n")
 		end
 
+		def rm_list_cache
+			FileUtils.rm_f(LIST_FILE)
+		end
+
 		def symlink(version)
 			xcode = installed_versions.select { |x| x.version == version }.first
 			`sudo rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
