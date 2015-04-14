@@ -87,7 +87,7 @@ module XcodeInstall
 			@installed ||= installed.map { |x| InstalledXcode.new(x) }
 		end
 
-		def install_dmg(dmgPath, suffix = '')
+		def install_dmg(dmgPath, suffix = '', switch = true)
 			xcode_path = "/Applications/Xcode#{suffix}.app"
 
 			`hdiutil mount -nobrowse -noverify #{dmgPath}`
@@ -96,8 +96,10 @@ module XcodeInstall
 			`sudo ditto "#{source}" "#{xcode_path}"`
 			`umount "/Volumes/Xcode"`
 
-			`sudo xcode-select -s #{xcode_path}`
-			puts `xcodebuild -version`
+			if switch
+				`sudo xcode-select -s #{xcode_path}`
+				puts `xcodebuild -version`
+			end
 		end
 
 		def list_current
