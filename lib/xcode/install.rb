@@ -63,6 +63,10 @@ module XcodeInstall
 			FileUtils.mkdir_p(CACHE_DIR)
 		end
 
+		def cache_dir
+			CACHE_DIR
+		end
+
 		def current_symlink
 			File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
 		end
