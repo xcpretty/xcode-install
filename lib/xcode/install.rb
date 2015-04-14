@@ -85,7 +85,9 @@ module XcodeInstall
 		end
 
 		def installed_versions
-			@installed ||= installed.map { |x| InstalledXcode.new(x) }
+			@installed ||= installed.map { |x| InstalledXcode.new(x) }.sort { 
+				|a,b| Gem::Version.new(a.version) <=> Gem::Version.new(b.version)
+			}
 		end
 
 		def install_dmg(dmgPath, suffix = '', switch = true)
