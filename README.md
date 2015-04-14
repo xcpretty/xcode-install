@@ -52,16 +52,6 @@ This will download and install that version of Xcode. It will also be automatica
 
 ## Limitations
 
-This is a first shot, there are currently some limitations:
-
-- No cleanup of caches in `~/Library/Caches/XcodeInstall` [#6](/../../issues/6)
-- No automatic uninstallation [#3](/../../issues/3)
-
-I will be addressing those in the future, but feel free to send PRs or report additional
-bugs and shortcomings.
-
-![](http://f.cl.ly/items/3h2O2k2K37280I331C3j/Screen%20Shot%202015-04-12%20at%2015.32.38.png)
-
 Unfortunately, the installation size of Xcodes downloaded will be bigger than when downloading via the Mac App Store, see [#10](/../../issues/10) and feel free to dupe the radar. 📡
 
 ## Thanks
