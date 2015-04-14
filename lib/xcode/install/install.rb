@@ -9,12 +9,14 @@ module XcodeInstall
 			]
 
 			def self.options
-				[['--no-switch', 'Don’t switch to this version after installation']].concat(super)
+				[['--no-switch', 'Don’t switch to this version after installation'],
+				 ['--no-clean', 'Don’t delete DMG after installation.']].concat(super)
 			end
 
 			def initialize(argv)
 				@installer = Installer.new
 				@version = argv.shift_argument
+				@should_clean = argv.flag?('clean', true)
 				@should_switch = argv.flag?('switch', true)
 				super
 			end
@@ -28,7 +30,7 @@ module XcodeInstall
 				dmgPath = @installer.download(@version)
 				raise Informative, "Failed to download Xcode #{@version}." if dmgPath.nil?
 
-				@installer.install_dmg(dmgPath, "-#{@version.split(' ')[0]}", @should_switch)
+				@installer.install_dmg(dmgPath, "-#{@version.split(' ')[0]}", @should_switch, @should_clean)
 			end
 		end
 	end

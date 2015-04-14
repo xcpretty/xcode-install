@@ -90,7 +90,7 @@ module XcodeInstall
 			}
 		end
 
-		def install_dmg(dmgPath, suffix = '', switch = true)
+		def install_dmg(dmgPath, suffix = '', switch = true, clean = true)
 			xcode_path = "/Applications/Xcode#{suffix}.app"
 
 			`hdiutil mount -nobrowse -noverify #{dmgPath}`
@@ -115,6 +115,8 @@ module XcodeInstall
 				`sudo xcode-select --switch #{xcode_path}`
 				puts `xcodebuild -version`
 			end
+
+			FileUtils.rm_f(dmgPath) if clean
 		end
 
 		def list_current
