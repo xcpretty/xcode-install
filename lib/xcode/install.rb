@@ -103,6 +103,9 @@ module XcodeInstall
 			`sudo ditto "#{source}" "#{xcode_path}"`
 			`umount "/Volumes/Xcode"`
 
+			enable_developer_mode
+			`sudo xcodebuild -license` unless xcode_license_approved?
+
 			if switch
 				`sudo xcode-select --switch #{xcode_path}`
 				puts `xcodebuild -version`
@@ -143,6 +146,11 @@ module XcodeInstall
 			@devcenter ||= FastlaneCore::DeveloperCenter.new
 		end
 
+		def enable_developer_mode
+			`sudo /usr/sbin/DevToolsSecurity -enable`
+			`sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
+		end
+
 		def get_seedlist
 			@xcodes = parse_seedlist(devcenter.download_seedlist)
 			@xcodes += prereleases
@@ -181,6 +189,10 @@ module XcodeInstall
 		def seedlist
 			@xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
 			xcodes || get_seedlist
+		end
+
+		def xcode_license_approved?
+			!(`/usr/bin/xcrun clang 2>&1` =~ /license/ && !$?.success?)
 		end
 	end
 
