@@ -109,6 +109,9 @@ module XcodeInstall
 			`sudo xcodebuild -license` unless xcode_license_approved?
 
 			if switch
+				`sudo rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
+				`sudo ln -sf #{xcode_path} #{SYMLINK_PATH}` unless SYMLINK_PATH.exist?
+				
 				`sudo xcode-select --switch #{xcode_path}`
 				puts `xcodebuild -version`
 			end
