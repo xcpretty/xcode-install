@@ -12,13 +12,13 @@ module XcodeInstall
 
 		it "downloads and installs" do
 			Installer.any_instance.expects(:download).with("6.3").returns("/some/path")
-			Installer.any_instance.expects(:install_dmg).with("/some/path", "-6.3", true)
+			Installer.any_instance.expects(:install_dmg).with("/some/path", "-6.3", true, true)
 			Command::Install.run(["6.3"])
 		end
 
 		it "downloads and installs and does not switch if --no-switch given" do
 			Installer.any_instance.expects(:download).with("6.3").returns("/some/path")
-			Installer.any_instance.expects(:install_dmg).with("/some/path", "-6.3", false)
+			Installer.any_instance.expects(:install_dmg).with("/some/path", "-6.3", false, true)
 			Command::Install.run(["6.3", "--no-switch"])
 		end
 	end
