@@ -56,7 +56,6 @@ This is a first shot, there are currently some limitations:
 
 - No cleanup of caches in `~/Library/Caches/XcodeInstall` [#6](/../../issues/6)
 - No automatic uninstallation [#3](/../../issues/3)
-- No support for preleases [#5](/../../issues/5)
 
 I will be addressing those in the future, but feel free to send PRs or report additional
 bugs and shortcomings.

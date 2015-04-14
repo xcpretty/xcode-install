@@ -1,5 +1,6 @@
 require "fastlane_core"
 require "fastlane_core/developer_center/developer_center"
+require "nokogiri"
 require "xcode/install/command"
 require "xcode/install/version"
 
@@ -129,6 +130,7 @@ module XcodeInstall
 
 		def get_seedlist
 			@xcodes = parse_seedlist(devcenter.download_seedlist)
+			@xcodes += prereleases
 
 			File.open(LIST_FILE,'w') do |f|
 				f << Marshal.dump(xcodes)
@@ -150,6 +152,13 @@ module XcodeInstall
 		def list_versions
 			installed = installed_versions.map { |x| x.version }
 			seedlist.map { |x| x.name }.reject { |x| installed.include?(x) }
+		end
+
+		def prereleases
+			page = Nokogiri::HTML.parse(devcenter.download_file('/xcode/downloads/'))
+			links = page.xpath('//a').select { |link| link['href'].end_with?('.dmg') }
+
+			links.map { |pre| Xcode.new_prelease(pre.text.strip.gsub(/.*Xcode /, ''), pre['href']) }
 		end
 
 		def seedlist
@@ -186,6 +195,12 @@ module XcodeInstall
 			@name = json['name'].gsub(/^Xcode /, '')
 			@path = json['files'].first['remotePath']
 			@url = "https://developer.apple.com/devcenter/download.action?path=#{@path}"
+		end
+
+		def self.new_prelease(version, url)
+			self.new({'name' => version,
+				'dateModified' => Time.now.to_i,
+				'files' => [{'remotePath' => url.split('=').last}]})
 		end
 	end
 end
