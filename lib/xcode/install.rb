@@ -92,7 +92,8 @@ module XcodeInstall
 
 			`hdiutil mount -nobrowse -noverify #{dmgPath}`
 			puts 'Please authenticate for Xcode installation...'
-			`sudo ditto "/Volumes/Xcode/Xcode.app" "#{xcode_path}"`
+			source =  Dir.glob('/Volumes/Xcode/Xcode*.app').first
+			`sudo ditto "#{source}" "#{xcode_path}"`
 			`umount "/Volumes/Xcode"`
 
 			`sudo xcode-select -s #{xcode_path}`
