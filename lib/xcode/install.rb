@@ -1,6 +1,7 @@
 require "fastlane_core"
 require "fastlane_core/developer_center/developer_center"
 require "nokogiri"
+require "rubygems/version"
 require "xcode/install/command"
 require "xcode/install/version"
 
@@ -93,6 +94,12 @@ module XcodeInstall
 			`hdiutil mount -nobrowse -noverify #{dmgPath}`
 			puts 'Please authenticate for Xcode installation...'
 			source =  Dir.glob('/Volumes/Xcode/Xcode*.app').first
+
+			if source.nil?
+				puts 'No `Xcode.app` found in DMG.'
+				return
+			end
+
 			`sudo ditto "#{source}" "#{xcode_path}"`
 			`umount "/Volumes/Xcode"`
 
@@ -129,6 +136,7 @@ module XcodeInstall
 
 		CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
 		LIST_FILE = CACHE_DIR + Pathname.new('xcodes.bin')
+		MINIMUM_VERSION = Gem::Version.new('4.3')
 		SYMLINK_PATH = Pathname.new('/Applications/Xcode.app')
 
 		def devcenter
@@ -153,7 +161,9 @@ module XcodeInstall
 		def parse_seedlist(seedlist)
 			seedlist['data'].select { 
 				|t| /^Xcode [0-9]/.match(t['name'])
-			}.map { |x| Xcode.new(x) }.sort { |a,b| a.dateModified <=> b.dateModified }
+			}.map { |x| Xcode.new(x) }.reject { |x| x.version < MINIMUM_VERSION }.sort { 
+				|a,b| a.dateModified <=> b.dateModified
+			}
 		end
 
 		def list_versions
@@ -196,12 +206,19 @@ module XcodeInstall
 		attr_reader :name
 		attr_reader :path
 		attr_reader :url
+		attr_reader :version
 
 		def initialize(json)
 			@dateModified = json['dateModified'].to_i
 			@name = json['name'].gsub(/^Xcode /, '')
 			@path = json['files'].first['remotePath']
 			@url = "https://developer.apple.com/devcenter/download.action?path=#{@path}"
+
+			begin
+				@version = Gem::Version.new(@name.split(' ')[0])
+			rescue
+				@version = Installer::MINIMUM_VERSION
+			end
 		end
 
 		def self.new_prelease(version, url)
