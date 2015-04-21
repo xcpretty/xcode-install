@@ -219,7 +219,7 @@ module XcodeInstall
 		:private
 
 		def get_version(xcode_path)
-			output = `DEVELOPER_DIR='' #{xcode_path}/Contents/Developer/usr/bin/xcodebuild -version`
+			output = `DEVELOPER_DIR='' "#{xcode_path}/Contents/Developer/usr/bin/xcodebuild" -version`
 			output.split("\n").first.split(' ')[1]
 		end
 	end
