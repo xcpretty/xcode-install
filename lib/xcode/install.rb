@@ -184,7 +184,7 @@ module XcodeInstall
 				|t| /^Xcode [0-9]/.match(t['name'])
 			}.map { |x| Xcode.new(x) }.reject { |x| x.version < MINIMUM_VERSION }.sort { 
 				|a,b| a.dateModified <=> b.dateModified
-			}
+			}.select { |x| x.url.end_with?('.dmg') }
 		end
 
 		def list_versions
