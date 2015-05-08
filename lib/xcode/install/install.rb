@@ -22,11 +22,13 @@ module XcodeInstall
 			end
 
 			def validate!
+				return if @version.nil?
 				raise Informative, "Version #{@version} already installed." if @installer.installed?(@version)
 				raise Informative, "Version #{@version} doesn't exist." unless @installer.exist?(@version)
 			end
 
 			def run
+				return if @version.nil?
 				dmgPath = @installer.download(@version)
 				raise Informative, "Failed to download Xcode #{@version}." if dmgPath.nil?
 
