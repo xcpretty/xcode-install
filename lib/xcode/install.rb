@@ -244,6 +244,15 @@ module XcodeInstall
 			end
 		end
 
+		def to_s
+			"Xcode #{version} -- #{url}"
+		end
+
+		def ==(o)
+			dateModified == o.dateModified && name == o.name && path == o.path && \
+				url == o.url && version == o.version
+		end
+
 		def self.new_prelease(version, url)
 			self.new({'name' => version,
 				'dateModified' => Time.now.to_i,
