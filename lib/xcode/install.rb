@@ -164,7 +164,9 @@ module XcodeInstall
 
 		def get_seedlist
 			@xcodes = parse_seedlist(devcenter.download_seedlist)
-			@xcodes += prereleases
+			
+			names = @xcodes.map(&:name)
+			@xcodes += prereleases.reject { |pre| names.include?(pre.name) }
 
 			File.open(LIST_FILE,'w') do |f|
 				f << Marshal.dump(xcodes)
