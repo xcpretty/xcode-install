@@ -29,10 +29,23 @@ module XcodeInstall
 
 			def run
 				return if @version.nil?
-				dmgPath = @installer.download(@version)
-				raise Informative, "Failed to download Xcode #{@version}." if dmgPath.nil?
+				dmg_path = get_dmg(@version)
+				raise Informative, "Failed to download Xcode #{@version}." if dmg_path.nil?
 
-				@installer.install_dmg(dmgPath, "-#{@version.split(' ')[0]}", @should_switch, @should_clean)
+				@installer.install_dmg(dmg_path, "-#{@version.split(' ')[0]}", @should_switch, @should_clean)
+			end
+			
+			private
+			
+			def get_dmg(version)
+				if ENV.key?("XCODE_INSTALL_CACHE_DIR")
+					cache_path = Pathname.new(ENV["XCODE_INSTALL_CACHE_DIR"]) + Pathname.new("xcode-#{version}.dmg")
+					if cache_path.exist?
+						return cache_path
+					end
+				end
+				
+				return @installer.download(@version)
 			end
 		end
 	end
