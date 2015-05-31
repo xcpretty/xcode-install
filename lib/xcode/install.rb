@@ -18,11 +18,11 @@ module FastlaneCore
 		end
 
 		def download_seedlist
-			# categories: Applications%2CDeveloper%20Tools%2CiOS%2COS%20X%2COS%20X%20Server%2CSafari
 			JSON.parse(page.evaluate_script("$.ajax({data: { start: \"0\", limit: \"1000\", " + 
 				"sort: \"dateModified\", dir: \"DESC\", searchTextField: \"\", " + 
-				"searchCategories: \"\", search: \"false\" } , type: 'POST', " + 
-				"url: '/downloads/seedlist.action', async: false})")['responseText'])
+				"searchCategories: \"\", search: \"false\" } , type: 'GET', " + 
+				"url: '/services-account/QH65B2/downloadws/listDownloads.action', " +
+				"async: false})")['responseText'])
 		end
 	end
 
@@ -180,7 +180,7 @@ module XcodeInstall
 		end
 
 		def parse_seedlist(seedlist)
-			seedlist['data'].select { 
+			seedlist['downloads'].select { 
 				|t| /^Xcode [0-9]/.match(t['name'])
 			}.map { |x| Xcode.new(x) }.reject { |x| x.version < MINIMUM_VERSION }.sort { 
 				|a,b| a.dateModified <=> b.dateModified
