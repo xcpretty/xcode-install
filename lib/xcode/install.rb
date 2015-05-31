@@ -123,6 +123,14 @@ module XcodeInstall
 			FileUtils.rm_f(dmgPath) if clean
 		end
 
+		def install_version(version, switch = true, clean = true)
+			return if version.nil?
+			dmg_path = get_dmg(version)
+			raise Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
+
+			install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean)
+		end
+
 		def list_current
 			majors = list_versions.map { |v| v.split('.')[0] }.select { |v| v.length == 1 }.uniq
 			list_versions.select { |v| v.start_with?(majors.last) }.join("\n")
@@ -160,6 +168,17 @@ module XcodeInstall
 		def enable_developer_mode
 			`sudo /usr/sbin/DevToolsSecurity -enable`
 			`sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
+		end
+
+		def get_dmg(version)
+			if ENV.key?("XCODE_INSTALL_CACHE_DIR")
+				cache_path = Pathname.new(ENV["XCODE_INSTALL_CACHE_DIR"]) + Pathname.new("xcode-#{version}.dmg")
+				if cache_path.exist?
+					return cache_path
+				end
+			end
+			
+			return download(version)
 		end
 
 		def get_seedlist
