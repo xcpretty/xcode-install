@@ -1,4 +1,4 @@
-require "bundler/gem_tasks"
+require 'bundler/gem_tasks'
 
 def specs(dir)
   FileList["spec/#{dir}/*_spec.rb"].shuffle.join(' ')
@@ -9,4 +9,4 @@ task :spec do
   sh "bundle exec bacon #{specs('**')}"
 end
 
-task :default => :specs
+task default: :specs
