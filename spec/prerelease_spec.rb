@@ -11,7 +11,7 @@ module XcodeInstall
 			Nokogiri::HTML.stubs(:parse).returns(fixture)
 
 			installer = Installer.new
-			installer.prereleases
+			installer.send(:prereleases)
 		end
 
 		before do

@@ -146,7 +146,7 @@ module XcodeInstall
 			File.absolute_path(File.readlink(current_symlink), SYMLINK_PATH.dirname) if current_symlink
 		end
 
-		:private
+		private
 
 		CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
 		LIST_FILE = CACHE_DIR + Pathname.new('xcodes.bin')
