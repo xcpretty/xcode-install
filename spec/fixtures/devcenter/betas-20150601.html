@@ -1,0 +1,1334 @@
+<html lang="en-us" class=" ext-strict"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>iOS Dev Center - Apple Developer</title>
+	
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="pics-label" content="(pics-1.1 &quot;http://www.icra.org/ratingsv02.html&quot; l gen true for &quot;http://www.apple.com&quot; r (cz 1 lz 1 nz 1 oz 1 vz 1) &quot;http://www.rsac.org/ratingsv01.html&quot; l gen true for &quot;http://www.apple.com&quot; r (n 0 s 0 v 0 l 0))">
+<meta name="Description" content="Access a range of resources for developing, designing and distributing applications for iOS.">
+<meta name="Author" content="Apple Inc.">
+<meta name="viewport" content="width=1024">
+<link rel="stylesheet" type="text/css" href="https://devimages.apple.com.edgekey.net/global/styles/ext/2.2/ext-all.css">
+<link rel="stylesheet" type="text/css" href="https://devimages.apple.com.edgekey.net/assets/apps/styles/asst/1.0/xtheme-developer.css">
+<link rel="stylesheet" href="https://devimages.apple.com.edgekey.net/assets/styles/base.css" type="text/css" charset="utf-8">
+<link rel="stylesheet" href="https://devimages.apple.com.edgekey.net/assets/styles/adc.css" type="text/css" charset="utf-8">
+<script type="text/javascript" src="https://developer.apple.com/assets/scripts/../../global/scripts/lib/prototype.js?${info.entry.commit.revision}" charset="utf-8"></script><link id="_shutUp" rel="stylesheet" type="text/css" href="data:text/css;base64,LyogCiAqIHNodXR1cC5jc3MKICogd2ViIC0gcGVhbnV0IGdhbGxlcnkgPSBibGlzcwogKgogKiBieSBTdGV2ZW4gRnJhbmsgPHN0ZXZlbmZAcGFuaWMuY29tPiBhbmQgY29udHJpYnV0b3JzCiAqIDxodHRwOi8vc3RldmVuZi5jb20vc2h1dHVwLWNzcy8+CiAqCiAqIE5vdGVzOgogKgogKiAxLiBJZiB5b3Ugd2FudCB0byBSRS1FTkFCTEUgY29tbWVudHMgZm9yIGEgc3BlY2lmaWMgc2l0ZSwgYWRkIGFuCiAqIG92ZXJyaWRlIGFmdGVyIGltcG9ydGluZyB0aGlzIGZpbGUuICBGb3IgZXhhbXBsZSwgdG8gcmUtZW5hYmxlCiAqIGp1c3QgU2xhc2hkb3QgY29tbWVudHM6CiAqICAKICogQGltcG9ydCB1cmwoImh0dHA6Ly9zdGV2ZW5mLmNvbS9zaHV0dXAvc2h1dHVwLWxhdGVzdC5jc3MiKTsKICogCiAqICNjb21tZW50bGlzdGluZyB7CiAqICAgICBkaXNwbGF5OiBpbmhlcml0ICFpbXBvcnRhbnQ7CiAqIH0KICoKICogQmUgYXdhcmUgdGhhdCBzb21lIHNpdGVzIG1heSBiZSBhZmZlY3RlZCBieSBtb3JlIHRoYW4gb25lIHJ1bGUuCiAqCiAqIDIuIElmIHlvdSdkIGxpa2UgdG8ganVzdCBmYWRlIGNvbW1lbnRzIG91dCByYXRoZXIgdGhhbiBjb21wbGV0ZWx5IAogKiByZW1vdmUgdGhlbSBmcm9tIHRoZSBwYWdlOgogKiAKICogUmVwbGFjZToKICogICAgIGRpc3BsYXk6IG5vbmUgIWltcG9ydGFudDsKICoKICogV2l0aCBzb21ldGhpbmcgbGlrZToKICogICAgIG9wYWNpdHk6IDAuMTsKICoKICovCgovKiBZb3VUdWJlIChzdGFuZGFyZCBhbmQgRmVhdGhlciBpbnRlcmZhY2VzKSAqLwoKI3dhdGNoLWNvbW1lbnQtcGFuZWwsCiNjbSwKI3dhdGNoLWNvbW1lbnRzLWNvcmUsCiN3YXRjaC1kaXNjdXNzaW9uLAoKLyogWW91VHViZSAobGF0ZSAyMDEzLCBHKyBpbnRlZ3JhdGlvbikgKi8KCiNjb21tZW50cy10ZXN0LWlmcmFtZSwKCi8qIAogKiBEaWdnIGFuZCBvdGhlciBzaXRlcyB0aGF0IHVzZSAiY29tbWVudHMiIGRpdnMKICogKE1ha2UgYW4gZXhjZXB0aW9uIGZvciA8Y29kZT4gZWxlbWVudHMsIHdob3NlICJjb21tZW50cyIgYXJlCiAqIGEgZGlmZmVyZW50IGFuaW1hbCkgCiovCgouY29tbWVudHM6bm90KGNvZGUpLAouQ29tbWVudHM6bm90KGNvZGUpLAojY29tbWVudHM6bm90KGNvZGUpLAojQ29tbWVudHM6bm90KGNvZGUpLAoKLyogQ05OIGFuZCBvdGhlciBzaXRlcyB0aGF0IHVzZSBEaXNxdXMgKi8KCiNkaXNxdXNfdGhyZWFkLAojZHNxLWNvbnRlbnQsCgovKiBBaW4ndCBJdCBDb29sIE5ld3MgKi8KCi5ibG9jay10YWxrYmFja19zdG9yeSwKCi8qIFZlcnNpb25UcmFja2VyICovCgojcHJvZFJldmlld3MsCgovKiBNYWNVcGRhdGUgKi8KCi5yZXZjb250ZW50LAoKLyogV29yZFByZXNzIGRlZmF1bHQgS3VicmljayB0aGVtZSBhbmQgZGVzY2VuZGVudHMgKi8KCi5jb21tZW50bGlzdCwKCi8qIFNsYXNoZG90ICovCgojY29tbWVudGxpc3RpbmcsCgovKiBDQkMgTmV3cyAqLwoKI3NvY2lhbGNvbW1lbnRzLAojY29tbWVudHdyYXBwZXIsCgovKiBDfE5ldCBOZXdzLmNvbSAqLwoKLmNvbW1lbnR3cmFwcGVyLAoKLyogUmVkZGl0ICovCgouY29tbWVudGFyZWEsCgovKiBPcmVnb25MaXZlIGFuZCBnZW5lcmljICJjb21tZW50IiBjbGFzcyAqLwoKLmNvbW1lbnQsCgovKiBLQVRVICovCgojY29tbWVudGZvcm0sCgovKiBXYXNoaW5ndG9uIFBvc3QgYW5kIG90aGVyIHNpdGVzIHRoYXQgdXNlICJjb21tZW50VGV4dCIgZGl2cyAqLwoKLmNvbW1lbnRUZXh0LAoKLyogR2FubmV0dCBuZXdzcGFwZXJzIGFuZCBvdGhlciBzaXRlcyB0aGF0IHVzZSBQbHVjayAqLwoKZGl2I3BsdWNrY29tbWVudHMsCgovKiBMYXN0LmZtIHNob3V0Ym94ICovCgpkaXYjcGFnZSBkaXYjY29udGVudCBoMiNzaG91dGJveCwgZGl2I3BhZ2UgZGl2I2NvbnRlbnQgZGl2I3Nob3V0Ym94Q29udGFpbmVyLAoKLyogVGhlIEdsb2JlIGFuZCBNYWlsICovCgojbGF0ZXN0LWNvbW1lbnRzLAoKLyogRVcgKi8KCi5jb21tZW50SG9sZGVyLAoKLyogVW5rbm93biAqLwoKLmNvbW1lbnRzLWxpc3QsCiNibG9nQ29tbWVudHMsCiNjb21tZW50c19wYW5lLAojY29tbWVudGNvbnRhaW5lciwKI2NvbW1lbnRzRGl2LAoKLyogQm94ZWUgKi8KCi5jb21tZW50LWNvbnRhaW5lciwgCiNjb21tZW50LWNvbnRhaW5lciwKCi8qIE1MQiAqLwoKI2NvbW1lbnRfY29udGFpbmVyLAoKLyogQ05OICovCgojY29tbWVudGJsb2IsCiNjbm5Db21tZW50cywKCi8qIFRoZSBTdHJhbmdlciAqLwoKI0Jyb3dzZUNvbW1lbnRzLAoKLyogWWFob28gTmV3cyAqLwoKLm13cHBodS1jb21tZW50cywKLnVnY2NtdC1jb21tZW50cywKCi8qIENvZGluZyBIb3Jyb3IgKi8KCi5jb21tZW50cy1ib2R5LAoKLyogc2VlbiBvbiBSZXV0ZXJzICovCgouYXJ0aWNsZUNvbW1lbnRzLAoKLyogbmF0aW9uYWxwb3N0LmNvbSAoUGx1Y2spICovCgoucGx1Y2stY29tbSwKCi8qIEtBVFUgKi8KCi5wYWdlLWNvbW1lbnRzLAoKLyogRGV2aWFudEFydCAqLwoKI2dtaS1DQ29tbWVudE1hc3RlciwKCi8qIFNvbWUgYmxvZ3MgKi8KCi5jb21tZW50cy1jb250YWluZXIsCgovKiBPcHJhaCAqLwoKI21lZGlhX2NvbW1lbnRzLAoKLyogOXRvNW1hYyAqLwoKI2lkYy1jb250YWluZXItcGFyZW50LAoKLyogTGl2ZWZ5cmUgKi8KCiNsaXZlZnlyZV9jb21tZW50X3N0cmVhbSwKI2xpdmVmeXJlLWJvZHksCiNsaXZlZnlyZSwKLmZ5cmUsCgovKiBQQyBXb3JsZCAqLwoKI2FydGljbGVDb21tZW50cywKCi8qIFNsYXRlICovCgouanMtQ29tbWVudHNBcmVhLAoKLyogTllUaW1lcyBCbG9ncyAqLwoKI3JlYWRlckNvbW1lbnRzLAoucmVhZGVyQ29tbWVudHMsCiNjb21tZW50c0NvbnRhaW5lciwKLmNvbW1lbnRzQ29udGFpbmVyLAouY29tbWVudHNNb2R1bGUsCgovKiBueXRpbWVzLmNvbSAqLwoKc3Bhbi5wb3N0TWV0YUhlYWRlckNvbW1lbnRDb3VudC5jb21tZW50Q291bnQsCmJ1dHRvbi5jb21tZW50cy1idXR0b24sCmEuY29tbWVudENvdW50TGluaywKCi8qIEJCQyBOZXdzICovCgouZG5hLWNvbW1lbnQsCgovKiBaRE5ldCAqLwoKLnZpZXctNiwgCi5zcGFjZS1fNSwKCi8qIEdhbWFzdXRyYSAqLwoKLmFsbF9jb21tZW50cywKCi8qIGR2aWNlLmNvbSAqLwoKI2Rpc3BsYXlfY29tbWVudHMsCgovKiBocC5jb20gKi8KCi5hcnRpY2xlLWNvbW1lbnRzLAoKLyogdW5pb25sZWFkZXIuY29tICovCgojY29tbWVudHNjb250YWluZXIsCgovKiBpZmMuY29tICovCgouZWNoby1zdHJlYW0tY29udGFpbmVyLAoKLyogY3JlYXRpdmVyZXZpZXcuY28udWsgKi8KCiNmZWVkYmFjaywKCi8qIHRoZW5leHR3ZWIuY29tICovCgojbGZfY29tbWVudHMsCiNsZl90d2l0dGVyX2NvbW1lbnRzLAojbGZfZmFjZWJvb2tfY29tbWVudHMsCiNsZl9jb21tZW50X3N0cmVhbSwKCi8qIE1hY1dvcmxkICovCgojY29tbWVudExpc3QsCgovKiBmdC5jb20gKi8KCiNpbmZlcm5vLWNvbW1lbnRzLAoKLyogdGlkYml0cy5jb20gKi8KCi5jYl9ibG9jaywKCi8qIGRpbGJlcnQuY29tICovCgouQ01UX0NvbW1lbnRMaXN0LAoKLyogQ3JhY2tlZCAqLwogCiNjb21tZW50c19zZWN0aW9uLAoKLyogRmFjZWJvb2sgZmVlZGJhY2sgKi8KCi5mYi1jb21tZW50cywKLlVGSUNvbW1lbnQsCgovKiBidXp6ZmVlZCAqLwoKI3Jlc3BvbnNlcywKI2ZhY2Vib29rX3Jlc3BvbnNlcywKI2ZhY2Vib29rX2NvbnZlcnNhdGlvbnMsCiNmYl9jb21tZW50c193cmFwcGVyLAoKLyogc3BpZWdlbC5kZSAqLwoKLnNwQ29tbWVudHNCb3hCb2R5LAoKLyogYXV0by1tb3Rvci11bmQtc3BvcnQuZGUgKi8KCi5rb21tZW50YXJlX3VlYmVyc2ljaHQsCgovKiBjb3JyaWVyZS5pdCAqLwoKI2JvZHlfZGx0LAojY29tbWVudF9ib3hfYXJ0aWNsZSwKCi8qIHJlcHViYmxpY2EuaXQgKi8KCiN1Z2MtY29udGFpbmVyLAojZ3Mtc29jaWFsLWNvbW1lbnRzLAouZ2lnLWNvbW1lbnRzLWNvbnRhaW5lciwKCi8qIGZhei5uZXQgKi8KCi5BcnRpa2VsS29tbWVudGllcmVuLAoKLyogR2lhbnQgQm9tYiBhdmF0YXJzICovCgouY29tbWVudC1hdmF0YXItd3JhcCwKCi8qIGhsbnR2LmNvbSAqLwoKLmZiRmVlZGJhY2tDb250ZW50LAoKLyogbWlycm9yLmNvLnVrICovCgoucGx1Y2std3JhcCwKCi8qIFR3aXRQaWMgKi8KCiNtZWRpYS1jb21tZW50cywKCi8qIEd1YXJkaWFuICovCgojZDItcm9vdCwKCi8qIEUhIE9ubGluZSAqLwoKLnRoeW1lLWNvbW1lbnQtbGlzdCwKCi8qIFNvdW5kQ2xvdWQgbmV3ICovCgouY29tbWVudEl0ZW1MaXN0LAoud2F2ZWZvcm1Db21tZW50cywKCi8qIFBlbm55IEFyY2FkZSByZXBvcnQgKi8KCiN2YW5pbGxhLWNvbW1lbnRzLAoKLyogTW90aGVyIE5hdHVyZSBOZXR3b3JrICovCgoucmVwbGllcy13cmFwcGVyID4gLnJlcGxpZXMsCi52aWV3LWNvbW1lbnQtbGlzdCwKCi8qIE5ldyBKYWxvcG5payAoYW5kIEdhd2tlcj8pICovCgouanNfcmVwbGllcywKCi8qIFRTTi5jYSAqLwoKI3RzbllvdXJDYWxsU3RvcnksCgovKiBIUy5maSAqLwoKI2tvbW1lbnRpdCwKCi8qIE5ld3NCbHVyICovCgouTkItZmVlZC1zdG9yeS1jb21tZW50cywKCi8qIFJ1c3NpYSBUb2RheSAqLwouYi1jb21tZW50c19wYWdlLAoKLyogSGVhcnN0IHNpdGVzICovCi5oZG4tY29tbWVudHMsCgovKiBDb3ggTWVkaWEgc2l0ZXMgKi8KI2NtQ29tbWVudHMsCgovKiBjbGV2ZWxhbmQuY29tICovCi5ydGItYXBwcy1jb21tZW50cy1jb250YWluZXIsCgovKiBkZXJzdGFuZGFyZC5hdCAqLwouY29tbXVuaXR5Q2FudmFzLAoKLyogcHJlc3NlLmF0ICovCiNjb21tZW50Ym94LAojbmV3Y29tbWVudGZvcm0sCgovKiBrYS1uZXdzLmRlICovCiNRdWlja1JlZ0NvbiwKCi8qIHRhZ2Vzc2NoYXUuZGUgKi8KLm1vZENvbi5tb2RDb25Db21tZW50cywKCi8qIHRhei5kZSAqLwouZnVsbC5jb21tdW5pdHkucGFnZS5sYXN0LmV2ZW4sCgovKiBzcGllZ2VsLmRlICovCi5jbGVhcmZpeC5hcnRpY2xlLWNvbW1lbnRzLWJveC5tb2R1bGUtYm94LAoKLyogaGFuZGVsc2JsYXR0LmNvbSAqLwouaGNmLWFydGljbGUuaGNmLWNvbnRlbnQuaGNmLWFydGljbGUtdHlwZTIsCgovKiBmci1vbmxpbmUuZGUgKi8KI2NvbW1lbnRzUm9vdCwKLkNvbW1lbnQsCgovKiBodWZmaW5ndG9ucG9zdC5kZSAqLwojY29udmVyc2F0aW9ucy1odWZmcG9zdC13ZWItbWFpbiwKCi8qIHRhZ2Vzc3BpZWdlbC5kZSovCiNoY2YtY29tbWVudC13cmFwcGVyLmhjZi1jb21tZW50cywKI2NvbW1lbnRJbnB1dC5oY2YtY29tbWVudHMtaW5wdXQsCi5oY2YtY29tbWVudHMsCgovKiB3aXdvLmRlICovCi5oY2YtZGV0YWlsLmhjZi1jb21tZW50cy1jb250YWluZXIsCgovKiBhcnN0ZWNobmljYS5jb20gKi8KCmFzaWRlLmNvbW1lbnRzLWhvdG5lc3MsCmEuY29tbWVudC1jb3VudCwKZGl2LmNvbW1lbnRzLWJhciwKCi8qIHRyYWt0LnR2ICovCgouc3VtbWFyeS1jb21tZW50cywKCi8qIEtvdGFrdSAqLwoucG9zdC1jb250ZW50IC5hbm5vdGF0aW9uLWZvb3Rub3RlLXdyYXBwZXIsCi5wb3N0LWNvbnRlbnQgLmFubm90YXRlQnV0dG9uLAoKLyogaW1ndXIgKi8KI2NvbW1lbnRzLWNvbnRhaW5lciwKCi8qIC4uLm1pc2MuLi4gKi8KCiNjb21tZW50bGlzdCwKLmRpc2N1c3Npb25Db250YWluZXIsCi5jb21tZW50Qm94U3R5bGUsCi5wYWdlY29tbWVudCwKLnBhZ2Vjb21tZW50aGVhZGVyLAouY29tX3RleHQsCi5jb21tZW50dHh0LAoucG9zdC1jb21tZW50LWxpc3QsCiNjbXRXcmFwcGVyCgp7CglkaXNwbGF5OiBub25lICFpbXBvcnRhbnQ7Cn0KCi8qIGhpZ2hsaWdodC5qcyAqLwpjb2RlIHNwYW4uY29tbWVudCB7CglkaXNwbGF5OiBpbmxpbmUgIWltcG9ydGFudDsKfQo=">
+<script type="text/javascript" src="https://developer.apple.com/assets/scripts/../../global/scripts/lib/scriptaculous.js?${info.entry.commit.revision}" charset="utf-8"></script>
+<script type="text/javascript" src="https://developer.apple.com/assets/scripts/../../global/scripts/browserdetect.js?${info.entry.commit.revision}" charset="utf-8"></script>
+<script type="text/javascript" src="https://developer.apple.com/assets/scripts/../core/scripts/apple_core.js?${info.entry.commit.revision}" charset="utf-8"></script>
+<script type="text/javascript" src="https://developer.apple.com/assets/scripts/../core/scripts/search_decorator.js?${info.entry.commit.revision}" charset="utf-8"></script>
+<script type="text/javascript" src="https://developer.apple.com/assets/scripts/../../global/scripts/adc_core.js?${info.entry.commit.revision}" charset="utf-8"></script>
+<script type="text/javascript" src="https://developer.apple.com/assets/scripts/ac_retina.js?${info.entry.commit.revision}" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+	document.write('<link rel="stylesheet" type="text/css" href="/devcenter/styles/common/script.css" media="screen">')
+</script><link rel="stylesheet" type="text/css" href="/devcenter/styles/common/script.css" media="screen">
+<title>iOS Dev Center - Apple Developer</title>
+<link rel="stylesheet" href="/devcenter/styles/common/devcenter.css" type="text/css" charset="utf-8">
+<link rel="stylesheet" href="/devcenter/styles/common/devcenter-override.css" type="text/css" charset="utf-8">
+<style type="text/css" media="screen">	
+	/* necessary until the design is switched over to use the newer base.css file */
+	#globalheader #gh-search .search-wrapper input.prettysearch {
+		width: 171px;
+	}
+
+	#content ul.nav li a.last {border-bottom: 0 none; }
+	#content ul.news { margin:-1em -18px 1.6em; }
+	#content ul.news li { height:70px; border-bottom:1px solid #E5E5E5; padding:20px 18px 0.8em 18px;}
+	#content ul.news li img {float:right; margin:6px 12px 0 15px }
+	#content ul.news li p.date { margin-top:-18px; color:#999999; }		
+	.nav_bottomcap { background: #F2F2F2 url('https://devimages.apple.com.edgekey.net/assets/apps/images/nav_bottomcap.png') no-repeat 0 0; width:253px; height:10px; padding-bottom:10px; margin: -26px -20px 0 -21px; }
+	.nav_topcap { background: #F2F2F2 url('https://devimages.apple.com.edgekey.net/assets/apps/images/nav_topcap.png') no-repeat 0 0; width:253px; height:10px; margin: 0 -20px 10px -21px; }
+</style>
+
+
+	
+	<script type="text/javascript" src="https://developer.apple.com/assets/scripts/../../global/scripts/ext/2.2/ext-base.js?${info.entry.commit.revision}" charset="utf-8"></script>
+	<script type="text/javascript" src="https://developer.apple.com/assets/scripts/../../global/scripts/ext/2.2/ext-all.js?${info.entry.commit.revision}" charset="utf-8"></script>
+	<script language="javascript">
+		var cookie = new Ext.state.CookieProvider();			
+	
+		Ext.onReady(function() {
+			
+			var anc = getTabAnchor();
+			if (anc == 'prerelease' || anc == 'prerelease#') {
+				
+					showPreRelease();
+				
+				
+			} else {
+				showRelease();
+			}
+			
+			/* if (cookie.get('idppagetab.apple.com') == 'xcodeprereleasedivclicked') {			
+				
+					
+					
+						showXcodePreRelease();
+					
+				
+				
+			} else*/
+			if (anc === '' && cookie.get('idppagetab.apple.com') == 'prereleasedivclicked') {			
+					
+						showPreRelease();
+					
+					
+			} else {
+				showRelease();
+			}
+			//callDirectTabLoad(); 
+		});
+
+		function enableXcodePrerelease() {
+			document.getElementById('releasediv').style.display = 'none';
+			document.getElementById('prereleasediv').style.display = 'none';					
+			Ext.get('xcodeprereleasediv').fadeIn({endOpacity: 1, easing: 'easeOut', duration: .5});
+			cookie.set('idppagetab.apple.com', 'xcodeprereleasedivclicked');						
+		}
+
+		function enablePrerelease() {
+			document.getElementById('releasediv').style.display = 'none';
+			document.getElementById('xcodeprereleasediv').style.display = 'none';						
+			Ext.get('prereleasediv').fadeIn({endOpacity: 1, easing: 'easeOut', duration: .5});	
+			cookie.set('idppagetab.apple.com', 'prereleasedivclicked');					
+		}
+
+		function enableRelease() {
+			document.getElementById('prereleasediv').style.display = 'none';
+			document.getElementById('xcodeprereleasediv').style.display = 'none';			
+			Ext.get('releasediv').fadeIn({endOpacity: 1, easing: 'easeOut', duration: .5});	
+			cookie.set('idppagetab.apple.com', 'releasedivclicked');					
+		}
+
+		function callPreReleaseNonAccessMessage() {
+			
+			
+			
+				return false;
+			
+		}
+
+		function callXcodePreReleaseNonAccessMessage() {
+			if (document.getElementById('xcodePreReleaseNonAccessMessage')) {
+				Ext.get('xcodePreReleaseNonAccessMessage').fadeIn({endOpacity: 1, easing: 'easeOut', duration: .5});
+			}			
+		}
+		
+		function callProgramExpiredPreReleaseNonAccessMessage() {
+			if (document.getElementById('programExpiredPreReleaseNonAccessMessage')) {
+				Ext.get('programExpiredPreReleaseNonAccessMessage').fadeIn({endOpacity: 1, easing: 'easeOut', duration: .5});
+			}			
+		}
+		
+		function callDirectTabLoad() {
+			var href = top.location.href;
+			href = href.substring(href.indexOf('#'));
+			if (href === '#prerelease') {
+					
+			    	if (document.getElementById('aprerelease')) {					
+			    		enablePrerelease();
+					}
+				
+				
+			}
+		}
+		
+		function showRelease() {
+			document.getElementById('prereleasediv').style.display = 'none';
+			document.getElementById('xcodeprereleasediv').style.display = 'none';	
+			document.getElementById('releasediv').style.display = 'block';
+		}
+		
+		function showPreRelease() {
+			document.getElementById('prereleasediv').style.display = 'block';
+			document.getElementById('xcodeprereleasediv').style.display = 'none';			
+			document.getElementById('releasediv').style.display = 'none';
+		}
+
+		function showXcodePreRelease() {
+			document.getElementById('xcodeprereleasediv').style.display = 'block';
+			document.getElementById('prereleasediv').style.display = 'none';			
+			document.getElementById('releasediv').style.display = 'none';
+		}
+		
+		function slideToggle(e, a) {
+			if (e.isDisplayed() ) {
+				document.getElementById(a).innerHTML = "Show details";
+				e.slideOut('t',{useDisplay:true});
+			} else {
+				e.slideIn('t',{	useDisplay:true});
+				document.getElementById(a).innerHTML = "Hide details";
+			}
+		}
+		
+		function getTabAnchor() {	
+		    var tabVal = "";
+			var href = top.location.href;
+		    var paramstart = href.indexOf("?");
+		    if (paramstart >= 0) {		    	
+		    	tabVal = href.substring(paramstart+5)
+		    }
+		    return tabVal;
+		};
+	</script>
+		
+
+</head>
+<body class="hasjs gh-nav-devcenter-active  ext-safari ext-mac">
+	
+<div id="globalheader" data-hires="true">
+	<h1><a href="/" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/header/developer_2x.png); background-size: 131px 27px;">Apple Developer</a></h1>
+	<ul id="gh-nav">
+		<li id="gh-nav-technologies"><a href="/technologies/" onclick="s_objectID=&quot;https://developer.apple.com/technologies/_1&quot;;return this.s_oc?this.s_oc(e):true">Technologies</a></li>
+		<li id="gh-nav-resources"><a href="/resources/" onclick="s_objectID=&quot;https://developer.apple.com/resources/_1&quot;;return this.s_oc?this.s_oc(e):true">Resources</a></li>
+		<li id="gh-nav-devcenters"><a href="/programs/" onclick="s_objectID=&quot;https://developer.apple.com/programs/_1&quot;;return this.s_oc?this.s_oc(e):true">Programs</a></li>
+		<li id="gh-nav-support"><a href="/support/" onclick="s_objectID=&quot;https://developer.apple.com/support/_1&quot;;return this.s_oc?this.s_oc(e):true">Support</a></li>
+		<li id="gh-nav-membercenter"><a href="/membercenter/" onclick="s_objectID=&quot;https://developer.apple.com/membercenter/_1&quot;;return this.s_oc?this.s_oc(e):true">Member Center</a></li>
+	</ul>
+
+	<div id="gh-search">
+		<form action="/search/index.php" method="get" accept-charset="utf-8"><div>
+			<label for="gh-adcsearch"><input type="search" name="q" id="gh-adcsearch" class="adcsearch prettysearch" results="0" placeholder="Search Developer" autosave="" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/prettysearch/searchfield_repeat_2x.png); background-size: 2px 19px;">
+			</label>
+		</div></form>
+	</div>
+	<script type="text/javascript" charset="utf-8">
+		Event.onDOMReady(function() {
+			// Get root path for Global Header Active class
+			ghLocation = location.pathname.split('/')[1];
+			// Make sure it doesn't try to add a file extension to the css class
+			if(ghLocation.include('.')) ghLocation = ghLocation.split('.')[0];
+			// Add Global Header Active State Class
+			$$('body')[0].addClassName('gh-nav-'+location.pathname.split('/')[1]+'-active');
+		});
+	</script>
+</div>			
+	<div id="container">
+		
+
+
+
+
+<div id="header" data-hires="true" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/iphone/images/header_2x.png); background-size: 988px 100px;">
+	<h2><a href="index.action" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/ios/index.action_1&quot;;return this.s_oc?this.s_oc(e):true">iOS Dev Center</a></h2>
+	<ul class="devcenterMenu">
+		<li class="iphone_devcenter active" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/iphone/images/header_active_2x.png); background-size: 132px 50px;">iOS Dev Center</li>
+		<li class="mac_devcenter"><a href="/devcenter/mac/index.action" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/mac/index.action_1&quot;;return this.s_oc?this.s_oc(e):true">Mac Dev Center</a></li>
+        <li class="safari_devcenter"><a href="/devcenter/safari/index.action" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/safari/index.action_1&quot;;return this.s_oc?this.s_oc(e):true">Safari Dev Center</a></li>
+	</ul>
+	
+		<ul class="login">
+			<li>Hi, <strong>Boris Buegling</strong></li>
+			<li><a href="https://appleid.apple.com/cgi-bin/WebObjects/MyAppleId.woa/wa/directToSignIn?localang=en_US&amp;appId=632&amp;returnURL=%s/register&amp;appIdKey=891bd3417a7776362562d2197f89480a8547b108fd934911bcbea0110d07f757&amp;path=%2F%2Fdevcenter%2Fios%2Findex.action" onclick="s_objectID=&quot;https://appleid.apple.com/cgi-bin/WebObjects/MyAppleId.woa/wa/directToSignIn?localang=en_US&amp;appId_1&quot;;return this.s_oc?this.s_oc(e):true">My Profile</a></li>	
+			<li><a href="logout.action" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/ios/logout.action_1&quot;;return this.s_oc?this.s_oc(e):true">Sign out</a></li>
+		</ul>
+	
+	
+</div><!--/header-->
+
+			
+	<div class="msg warn" id="preReleaseNonAccessMessage" style="display:none">
+		<h3>Membership Required</h3>
+		<p>
+			To access iOS 8.4 beta 3, you must be a member of the iOS Developer Program or the iOS Developer Enterprise Program. View your membership status in <a class="more" href="/membercenter/index.action#accountSummary" onclick="s_objectID=&quot;https://developer.apple.com/membercenter/index.action#accountSummary_1&quot;;return this.s_oc?this.s_oc(e):true">Member Center</a>.
+		</p>
+	</div><!--/msg-->
+	
+	<div class="msg warn" id="programExpiredPreReleaseNonAccessMessage" style="display:none">
+		<h3>Access to iOS 8.4 beta 3</h3>
+		<p>
+			Your iOS Developer Program has expired. To have access to the development resources for iOS 8.4 beta 3, please <a class="more" href="/ios/renew/index.action" onclick="s_objectID=&quot;https://developer.apple.com/ios/renew/index.action_1&quot;;return this.s_oc?this.s_oc(e):true">renew your membership</a>			
+		</p>
+	</div><!--/msg-->
+
+	<div class="msg warn" id="xcodePreReleaseNonAccessMessage" style="display:none">
+		<h3>Access to <!----></h3>
+		<p>
+			You must be enrolled in the iOS Developer Standard or Enterprise Program to access the development resources for <!---->. 
+			<br>Not enrolled in the iOS Developer Program? <a class="more" href="/programs/ios/" onclick="s_objectID=&quot;https://developer.apple.com/programs/ios/_1&quot;;return this.s_oc?this.s_oc(e):true">Learn More</a>
+		</p>
+	</div><!--/msg-->
+	
+	
+		
+	
+
+<div class="msg warn" id="announcementDetails">	
+	<p>
+	
+	
+		<b>Your iOS Developer Program is about to expire.</b>
+	
+	
+	
+		<br>To maintain your program benefits, please <a class="more" href="/ios/renew/index.action" onclick="s_objectID=&quot;https://developer.apple.com/ios/renew/index.action_2&quot;;return this.s_oc?this.s_oc(e):true">renew your membership(s)</a>.
+	
+	</p>
+</div>
+	
+	<div id="content" class="grid2colb box grid2colb-box" data-hires="true" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/box_grid2cola_bg_white_2x.png); background-size: 984px 10px;">
+		<div class="cap boxtop" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/box_grid2cola_bgtop_2x.png); background-size: 984px 10px;"></div>
+		
+		<div id="releasediv" class="column first grid2col" style="display: none;">				
+			
+
+
+
+ 
+<div class="boxheader" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/box_header_bg_2x.png); background-size: 1px 26px;">
+	
+	<div class="tabs">
+		<ul>
+			<li class="active" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/tab_active_cap_2x.png); background-size: 10px 20px;"><span data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/tab_active_bg_2x.png); background-size: 500px 20px;">iOS 8.3 SDK</span></li>
+			
+			
+				
+					
+					
+						<li><a href="#" id="aprerelease" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/ios/index.action#_1&quot;;return this.s_oc?this.s_oc(e):true">iOS 8.4 beta 3</a></li>
+												
+					
+				
+							
+			
+		</ul>
+	</div><!--/tabs-->
+	
+</div>						
+			
+ 
+
+
+<div class="column first">
+	<h3 class="underline prerelease">Resources for iOS 8</h3>
+	<div class="resources">		
+		<div class="image image45">
+			<a href="#downloads" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/ios/index.action#downloads_1&quot;;return this.s_oc?this.s_oc(e):true"><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/download_2x.png" width="32" height="32" alt="Downloads" data-hires-status="replaced"></a>
+			<h5 class="prerelease"><a href="#downloads" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/ios/index.action#downloads_2&quot;;return this.s_oc?this.s_oc(e):true">Downloads</a></h5>
+			<p class="prerelease">Download the latest build of iOS SDK</p>			
+		</div>		
+		<!---->
+		<!---->		
+			<div class="image image45">
+		<a href="/library/ios/navigation/" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/_1&quot;;return this.s_oc?this.s_oc(e):true"><img width="32" height="32" alt="Ref Lib" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/reflib_2x.png" class="left" data-hires-status="replaced"></a>
+		<h5><a href="/library/ios/navigation/" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/_2&quot;;return this.s_oc?this.s_oc(e):true">iOS Developer Library</a></h5>
+		<div class="grid2col">
+			<div class="column first">
+				<ul style="list-style-type:disc;color:#999999;margin-left:14px">
+					
+					<li><a href="/library/ios/navigation/#section=Resource%20Types&amp;topic=Getting%20Started" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/#section=Resource%20Types&amp;topic=Getting%20Star_1&quot;;return this.s_oc?this.s_oc(e):true">Getting Started</a></li>
+					<li><a href="/library/ios/navigation/#section=Resource%20Types&amp;topic=Guides" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/#section=Resource%20Types&amp;topic=Guides_1&quot;;return this.s_oc?this.s_oc(e):true">Guides</a></li>
+					<li><a href="/library/ios/navigation/#section=Resource%20Types&amp;topic=Reference" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/#section=Resource%20Types&amp;topic=Reference_1&quot;;return this.s_oc?this.s_oc(e):true">Reference</a></li>
+					<li><a href="/library/ios/navigation/#section=Resource%20Types&amp;topic=Release%20Notes" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/#section=Resource%20Types&amp;topic=Release%20Note_1&quot;;return this.s_oc?this.s_oc(e):true">Release Notes</a></li>
+				</ul>
+			</div><!--/first-->
+			<div class="column last">
+				<ul style="list-style-type:disc;color:#999999">
+					
+					<li><a href="/library/ios/navigation/#section=Resource%20Types&amp;topic=Sample%20Code" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/#section=Resource%20Types&amp;topic=Sample%20Code_1&quot;;return this.s_oc?this.s_oc(e):true">Sample Code</a></li>
+					<li><a href="/library/ios/navigation/#section=Resource%20Types&amp;topic=Technical%20Notes" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/#section=Resource%20Types&amp;topic=Technical%20No_1&quot;;return this.s_oc?this.s_oc(e):true">Technical Notes</a></li>
+					 <li><a href="/library/ios/navigation/#section=Resource%20Types&amp;topic=Technical%20Q%26amp%3BAs" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/#section=Resource%20Types&amp;topic=Technical%20Q%_1&quot;;return this.s_oc?this.s_oc(e):true">Technical Q&amp;As</a></li>
+				</ul>			
+			</div><!--/last-->
+		</div><!--/grid2col-->
+	</div>
+					
+	<div class="image image45 dev-videos">
+		<div class="grid2col">
+			<a href="/videos/" onclick="s_objectID=&quot;https://developer.apple.com/videos/_1&quot;;return this.s_oc?this.s_oc(e):true"><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/video_2x.png" width="32" height="32" alt="Videos" data-hires-status="replaced"></a>	
+			<h5><a href="/videos/" onclick="s_objectID=&quot;https://developer.apple.com/videos/_2&quot;;return this.s_oc?this.s_oc(e):true">Development Videos</a></h5>
+			<div class="column first">
+				<ul style="list-style-type:disc;color:#999999;margin-left:14px">
+					<li><a href="/videos/ios/" onclick="s_objectID=&quot;https://developer.apple.com/videos/ios/_1&quot;;return this.s_oc?this.s_oc(e):true">iOS Development</a></li>
+				</ul>
+			</div><!--/first-->
+			<div class="column last">
+				<ul style="list-style-type:disc;color:#999999">
+					<li><a href="/videos/wwdc/2014/" onclick="s_objectID=&quot;https://developer.apple.com/videos/wwdc/2014/_1&quot;;return this.s_oc?this.s_oc(e):true">WWDC Videos</a></li>
+				</ul>			
+			</div><!--/last-->
+		</div><!--/grid2col-->	
+	</div>
+	</div>
+	<div class="resources">
+		
+		
+			
+								<div class="image image45">
+					<a href="/library/iad/navigation/index.html" onclick="s_objectID=&quot;https://developer.apple.com/library/iad/navigation/index.html_1&quot;;return this.s_oc?this.s_oc(e):true"><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/reflib_2x.png" width="32" height="32" alt="iOS Ref Lib" data-hires-status="replaced"></a>
+					<h5 class="prerelease"><a href="/library/iad/navigation/index.html" onclick="s_objectID=&quot;https://developer.apple.com/library/iad/navigation/index.html_2&quot;;return this.s_oc?this.s_oc(e):true">iAd&nbsp;JS&nbsp;Developer&nbsp;Library</a></h5>
+					<p class="prerelease">Get technical documentation on developing with iAd JS.</p>
+				</div>
+			
+		
+	
+		<!---->
+		<!---->
+		
+			<div class="image image45">	
+	<a href="https://devforums.apple.com" onclick="s_objectID=&quot;https://devforums.apple.com/_1&quot;;return this.s_oc?this.s_oc(e):true"><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/forum_2x.png" width="32" height="32" alt="Developer Forum" data-hires-status="replaced"></a>
+	<h5 class="prerelease"><a href="https://devforums.apple.com" onclick="s_objectID=&quot;https://devforums.apple.com/_2&quot;;return this.s_oc?this.s_oc(e):true">Apple Developer Forums</a></h5>
+	<p class="prerelease">Discuss iOS development with other developers and Apple engineers.</p>
+</div>
+		
+			
+	</div>
+</div><!--/column-->
+			
+
+
+<div class="column last">
+	<div class="featuredtech">
+		<h3 class="underline prerelease">Featured Content</h3>
+		<ul class="icons featured">
+            <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+            <a href="/ios8" onclick="s_objectID=&quot;https://developer.apple.com/ios8_1&quot;;return this.s_oc?this.s_oc(e):true">iOS 8 for Developers</a>
+            </li>
+            <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+				<a href="/library/ios/releasenotes/General/WhatsNewIniOS/" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/_1&quot;;return this.s_oc?this.s_oc(e):true">What's New in iOS</a>  
+			</li>
+            <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+				<a href="/design/adaptivity/" onclick="s_objectID=&quot;https://developer.apple.com/design/adaptivity/_1&quot;;return this.s_oc?this.s_oc(e):true">Adaptive User Interfaces</a>
+			</li>
+            <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+            <a href="/app-extensions/" onclick="s_objectID=&quot;https://developer.apple.com/app-extensions/_1&quot;;return this.s_oc?this.s_oc(e):true">App Extensions</a>
+            </li>
+            <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+            <a href="/apple-pay/" onclick="s_objectID=&quot;https://developer.apple.com/apple-pay/_1&quot;;return this.s_oc?this.s_oc(e):true">Apple Pay</a>
+            </li>
+            <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+            <a href="/icloud/" onclick="s_objectID=&quot;https://developer.apple.com/icloud/_1&quot;;return this.s_oc?this.s_oc(e):true">CloudKit</a>
+            </li>
+            <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+            <a href="/handoff/" onclick="s_objectID=&quot;https://developer.apple.com/handoff/_1&quot;;return this.s_oc?this.s_oc(e):true">Handoff</a>
+            </li>
+            <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+            <a href="/healthkit/" onclick="s_objectID=&quot;https://developer.apple.com/healthkit/_1&quot;;return this.s_oc?this.s_oc(e):true">HealthKit</a>
+            </li>
+            <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+            <a href="/homekit/" onclick="s_objectID=&quot;https://developer.apple.com/homekit/_1&quot;;return this.s_oc?this.s_oc(e):true">HomeKit</a>
+            </li>
+            <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+            <a href="/library/etc/redirect/itms/CocoaTouch64BitGuide" onclick="s_objectID=&quot;https://developer.apple.com/library/etc/redirect/itms/CocoaTouch64BitGuide_1&quot;;return this.s_oc?this.s_oc(e):true">64-Bit Transition Guide</a>
+            </li>
+		</ul>
+	</div>
+</div><!--/column-->
+			
+ 
+
+
+
+
+<script src="/devcenter/scripts/redemption.js" type="text/javascript" charset="utf-8"></script>
+<hr class="clear gradient">
+<div id="downloads">
+	<h3 class="prerelease">Downloads</h3>
+	
+	
+		
+						
+				<div class="column first">
+	<div class="sdk image image100">
+		<a><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/128x128/Xcode6_2x.png" alt="Xcode 6" height="80" width="80" data-hires-status="already-hires"></a>
+		<h5>Xcode 6.3.2</h5>
+		<p>This is the complete Xcode developer toolset for Mac, iPhone, and iPad. It includes the Xcode IDE, iOS Simulator, and all required tools and frameworks for building OS X and iOS apps.</p>
+		<p><a href="/downloads/index.action?name=Xcode" class="more" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/downloads/index.action?name=Xcode_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/arrows/morearrow_08c_2x.gif); background-size: 4px 7px;">Looking for an older version of Xcode?</a></p>			
+	</div><!--/sdk-->
+</div> 
+<div class="column last xcodedownload">				
+		<a class="button" href="/xcode/downloads/" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/xcode/downloads/_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_left_2x.png); background-size: 10px 22px;">
+			 <span style="color: rgb(18, 110, 147); background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_right_2x.png); background-size: 300px 22px;" data-hires-status="replaced">Download Xcode 6</span>
+		</a>
+		<br><br>		
+		<ul>
+			<li>Posted Date: May 18, 2015</li>
+			<li>Build: 6D2105</li>
+			<li>Included iOS SDK: iOS 8.3</li>
+			<li>Included Mac SDK: OS X 10.10</li>
+		</ul>
+</div>
+	<hr class="clear">		
+
+<div class="msg warn expandable" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/48x48/alert_warning_2x.png); background-size: 48px;">
+	<h4><strong>Updating to iOS&nbsp;8.3</strong> </h4>
+	<div class="expandcontent" id="preReleaseAnnouncement" style="display:block">
+		<ul class="square">
+			<li>To determine the proper download for your iPhone 5s, iPhone 5c, or iPhone 5, click <a href="http://support.apple.com/kb/ht3939" onclick="s_objectID=&quot;http://support.apple.com/kb/ht3939_1&quot;;return this.s_oc?this.s_oc(e):true">here</a>. To determine the proper download for your iPad Air, iPad mini, or iPad (4th generation), click <a href="http://support.apple.com/kb/ht5452" onclick="s_objectID=&quot;http://support.apple.com/kb/ht5452_1&quot;;return this.s_oc?this.s_oc(e):true">here</a>.</li>
+			
+			<li>If you have questions about updating from an expired version of iOS beta to the GM version, you can find detailed instructions <a href="https://devforums.apple.com/message/880712#880712" onclick="s_objectID=&quot;https://devforums.apple.com/message/880712#880712_1&quot;;return this.s_oc?this.s_oc(e):true">here</a>.</li>
+					
+		</ul>
+	</div>
+	<br>
+</div><!--/msg-->	
+
+<div class="column first">
+	<div class="iphoneos image image100">
+		<img class="left image32" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/80x80/icon_ipsw_2x.png" width="80" height="80" alt="iOS 8" data-hires-status="replaced">
+		<h5>iOS&nbsp;8.3</h5>
+		<p>This is the release version of iOS&nbsp;8.3 for iPad, iPhone, and iPod&nbsp;touch. Devices updated to iOS&nbsp;8.3 can not be restored to earlier versions of iOS.</p>
+	</div><!--/sdk-->
+</div><!--/column-->
+
+<div class="column last">
+	<div class="downloads">
+		<div class="download selfclear">
+			<ul class="left">
+                <li>Build: 12F69 | 12F70</li>
+				<li>Posted Date: Apr 8, 2015</li>
+			</ul>
+		</div>
+		<h5>Downloads</h5>
+		<ul>
+			<br>
+			<li><b>iPad:</b></li>
+			
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-15007-20150408-3CFD15D4-D8B8-11E4-BFA4-8B1D90F2D2C2/iPad5,3_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-15007-20150408-3CFD15D4-D8B8-11E4-BFA4-8B1D90F2D2C2/iPad5,3__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad Air 2 Wi-Fi</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14799-20150408-4298F14E-D8B7-11E4-A105-CC1A90F2D2C2/iPad5,4_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14799-20150408-4298F14E-D8B7-11E4-A105-CC1A90F2D2C2/iPad5,4__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad Air 2 Wi-Fi + Cellular</a></li>
+            
+            <li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14802-20150408-4298E244-D8B7-11E4-A7A1-D01A90F2D2C2/iPad4,7_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14802-20150408-4298E244-D8B7-11E4-A7A1-D01A90F2D2C2/iPad4,7__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad mini 3 (Model A1599)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14671-20150408-429576CC-D8B7-11E4-8C4C-B81A90F2D2C2/iPad4,8_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14671-20150408-429576CC-D8B7-11E4-8C4C-B81A90F2D2C2/iPad4,8__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad mini 3 (Model A1600)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14791-20150408-429903BE-D8B7-11E4-9379-CB1A90F2D2C2/iPad4,9_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14791-20150408-429903BE-D8B7-11E4-9379-CB1A90F2D2C2/iPad4,9__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad mini 3 (Model A1601)</a></li>
+			
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14939-20150408-14D6A26E-D8B8-11E4-B0AC-8C1C90F2D2C2/iPad4,1_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14939-20150408-14D6A26E-D8B8-11E4-B0AC-8C1C90F2D2C2/iPad4,1__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad Air (Model A1474)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14994-20150408-36AAEDBE-D8B8-11E4-A59A-4D1D90F2D2C2/iPad4,2_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14994-20150408-36AAEDBE-D8B8-11E4-A59A-4D1D90F2D2C2/iPad4,2__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad Air (Model A1475)</a></li>
+            <li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14714-20150408-429561C8-D8B7-11E4-9141-BE1A90F2D2C2/iPad4,3_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14714-20150408-429561C8-D8B7-11E4-9141-BE1A90F2D2C2/iPad4,3__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad Air (Model A1476)</a></li>
+			
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14680-20150408-4294355A-D8B7-11E4-BCFC-BB1A90F2D2C2/iPad4,4_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14680-20150408-4294355A-D8B7-11E4-BCFC-BB1A90F2D2C2/iPad4,4__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad mini 2 (Model A1489)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14853-20150408-429ACA64-D8B7-11E4-AA9B-D81A90F2D2C2/iPad4,5_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14853-20150408-429ACA64-D8B7-11E4-AA9B-D81A90F2D2C2/iPad4,5__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad mini 2 (Model A1490)</a></li>
+            <li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14606-20150408-4293762E-D8B7-11E4-86CC-B21A90F2D2C2/iPad4,6_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14606-20150408-4293762E-D8B7-11E4-86CC-B21A90F2D2C2/iPad4,6__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad mini 2 (Model A1491)</a></li>
+			
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14866-20150408-429B2E0A-D8B7-11E4-B28A-DB1A90F2D2C2/iPad3,4_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14866-20150408-429B2E0A-D8B7-11E4-B28A-DB1A90F2D2C2/iPad3,4__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad (4th generation Model A1458)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14736-20150408-4293A734-D8B7-11E4-B2F8-C01A90F2D2C2/iPad3,5_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14736-20150408-4293A734-D8B7-11E4-B2F8-C01A90F2D2C2/iPad3,5__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad (4th generation Model A1459)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14822-20150408-429AA976-D8B7-11E4-9243-D61A90F2D2C2/iPad3,6_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14822-20150408-429AA976-D8B7-11E4-9243-D61A90F2D2C2/iPad3,6__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad (4th generation Model A1460)</a></li>
+
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14876-20150408-42A440D0-D8B7-11E4-8649-DC1A90F2D2C2/iPad2,5_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14876-20150408-42A440D0-D8B7-11E4-8649-DC1A90F2D2C2/iPad2,5__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad mini (Model A1432)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14911-20150408-F695CFFA-D8B7-11E4-88A4-1E1C90F2D2C2/iPad2,6_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14911-20150408-F695CFFA-D8B7-11E4-88A4-1E1C90F2D2C2/iPad2,6__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad mini (Model A1454)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14591-20150408-429483C0-D8B7-11E4-BFD9-B01A90F2D2C2/iPad2,7_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14591-20150408-429483C0-D8B7-11E4-BFD9-B01A90F2D2C2/iPad2,7__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad mini (Model A1455)</a></li>
+
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14981-20150408-2683BC4A-D8B8-11E4-8D2C-F21C90F2D2C2/iPad3,1_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14981-20150408-2683BC4A-D8B8-11E4-8D2C-F21C90F2D2C2/iPad3,1__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad Wi-Fi 3rd generation</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14993-20150408-2A73B1FC-D8B8-11E4-A2D3-191D90F2D2C2/iPad3,3_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14993-20150408-2A73B1FC-D8B8-11E4-A2D3-191D90F2D2C2/iPad3,3__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad Wi-Fi + Cellular (model for ATT)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14647-20150408-42936F30-D8B7-11E4-8A1A-B41A90F2D2C2/iPad3,2_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14647-20150408-42936F30-D8B7-11E4-8A1A-B41A90F2D2C2/iPad3,2__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad Wi-Fi + Cellular (model for Verizon)</a></li>
+
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14862-20150408-42988B78-D8B7-11E4-B18B-DA1A90F2D2C2/iPad2,1_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14862-20150408-42988B78-D8B7-11E4-B18B-DA1A90F2D2C2/iPad2,1__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad 2 Wi-Fi</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-15032-20150408-4F74362A-D8B8-11E4-B51F-D81D90F2D2C2/iPad2,4_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-15032-20150408-4F74362A-D8B8-11E4-B51F-D81D90F2D2C2/iPad2,4__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad 2 Wi-Fi (Rev A)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14921-20150408-124A64C2-D8B8-11E4-85C3-6C1C90F2D2C2/iPad2,2_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14921-20150408-124A64C2-D8B8-11E4-85C3-6C1C90F2D2C2/iPad2,2__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad 2 Wi-Fi + 3G (GSM)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14914-20150408-082350F8-D8B8-11E4-8407-441C90F2D2C2/iPad2,3_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14914-20150408-082350F8-D8B8-11E4-8407-441C90F2D2C2/iPad2,3__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPad 2 Wi-Fi + 3G (CDMA)</a></li>
+			
+			<br>
+			<li><b>iPhone:</b></li>
+            <li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/058-14372-20150408-6F9D0D48-DAEB-11E4-B32A-926C90F2D2C2/iPhone7,2_8.3_12F70_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/058-14372-20150408-6F9D0D48-DAEB-11E4-B32A-926C90F2D2C2/iPhone7,_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPhone 6</a></li>
+            <li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/058-14762-20150408-6F9D7FF8-DAEB-11E4-BFF1-966C90F2D2C2/iPhone7,1_8.3_12F70_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/058-14762-20150408-6F9D7FF8-DAEB-11E4-BFF1-966C90F2D2C2/iPhone7,_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPhone 6 Plus</a></li>
+            
+            <li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/058-14990-20150408-6F9D55BE-DAEB-11E4-956C-986C90F2D2C2/iPhone6,1_8.3_12F70_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/058-14990-20150408-6F9D55BE-DAEB-11E4-956C-986C90F2D2C2/iPhone6,_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPhone 5s (Model A1453, A1533)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/058-14392-20150408-6F9D0D48-DAEB-11E4-B32A-946C90F2D2C2/iPhone6,2_8.3_12F70_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/058-14392-20150408-6F9D0D48-DAEB-11E4-B32A-946C90F2D2C2/iPhone6,_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPhone 5s (Model A1457, A1518, A1528, A1530)</a></li>
+			
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/058-15010-20150408-6F9DB66C-DAEB-11E4-8834-996C90F2D2C2/iPhone5,3_8.3_12F70_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/058-15010-20150408-6F9DB66C-DAEB-11E4-8834-996C90F2D2C2/iPhone5,_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPhone 5c (Model A1456, A1532)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-19816-20150408-6F9D7CC4-DAEB-11E4-9F56-8D6C90F2D2C2/iPhone5,4_8.3_12F70_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-19816-20150408-6F9D7CC4-DAEB-11E4-9F56-8D6C90F2D2C2/iPhone5,_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPhone 5c (Model A1507, A1516, A1526, A1529)</a></li>
+			
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/058-14361-20150408-6F9D447A-DAEB-11E4-9C08-906C90F2D2C2/iPhone5,1_8.3_12F70_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/058-14361-20150408-6F9D447A-DAEB-11E4-9C08-906C90F2D2C2/iPhone5,_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPhone 5 (Model A1428)</a></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-19940-20150408-6F9D0DCA-DAEB-11E4-B32A-8E6C90F2D2C2/iPhone5,2_8.3_12F70_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-19940-20150408-6F9D0DCA-DAEB-11E4-B32A-8E6C90F2D2C2/iPhone5,_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPhone 5 (Model A1429)</a></li>
+
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/058-16120-20150408-6F9DF1C2-DAEB-11E4-AC1D-9A6C90F2D2C2/iPhone4,1_8.3_12F70_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/058-16120-20150408-6F9DF1C2-DAEB-11E4-AC1D-9A6C90F2D2C2/iPhone4,_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPhone 4s</a></li>
+
+			<br>
+			<li><b>iPod&nbsp;touch:</b></li>
+			<li> <a class="dmg" href="http://appldnld.apple.com/ios8.3/031-14952-20150408-2379BA68-D8B8-11E4-9A04-C21C90F2D2C2/iPod5,1_8.3_12F69_Restore.ipsw" data-hires-status="replaced" onclick="s_objectID=&quot;http://appldnld.apple.com/ios8.3/031-14952-20150408-2379BA68-D8B8-11E4-9A04-C21C90F2D2C2/iPod5,1__1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/dmg_2x.gif); background-size: 12px;">iPod touch (5th generation)</a></li>
+	
+		</ul>
+	</div><!--/downloads-->
+</div><!--/column-->
+<hr class="clear">
+<div class="column first">
+    <div class="sdk image image100">
+        <a><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/80x80/os-x-server-4_2x.png" alt="OS X Server" height="80" width="80" data-hires-status="already-hires"></a>
+        <h5>OS X Server 4.1</h5>
+        <p>This is the release version of OS X Server 4.1 for OS&nbsp;X&nbsp;Yosemite systems.</p>
+    </div><!--/sdk-->
+</div>
+<div class="column last xcodedownload">
+    <a class="button" href="/devcenter/download.action?path=/OS_X_Server/OS_X_Server_4.1/OS_X_Server_4.1.dmg" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/OS_X_Server/OS_X_Server_4.1/OS_X_Serv_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_left_2x.png); background-size: 10px 22px;">
+    <span style="color: rgb(18, 110, 147); background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_right_2x.png); background-size: 300px 22px;" data-hires-status="replaced">Download</span>
+    </a>
+    <br><br>
+    <ul>
+    <li>Posted Date: Apr 8, 2015</li>
+    <li>Build: 14S1092</li>
+    </ul>
+</div>
+
+	
+				<hr class="clear">			
+				<div class="column first">
+    <div class="sdk image image100">
+        <a><img class="left" src="https://developer.apple.com/assets/elements/icons/128x128/iad-producer_2x.png" alt="iAd Producer" height="80" width="80" data-hires-status="replaced"></a>
+        <h5>iAd&nbsp;Producer</h5>
+        <p>iAd Producer makes it easy for you to design and assemble high-impact, interactive content for iAd.</p>
+    </div><!--/sdk-->
+</div>
+<div class="column last xcodedownload">
+    <a class="button" href="/iad/iadproducer/" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/iad/iadproducer/_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_left_2x.png); background-size: 10px 22px;">
+    <span style="color: rgb(18, 110, 147); background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_right_2x.png); background-size: 300px 22px;" data-hires-status="replaced">Download</span>
+    </a>
+    <br><br>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				
+				
+			
+			
+		
+			
+	
+	
+	
+	
+	
+		<hr class="clear">				
+		
+		
+				
+							
+		
+				
+							
+		
+				
+							
+				<div class="column first">
+								
+									
+						<a><img class="left" src="https://devimages.apple.com.edgekey.net/devcenter/mac/images/os-x-server_2x.png" alt="" width="78" height="92" data-hires-status="replaced"></a>
+						<h3>OS X Server 3.2.2</h3>				
+						<p>Includes Xcode&nbsp;Server to enable continuous integration. Works with Xcode&nbsp;5 to configure bots that automatically build and test your apps. Requires OS&nbsp;X&nbsp;Mavericks.</p>	
+						
+				</div>
+				<div class="column last">	
+					
+						<div class="click-button" id="diverror-13CB96H8S4_mavericks" style="display:none">
+								<span style="color:red">An error occurred. Please try again.</span>
+						</div>				
+						<div class="click-button" id="divbutton-13CB96H8S4_mavericks" style="display:block;">
+							<a class="button" id="seed-download-btn-13CB96H8S4_mavericks" onclick="submitRequest('13CB96H8S4', 'mavericks');" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_left_2x.png); background-size: 10px 22px;">
+								<span style="color: rgb(18, 110, 147); background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_right_2x.png); background-size: 300px 22px;" data-hires-status="replaced">Get Download Code</span>
+							</a>						
+						</div>	
+						<div class="click-button" id="divcodebutton-13CB96H8S4_mavericks" style="display:none">
+							<a class="button" id="temp-download-btn-13CB96H8S4_mavericks" onclick="genRedemptionCode('13CB96H8S4', 'mavericks')" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_left_2x.png); background-size: 10px 22px;">
+								<span style="color: rgb(18, 110, 147); background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_right_2x.png); background-size: 300px 22px;" id="spanbutton-13CB96H8S4_mavericks" data-hires-status="replaced"></span>
+							</a>						
+						</div>				
+						<ul>	
+							<li>Posted Date: Oct 11, 2014</li>
+							<li>Build: 13S5187</li>
+						</ul>
+						
+					
+					
+				</div>
+				<hr class="clear">	
+							
+		
+				
+							
+		
+				
+							
+		
+		
+	
+
+
+</div>
+
+
+													
+		</div>
+		
+		<div id="prereleasediv" class="column first grid2col" style="display: block;">
+						
+				
+
+
+
+
+<div class="boxheader" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/box_header_bg_2x.png); background-size: 1px 26px;">
+	<div class="tabs">
+		<ul>
+			<li><a href="#" id="arelease" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/ios/index.action#_2&quot;;return this.s_oc?this.s_oc(e):true">iOS 8.3 SDK</a></li>
+			
+			
+				<li class="active" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/tab_active_cap_2x.png); background-size: 10px 20px;"><span data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/tab_active_bg_2x.png); background-size: 500px 20px;">iOS 8.4 beta 3</span></li>
+												
+			
+		</ul>
+	</div><!--/tabs-->
+</div>		
+				
+
+
+
+
+
+
+	<div class="column first">
+<h3 class="underline prerelease">Resources&nbsp;for iOS 8.4 beta</h3>
+<div class="resources">		
+<div class="image image45">
+	<a href="/library/ios/navigation/" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/_3&quot;;return this.s_oc?this.s_oc(e):true"><img width="32" height="32" alt="Ref Lib" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/reflib_2x.png" class="left" data-hires-status="replaced"></a>
+	<h5><a href="/library/prerelease/ios/navigation/index.html" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/index.html_1&quot;;return this.s_oc?this.s_oc(e):true">iOS Developer Library</a></h5>
+	<div class="grid2col">
+		<div class="column first">
+			<ul style="list-style-type:disc;color:#999999;margin-left:14px">
+				
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Getting%20Started" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Get_1&quot;;return this.s_oc?this.s_oc(e):true">Getting Started</a></li>
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Guides" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Gui_1&quot;;return this.s_oc?this.s_oc(e):true">Guides</a></li>
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Reference" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Ref_1&quot;;return this.s_oc?this.s_oc(e):true">Reference</a></li>
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Release%20Notes" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Rel_1&quot;;return this.s_oc?this.s_oc(e):true">Release Notes</a></li>
+			</ul>
+		</div><!--/first-->
+		<div class="column last">
+			<ul style="list-style-type:disc;color:#999999">
+				
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Sample%20Code" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Sam_1&quot;;return this.s_oc?this.s_oc(e):true">Sample Code</a></li>
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Technical%20Notes" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Tec_1&quot;;return this.s_oc?this.s_oc(e):true">Technical Notes</a></li>
+				 <li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Technical%20Q%26amp%3BAs" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Tec_2&quot;;return this.s_oc?this.s_oc(e):true">Technical Q&amp;As</a></li>
+			</ul>			
+		</div><!--/last-->
+	</div><!--/grid2col-->
+</div>
+				
+<div class="image image45 dev-videos">
+	<div class="grid2col">
+		<a href="/videos/" onclick="s_objectID=&quot;https://developer.apple.com/videos/_3&quot;;return this.s_oc?this.s_oc(e):true"><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/video_2x.png" width="32" height="32" alt="Videos" data-hires-status="replaced"></a>	
+		<h5><a href="/videos/" onclick="s_objectID=&quot;https://developer.apple.com/videos/_4&quot;;return this.s_oc?this.s_oc(e):true">Development Videos</a></h5>
+		<div class="column first">
+			<ul style="list-style-type:disc;color:#999999;margin-left:14px">
+				<li><a href="/videos/ios/" onclick="s_objectID=&quot;https://developer.apple.com/videos/ios/_2&quot;;return this.s_oc?this.s_oc(e):true">iOS Development</a></li>
+			</ul>
+		</div><!--/first-->
+		<div class="column last">
+			<ul style="list-style-type:disc;color:#999999">
+				<li><a href="/videos/wwdc/2014/" onclick="s_objectID=&quot;https://developer.apple.com/videos/wwdc/2014/_2&quot;;return this.s_oc?this.s_oc(e):true">WWDC Videos</a></li>
+			</ul>			
+		</div><!--/last-->
+	</div><!--/grid2col-->	
+</div>
+</div>
+
+
+
+
+
+	<div class="resources">					
+	<div class="image image45">
+		<a href="https://devforums.apple.com" onclick="s_objectID=&quot;https://devforums.apple.com/_3&quot;;return this.s_oc?this.s_oc(e):true"><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/forum_2x.png" width="32" height="32" alt="iOS Ref Lib" data-hires-status="replaced"></a>
+		<h5 class="prerelease"><a href="https://devforums.apple.com" onclick="s_objectID=&quot;https://devforums.apple.com/_4&quot;;return this.s_oc?this.s_oc(e):true">Apple Developer Forums</a></h5>
+		<p class="prerelease">Discuss iOS development with other developers and Apple engineers.</p>
+	</div>		
+</div>
+	
+</div><!--/column-->
+				
+
+
+
+
+<div class="column last">
+	<div class="featuredtech">
+		
+		
+			<h3 class="underline prerelease">Featured Content</h3>
+<ul class="icons featured">
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/watchkit/" onclick="s_objectID=&quot;https://developer.apple.com/watchkit/_1&quot;;return this.s_oc?this.s_oc(e):true">WatchKit for Developers</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/ios8/" onclick="s_objectID=&quot;https://developer.apple.com/ios8/_1&quot;;return this.s_oc?this.s_oc(e):true">iOS 8 for Developers</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/library/ios/releasenotes/General/WhatsNewIniOS/" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/_2&quot;;return this.s_oc?this.s_oc(e):true">What's New in iOS</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/design/adaptivity/" onclick="s_objectID=&quot;https://developer.apple.com/design/adaptivity/_2&quot;;return this.s_oc?this.s_oc(e):true">Adaptive User Interfaces</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/app-extensions/" onclick="s_objectID=&quot;https://developer.apple.com/app-extensions/_2&quot;;return this.s_oc?this.s_oc(e):true">App Extensions</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/apple-pay/" onclick="s_objectID=&quot;https://developer.apple.com/apple-pay/_2&quot;;return this.s_oc?this.s_oc(e):true">Apple Pay</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/icloud/" onclick="s_objectID=&quot;https://developer.apple.com/icloud/_2&quot;;return this.s_oc?this.s_oc(e):true">CloudKit</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/handoff/" onclick="s_objectID=&quot;https://developer.apple.com/handoff/_2&quot;;return this.s_oc?this.s_oc(e):true">Handoff</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/healthkit/" onclick="s_objectID=&quot;https://developer.apple.com/healthkit/_2&quot;;return this.s_oc?this.s_oc(e):true">HealthKit</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/homekit/" onclick="s_objectID=&quot;https://developer.apple.com/homekit/_2&quot;;return this.s_oc?this.s_oc(e):true">HomeKit</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/library/etc/redirect/itms/CocoaTouch64BitGuide" onclick="s_objectID=&quot;https://developer.apple.com/library/etc/redirect/itms/CocoaTouch64BitGuide_2&quot;;return this.s_oc?this.s_oc(e):true">64-Bit Transition Guide</a>
+    </li>
+	<li class="pdf" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/pdf_2x.gif); background-size: 12px;" data-hires-status="replaced">
+		<a href="/devcenter/download.action?path=/ios/ios_8_beta_documentation/ios_beta_software_installation_guide.pdf" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/ios/ios_8_beta_documentation/ios_beta_1&quot;;return this.s_oc?this.s_oc(e):true">iOS beta Software Installation Guide</a>
+	</li>
+</ul>
+			
+	</div>
+</div><!--/column-->
+				
+
+
+
+
+ 
+<hr class="clear gradient">
+<div id="betadownloads">
+	<h3 class="prerelease">Downloads</h3>
+		
+		<div class="msg warn expandable" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/48x48/alert_warning_2x.png); background-size: 48px;">
+	<h4><strong>Read Me Before Downloading</strong> &nbsp;<a class="expandlink closed" id="preReleaseAnchoriOS" href="#" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/ios/index.action#_3&quot;;return this.s_oc?this.s_oc(e):true"></a></h4>
+	<div class="expandcontent" id="preReleaseMessageiOS" style="display:block">
+		<ul class="square">
+			
+			<li>Be sure to backup your devices using the latest version iTunes or through iCloud backup prior to installing iOS&nbsp;8.4&nbsp;beta. After installing iOS&nbsp;8.4&nbsp;beta, you can restore your device using either the latest version of iTunes or through your iCloud backup.</li>
+			
+            <li>This version of iOS is intended only for installation on development devices registered with Apple's Developer Program. Attempting to install this version of iOS in an unauthorized manner could put your device in an unusable state, which could necessitate an out of warranty repair.</li>
+                
+            <li>Devices updated to iOS&nbsp;8.4&nbsp;beta can not be restored to earlier versions of iOS. Only registered development devices will be able to upgrade to future beta releases and the final iOS software.</li>
+
+			<li>To determine the proper download for your iPhone 5s, iPhone 5c, or iPhone 5, click <a href="http://support.apple.com/kb/ht3939" onclick="s_objectID=&quot;http://support.apple.com/kb/ht3939_2&quot;;return this.s_oc?this.s_oc(e):true">here</a>. To determine the proper download for your iPad Air, iPad mini, or iPad (4th generation), click <a href="http://support.apple.com/kb/ht5452" onclick="s_objectID=&quot;http://support.apple.com/kb/ht5452_2&quot;;return this.s_oc?this.s_oc(e):true">here</a>.</li>
+
+            <li>iOS&nbsp;8.4&nbsp;beta and Xcode&nbsp;6.4&nbsp;beta are pre-release software. Your use is subject to and licensed only under the terms and conditions of the iOS Developer Program License Agreement ("iOS PLA"), including any applicable consent to collect diagnostic data set forth therein. If you have not agreed to the iOS PLA, you are not permitted to use this software.</li>
+		</ul>
+	</div>
+	<br>
+</div><!--/msg-->
+
+<!--Xcode-->
+<div class="column first">
+    <div class="sdk image image100">
+        <a><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/80x80/xcode6_2x.png" alt="Xcode 6.4 beta" height="80" width="80" data-hires-status="already-hires"></a>
+        <h5>Xcode 6.4 beta 3</h5>
+        <p>This is a pre-release version of the complete Xcode developer toolset for Mac, iPhone, iPad, and Apple&nbsp;Watch. This release requires OS&nbsp;X&nbsp;Yosemite.</p>
+    </div><!--/sdk image image100-->
+</div> <!--/column first-->
+<div class="column last xcodedownload">
+    <a class="button" href="/devcenter/download.action?path=/Developer_Tools/Xcode_6.4_beta_3/Xcode_6.4_beta_3.dmg" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4_beta_3/Xcod_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_left_2x.png); background-size: 10px 22px;">
+    <span style="color: rgb(18, 110, 147); background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/buttons/button_right_2x.png); background-size: 300px 22px;" data-hires-status="replaced">Download Xcode</span>
+    </a>
+    <br> <br>
+    <div class="downloads">
+        <div class="download selfclear">
+        <ul class="left">
+        <li>Posted: May 11, 2015</li>
+        <li>Build: 6E23</li>
+        <li>Included iOS SDK: iOS&nbsp;8.4&nbsp;beta&nbsp;3</li>
+        <li>Included Mac SDK: OS&nbsp;X&nbsp;v10.10</li>
+        </ul>
+    </div> <!--download selfclear-->
+
+    <h5>Additional Resources</h5>
+    <ul>
+    <li> <a class="pdf" href="/devcenter/download.action?path=/Developer_Tools/Xcode_6.4_beta_3/Xcode_6.4_beta_3_Release_Notes.pdf" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4_beta_3/Xcod_2&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/pdf_2x.gif); background-size: 12px;">Xcode&nbsp;6.4&nbsp;beta&nbsp;3 Release Notes</a></li>
+    </ul>
+    </div><!--/downloads-->
+</div><!--column last xcodedownload-->
+<hr class="clear">
+<!--/Xcode-->
+
+		
+							
+													
+		<div class="selfclear"><!--downloads header section-->
+<div class="column first">
+	<div class="iphoneos image image100">
+		<img class="left image32" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/80x80/icon_ios8_2x.png" width="80" height="80" alt="iOS 8.4 beta" data-hires-status="replaced">
+		<h5>iOS 8.4 beta 3</h5>
+		<p>This is a pre-release version of iOS 8.4 beta 3 for iPhone, iPad, and iPod&nbsp;touch. Devices updated to iOS 8.4 beta 3 can not be restored to earlier versions of iOS.</p>
+	</div><!--/sdk-->
+</div><!--/column-->
+
+<div class="column last">
+	<div class="downloads">
+		<div class="download selfclear">
+			<ul class="left">
+				<li>Posted: May 11, 2015</li>
+				<li>Build: 12H4098c</li>
+			</ul>
+		</div>
+        <h5>Additional Documentation</h5>
+        <ul class="icons featured">
+        <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+            <a href="/go/?id=ios-8.4-sdk-rn" onclick="s_objectID=&quot;https://developer.apple.com/go/?id=ios-8.4-sdk-rn_1&quot;;return this.s_oc?this.s_oc(e):true">iOS&nbsp;8.4&nbsp;beta&nbsp;3 Release Notes</a>
+        </li>
+	</ul></div><!--/downloads-->
+</div><!--/column-->
+</div><!--/downloads header-->
+<div class="selfclear"><!--downloads section-->
+<!--<h5>Downloads</h5>-->
+<hr class="clear nomargin">
+
+<div class="column first">		
+		<ul>
+            <br>
+            <li><b>iPad:</b></li>
+        	<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_Air_2_Model_A1566__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad Air 2 (Model A1566)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_Air_2_Model_A1567__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_2&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad Air 2 (Model A1567)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_mini_3_Model_A1599__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_3&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad mini 3 (Model A1599)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_mini_3_Model_A1600__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_4&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad mini 3 (Model A1600)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_mini_3_Model_A1601__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_5&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad mini 3 (Model A1601)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_Air_Model_A1474__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_6&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad Air (Model A1474)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_Air_Model_A1475__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_7&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad Air (Model A1475)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_Air_Model_A1476__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_8&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad Air (Model A1476)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_mini_2_Model_A1489__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_9&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad mini 2 (Model A1489)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_mini_2_Model_A1490__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_10&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad mini 2 (Model A1490)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_mini_2_Model_A1491__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_11&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad mini 2 (Model A1491)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_4th_generation_Model_A1458__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_12&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad (4th generation Model A1458)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_4th_generation_Model_A1459__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_13&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad (4th generation Model A1459)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_4th_generation_Model_A1460__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_14&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad (4th generation Model A1460)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_mini_Model_A1432__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_15&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad mini (Model A1432)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_mini_Model_A1454__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_16&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad mini (Model A1454)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_mini_Model_A1455__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_17&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad mini (Model A1455)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_WiFi_3rd_generation__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_18&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad Wi-Fi (3rd generation)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_WiFi__Cellular_model_for_ATT__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_19&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad Wi-Fi + Cellular (model for ATT)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_WiFi__Cellular_model_for_Verizon__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_20&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad Wi-Fi + Cellular (model for Verizon)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_2_WiFi_Rev_A__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_21&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad 2 Wi-Fi (Rev A)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_2_WiFi__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_22&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad 2 Wi-Fi</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_2_WiFi__3G_GSM__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_23&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad 2 Wi-Fi + 3G (GSM)</a></li>
+			<li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPad_2_WiFi__3G_CDMA__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_24&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPad 2 Wi-Fi + 3G (CDMA)</a></li>
+        </ul>
+</div>
+
+<div class="column last">
+    
+    <ul>
+        
+        <br>
+        <li><b>iPhone:</b></li>
+            <li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPhone_6__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_25&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPhone 6</a></li>
+            <li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPhone_6_Plus__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_26&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPhone 6 Plus</a></li>
+            <li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPhone_5s_Model_A1453_A1533__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_27&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPhone 5s (Model A1453, A1533)</a></li>
+            <li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPhone_5s_Model_A1457_A1518_A1528_A1530__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_28&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPhone 5s (Model A1457, A1518, A1528, A1530)</a></li>
+            <li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPhone_5c_Model_A1456_A1532__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_29&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPhone 5c (Model A1456, A1532)</a></li>
+            <li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPhone_5c_Model_A1507_A1516_A1526_A1529__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_30&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPhone 5c (Model A1507, A1516, A1526, A1529)</a></li>
+            <li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPhone_5_Model_A1428__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_31&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPhone 5 (Model A1428)</a></li>
+            <li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPhone_5_Model_A1429__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_32&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPhone 5 (Model A1429)</a></li>
+            <li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPhone_4s__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_33&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPhone 4s</a></li>
+        <br>
+        <li><b>iPod&nbsp;touch:</b></li>
+            <li> <a class="zip" href="/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iPod_touch_5th_generation__12H4098c.zip" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/iOS/iOS_8.4_beta_3/iOS_8.4_beta_3__iP_34&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/zip_2x.gif); background-size: 12px;">iPod touch (5th generation)</a></li>
+    </ul>
+    
+</div>
+</div><!--end downloads section-->				
+	
+	
+</div>			
+				
+		</div>
+		
+		<div id="xcodeprereleasediv" class="column first grid2col" style="display: none;">		
+						
+				
+
+
+
+
+<div class="boxheader" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/box_header_bg_2x.png); background-size: 1px 26px;">
+	<div class="tabs">
+		<ul>
+			<li><a href="#" id="arelease" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/ios/index.action#_4&quot;;return this.s_oc?this.s_oc(e):true">iOS 8.3 SDK</a></li>
+			
+			
+				<li><a href="#" id="aprerelease" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/ios/index.action#_5&quot;;return this.s_oc?this.s_oc(e):true">iOS 8.4 beta 3</a></li>
+																
+			
+		</ul>
+	</div><!--/tabs-->
+</div>		
+				
+
+
+
+
+
+
+	<div class="column first">
+<h3 class="underline prerelease">Resources&nbsp;for iOS 8.4 beta</h3>
+<div class="resources">		
+<div class="image image45">
+	<a href="/library/ios/navigation/" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/navigation/_4&quot;;return this.s_oc?this.s_oc(e):true"><img width="32" height="32" alt="Ref Lib" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/reflib_2x.png" class="left" data-hires-status="replaced"></a>
+	<h5><a href="/library/prerelease/ios/navigation/index.html" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/index.html_2&quot;;return this.s_oc?this.s_oc(e):true">iOS Developer Library</a></h5>
+	<div class="grid2col">
+		<div class="column first">
+			<ul style="list-style-type:disc;color:#999999;margin-left:14px">
+				
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Getting%20Started" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Get_2&quot;;return this.s_oc?this.s_oc(e):true">Getting Started</a></li>
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Guides" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Gui_2&quot;;return this.s_oc?this.s_oc(e):true">Guides</a></li>
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Reference" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Ref_2&quot;;return this.s_oc?this.s_oc(e):true">Reference</a></li>
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Release%20Notes" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Rel_2&quot;;return this.s_oc?this.s_oc(e):true">Release Notes</a></li>
+			</ul>
+		</div><!--/first-->
+		<div class="column last">
+			<ul style="list-style-type:disc;color:#999999">
+				
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Sample%20Code" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Sam_2&quot;;return this.s_oc?this.s_oc(e):true">Sample Code</a></li>
+				<li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Technical%20Notes" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Tec_3&quot;;return this.s_oc?this.s_oc(e):true">Technical Notes</a></li>
+				 <li><a href="/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Technical%20Q%26amp%3BAs" onclick="s_objectID=&quot;https://developer.apple.com/library/prerelease/ios/navigation/#section=Resource%20Types&amp;topic=Tec_4&quot;;return this.s_oc?this.s_oc(e):true">Technical Q&amp;As</a></li>
+			</ul>			
+		</div><!--/last-->
+	</div><!--/grid2col-->
+</div>
+				
+<div class="image image45 dev-videos">
+	<div class="grid2col">
+		<a href="/videos/" onclick="s_objectID=&quot;https://developer.apple.com/videos/_5&quot;;return this.s_oc?this.s_oc(e):true"><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/video_2x.png" width="32" height="32" alt="Videos" data-hires-status="replaced"></a>	
+		<h5><a href="/videos/" onclick="s_objectID=&quot;https://developer.apple.com/videos/_6&quot;;return this.s_oc?this.s_oc(e):true">Development Videos</a></h5>
+		<div class="column first">
+			<ul style="list-style-type:disc;color:#999999;margin-left:14px">
+				<li><a href="/videos/ios/" onclick="s_objectID=&quot;https://developer.apple.com/videos/ios/_3&quot;;return this.s_oc?this.s_oc(e):true">iOS Development</a></li>
+			</ul>
+		</div><!--/first-->
+		<div class="column last">
+			<ul style="list-style-type:disc;color:#999999">
+				<li><a href="/videos/wwdc/2014/" onclick="s_objectID=&quot;https://developer.apple.com/videos/wwdc/2014/_3&quot;;return this.s_oc?this.s_oc(e):true">WWDC Videos</a></li>
+			</ul>			
+		</div><!--/last-->
+	</div><!--/grid2col-->	
+</div>
+</div>
+
+
+
+
+
+	<div class="resources">					
+	<div class="image image45">
+		<a href="https://devforums.apple.com" onclick="s_objectID=&quot;https://devforums.apple.com/_5&quot;;return this.s_oc?this.s_oc(e):true"><img class="left" src="https://devimages.apple.com.edgekey.net/assets/elements/icons/32x32/forum_2x.png" width="32" height="32" alt="iOS Ref Lib" data-hires-status="replaced"></a>
+		<h5 class="prerelease"><a href="https://devforums.apple.com" onclick="s_objectID=&quot;https://devforums.apple.com/_6&quot;;return this.s_oc?this.s_oc(e):true">Apple Developer Forums</a></h5>
+		<p class="prerelease">Discuss iOS development with other developers and Apple engineers.</p>
+	</div>		
+</div>
+	
+</div><!--/column-->
+				
+
+
+
+
+<div class="column last">
+	<div class="featuredtech">
+		
+		
+			<h3 class="underline prerelease">Featured Content</h3>
+<ul class="icons featured">
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/watchkit/" onclick="s_objectID=&quot;https://developer.apple.com/watchkit/_2&quot;;return this.s_oc?this.s_oc(e):true">WatchKit for Developers</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/ios8/" onclick="s_objectID=&quot;https://developer.apple.com/ios8/_2&quot;;return this.s_oc?this.s_oc(e):true">iOS 8 for Developers</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/library/ios/releasenotes/General/WhatsNewIniOS/" onclick="s_objectID=&quot;https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/_3&quot;;return this.s_oc?this.s_oc(e):true">What's New in iOS</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/design/adaptivity/" onclick="s_objectID=&quot;https://developer.apple.com/design/adaptivity/_3&quot;;return this.s_oc?this.s_oc(e):true">Adaptive User Interfaces</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/app-extensions/" onclick="s_objectID=&quot;https://developer.apple.com/app-extensions/_3&quot;;return this.s_oc?this.s_oc(e):true">App Extensions</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/apple-pay/" onclick="s_objectID=&quot;https://developer.apple.com/apple-pay/_3&quot;;return this.s_oc?this.s_oc(e):true">Apple Pay</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/icloud/" onclick="s_objectID=&quot;https://developer.apple.com/icloud/_3&quot;;return this.s_oc?this.s_oc(e):true">CloudKit</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/handoff/" onclick="s_objectID=&quot;https://developer.apple.com/handoff/_3&quot;;return this.s_oc?this.s_oc(e):true">Handoff</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/healthkit/" onclick="s_objectID=&quot;https://developer.apple.com/healthkit/_3&quot;;return this.s_oc?this.s_oc(e):true">HealthKit</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/homekit/" onclick="s_objectID=&quot;https://developer.apple.com/homekit/_3&quot;;return this.s_oc?this.s_oc(e):true">HomeKit</a>
+    </li>
+    <li class="docs" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/docs_2x.gif); background-size: 12px;" data-hires-status="replaced">
+        <a href="/library/etc/redirect/itms/CocoaTouch64BitGuide" onclick="s_objectID=&quot;https://developer.apple.com/library/etc/redirect/itms/CocoaTouch64BitGuide_3&quot;;return this.s_oc?this.s_oc(e):true">64-Bit Transition Guide</a>
+    </li>
+	<li class="pdf" style="margin-bottom: 8px; background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/icons/12x12/pdf_2x.gif); background-size: 12px;" data-hires-status="replaced">
+		<a href="/devcenter/download.action?path=/ios/ios_8_beta_documentation/ios_beta_software_installation_guide.pdf" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/download.action?path=/ios/ios_8_beta_documentation/ios_beta_2&quot;;return this.s_oc?this.s_oc(e):true">iOS beta Software Installation Guide</a>
+	</li>
+</ul>
+			
+	</div>
+</div><!--/column-->
+				
+
+
+
+
+<hr class="clear gradient">
+<div id="betadownloads">
+	<h3 class="prerelease">Downloads</h3>
+	
+		<!---->
+	
+	
+
+</div>			
+				
+		</div>
+		
+		
+
+
+ 
+
+
+
+
+<div class="column last">
+	<div class="boxheader" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/box_header_bg_2x.png); background-size: 1px 26px;">
+		
+		
+			<h2>iOS Developer Program</h2>
+		
+	</div>
+	
+	<ul class="nav">
+		
+			
+			
+				<li><a href="/account" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/account_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/nav_arrow_2x.png); background-size: 992px 14px;">Certificates, Identifiers &amp; Profiles</a></li>			
+				
+					<li><a href="http://itunesconnect.apple.com" data-hires-status="replaced" onclick="s_objectID=&quot;http://itunesconnect.apple.com/_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/nav_arrow_2x.png); background-size: 992px 14px;">iTunes Connect</a></li>
+				
+			
+			
+				<li>				
+					<a href="https://devforums.apple.com" data-hires-status="replaced" onclick="s_objectID=&quot;https://devforums.apple.com/_7&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/nav_arrow_2x.png); background-size: 992px 14px;">Apple Developer Forums</a>
+				</li>
+			<li><a href="/support/ios/" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/support/ios/_1&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/nav_arrow_2x.png); background-size: 992px 14px;">Developer Support Center</a></li> 
+		
+	</ul>
+	
+	<div class="inset">
+		<h5><img src="https://devimages.apple.com.edgekey.net/global/elements/registration/images/importantbg_2x.gif" width="15" height="15" data-hires-status="replaced">&nbsp;<a href="/ios/renew/index.action" onclick="s_objectID=&quot;https://developer.apple.com/ios/renew/index.action_3&quot;;return this.s_oc?this.s_oc(e):true">Renew Your Program</a></h5>
+		<p>Your iOS Developer Program will expire in <strong>19</strong> days.  Don't wait.
+			<a href="/ios/renew/index.action" class="more" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/ios/renew/index.action_4&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/arrows/morearrow_08c_2x.gif); background-size: 4px 7px;">Renew your membership now</a><a>
+		</a></p><a>
+	</a></div><a>
+	<br>
+	
+	<div class="nav_bottomcap" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/apps/images/nav_bottomcap_2x.png); background-size: 253px 10px;"></div>
+	<div class="nav_topcap" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/apps/images/nav_topcap_2x.png); background-size: 253px 10px;"></div>
+	</a><div class="boxheader" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/box_header_bg_2x.png); background-size: 1px 26px;"><a>
+	</a><a href="/appstore/" style="text-decoration:none;" onclick="s_objectID=&quot;https://developer.apple.com/appstore/_1&quot;;return this.s_oc?this.s_oc(e):true"><h2 style="font-size: 13px;"><img style="float:left; width:24px; margin-top:-4px; margin-right:8px;" src="https://devimages.apple.com.edgekey.net/appstore/images/idc_rail/appstore_icon_2x.png" alt="" data-hires-status="replaced"> &nbsp;App Store Resource Center</h2></a>
+</div>
+<ul class="news">
+	<li style="padding-top:5px; padding-bottom:0; height:45px;">
+		<a href="/appstore/resources/submission/" onclick="s_objectID=&quot;https://developer.apple.com/appstore/resources/submission/_1&quot;;return this.s_oc?this.s_oc(e):true"><img style="float:left; margin-left:0px; margin-top:5px;" src="https://devimages.apple.com.edgekey.net/appstore/images/idc_rail/as_submission_2x.png" width="24" height="30" alt="Prepare for App Submission" data-hires-status="replaced"></a>
+		<h5 style="font-weight:normal; margin-top:11px;"><a href="/appstore/resources/submission/" onclick="s_objectID=&quot;https://developer.apple.com/appstore/resources/submission/_2&quot;;return this.s_oc?this.s_oc(e):true">Prepare for App Submission</a></h5>
+	</li>
+	<li style="padding-top:5px; padding-bottom:0; height:45px;">
+		<a href="/appstore/resources/approval/" onclick="s_objectID=&quot;https://developer.apple.com/appstore/resources/approval/_1&quot;;return this.s_oc?this.s_oc(e):true"><img style="float:left; margin-left:0px; margin-top:6px;" src="https://devimages.apple.com.edgekey.net/appstore/images/idc_rail/as_approval_2x.png" width="24" height="24" alt="App Store Approval Process" data-hires-status="replaced"></a>
+		<h5 style="font-weight:normal; margin-top:11px;"><a href="/appstore/resources/approval/" onclick="s_objectID=&quot;https://developer.apple.com/appstore/resources/approval/_2&quot;;return this.s_oc?this.s_oc(e):true">App Store Approval Process</a></h5>
+	</li>
+	<li style="padding-top:5px; padding-bottom:0; padding-right:14px; height:45px;">
+		<a href="/appstore/resources/managing/" onclick="s_objectID=&quot;https://developer.apple.com/appstore/resources/managing/_1&quot;;return this.s_oc?this.s_oc(e):true"><img style="float:left; margin-left:0px; margin-top:5px;" src="https://devimages.apple.com.edgekey.net/appstore/images/idc_rail/as_managing_2x.png" width="24" height="31" alt="Managing Apps on the App Store" data-hires-status="replaced"></a>
+		<h5 style="font-weight:normal; margin-top:11px;"><a href="/appstore/resources/managing/" onclick="s_objectID=&quot;https://developer.apple.com/appstore/resources/managing/_2&quot;;return this.s_oc?this.s_oc(e):true">Managing Apps</a></h5>
+	</li>
+	<li style="padding-top:5px; padding-bottom:0; height:45px;">
+		<a href="/appstore/resources/marketing/" onclick="s_objectID=&quot;https://developer.apple.com/appstore/resources/marketing/_1&quot;;return this.s_oc?this.s_oc(e):true"><img style="float:left; margin-left:0px; margin-top:9px;" src="https://devimages.apple.com.edgekey.net/appstore/images/idc_rail/as_marketing_2x.png" width="24" height="22" alt="Marketing Resources for iOS Developers" data-hires-status="replaced"></a>
+		<h5 style="font-weight:normal; margin-top:10px;"><a href="/appstore/resources/marketing/" onclick="s_objectID=&quot;https://developer.apple.com/appstore/resources/marketing/_2&quot;;return this.s_oc?this.s_oc(e):true">Marketing Resources</a></h5>
+	</li>
+</ul>
+<div class="nav_bottomcap" style="background-color: rgb(242, 242, 242); background-image: url(https://devimages.apple.com.edgekey.net/assets/apps/images/nav_bottomcap_2x.png); background-size: 253px 10px;" data-hires-status="replaced"></div>
+<div class="nav_topcap" style="background-color: rgb(242, 242, 242); background-image: url(https://devimages.apple.com.edgekey.net/assets/apps/images/nav_topcap_2x.png); background-size: 253px 10px;" data-hires-status="replaced"></div>
+<div class="boxheader" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/box_header_bg_2x.png); background-size: 1px 26px;">
+	<a href="/news/" style="text-decoration:none;" onclick="s_objectID=&quot;https://developer.apple.com/news/_1&quot;;return this.s_oc?this.s_oc(e):true"><h2 style="font-size: 13px;">News and Updates</h2></a>
+</div>
+
+
+<ul class="news">
+	<li style="height:5em; padding-right:18px; padding-bottom:10px;">
+		<p>Stay up-to-date with the latest Apple developer news and updates. <a class="more" href="/news/" data-hires-status="replaced" onclick="s_objectID=&quot;https://developer.apple.com/news/_2&quot;;return this.s_oc?this.s_oc(e):true" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/arrows/morearrow_08c_2x.gif); background-size: 4px 7px;"><span>Learn more</span></a></p>
+	</li>
+</ul>	
+</div><!--/column last-->	
+<div class="cap boxbottom" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/sdc_box_grid2colb_bgbottom_2x.png); background-size: 984px 10px;"></div>
+		<div class="cap boxbottom" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/sdc_box_grid2colb_bgbottom_2x.png); background-size: 984px 10px;"></div>
+	</div>
+	
+	
+
+
+<div class="promos-180" id="promofooter4" data-hires="true" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/mac/images/promofooter_top_2x.png); background-size: 984px 17px;">
+	<ul id="promos4" data-hires-status="replaced" style="background-image: url(https://devimages.apple.com.edgekey.net/mac/images/promofooter_bottom_2x.png); background-size: 984px 355px;">
+		<li class="promo">
+			<h3>Apple Pay</h3>
+<p><a href="/apple-pay/" onclick="s_objectID=&quot;https://developer.apple.com/apple-pay/_4&quot;;return this.s_oc?this.s_oc(e):true">Give users an easy, secure, and private way to pay for physical goods and services in your iOS 8 app.</a></p>
+<a href="/apple-pay/" class="image" onclick="s_objectID=&quot;https://developer.apple.com/apple-pay/_5&quot;;return this.s_oc?this.s_oc(e):true"><img data-hires="true" width="244" height="180" alt="" src="/assets/promos/four/apple-pay/image_2x.png" data-hires-status="replaced"></a>
+		
+		</li>		
+		<li class="promo">
+			<h3>Swift Programming Language</h3>
+<p><a href="/swift/" onclick="s_objectID=&quot;https://developer.apple.com/swift/_1&quot;;return this.s_oc?this.s_oc(e):true">Learn about the new programming language for iOS and OS X.</a></p>
+<a href="/swift/" class="image" onclick="s_objectID=&quot;https://developer.apple.com/swift/_2&quot;;return this.s_oc?this.s_oc(e):true"><img width="244" height="180" alt="" src="/assets/promos/four/swift/image_2x.png" data-hires-status="replaced"></a>
+				
+		</li>		
+		<li class="promo">
+			<h3>Apps We Can't Live Without</h3>
+<p><a href="http://www.apple.com/ios/videos/" onclick="s_objectID=&quot;http://www.apple.com/ios/videos/_1&quot;;return this.s_oc?this.s_oc(e):true">Watch how developers have changed the way we all interact, learn, entertain, work, and live.</a></p>
+<a href="http://www.apple.com/ios/videos/" class="image" onclick="s_objectID=&quot;http://www.apple.com/ios/videos/_2&quot;;return this.s_oc?this.s_oc(e):true"><img width="244" height="180" alt="" src="/assets/promos/four/ios-profiles/image_2x.png" data-hires-status="replaced"></a>
+						
+		</li>		
+		<li class="promo">
+			<h3>Promote Your Apps</h3>
+<p><a href="/app-store/marketing/guidelines/" onclick="s_objectID=&quot;https://developer.apple.com/app-store/marketing/guidelines/_1&quot;;return this.s_oc?this.s_oc(e):true">Use the App Store badge and Apple product images to promote your apps on the App Store.</a></p>
+<a href="/app-store/marketing/guidelines/" class="image" onclick="s_objectID=&quot;https://developer.apple.com/app-store/marketing/guidelines/_2&quot;;return this.s_oc?this.s_oc(e):true"><img width="244" height="180" alt="" src="https://devimages.apple.com.edgekey.net/assets/promos/four/app-store-badge/image_2x.png" data-hires-status="replaced"></a>
+						
+		</li>
+	</ul>
+</div>
+
+	
+
+	</div>
+	
+		
+	<div id="globalfooter">
+		<div id="breadory">
+			<ol id="breadcrumbs">
+				<li class="home"><a href="/" onclick="s_objectID=&quot;https://developer.apple.com/_2&quot;;return this.s_oc?this.s_oc(e):true">Developer</a></li>
+				<li>iOS Dev Center</li>
+			</ol>
+				<div id="directorynav" class="ipoditunes">
+		<div id="dn-cola" class="column first">
+			<h3><a href="/technologies/" onclick="s_objectID=&quot;https://developer.apple.com/technologies/_2&quot;;return this.s_oc?this.s_oc(e):true">What's New</a></h3>
+			<ul>			
+				<li><a href="/ios8/" onclick="s_objectID=&quot;https://developer.apple.com/ios8/_3&quot;;return this.s_oc?this.s_oc(e):true">iOS 8</a></li>
+				<li><a href="/osx/whats-new/" onclick="s_objectID=&quot;https://developer.apple.com/osx/whats-new/_1&quot;;return this.s_oc?this.s_oc(e):true">OS X Yosemite</a></li>
+				<li><a href="/swift/" onclick="s_objectID=&quot;https://developer.apple.com/swift/_3&quot;;return this.s_oc?this.s_oc(e):true">Swift</a></li>
+				<li><a href="/xcode/" onclick="s_objectID=&quot;https://developer.apple.com/xcode/_1&quot;;return this.s_oc?this.s_oc(e):true">Xcode 6</a></li>
+			</ul>
+		</div><!--/dn-cola-->
+		<div id="dn-colb" class="column">
+			<h3><a href="/resources/" onclick="s_objectID=&quot;https://developer.apple.com/resources/_2&quot;;return this.s_oc?this.s_oc(e):true">Resources</a></h3>
+			<ul>
+				<li><a href="/devcenter/ios/index.action" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/ios/index.action_2&quot;;return this.s_oc?this.s_oc(e):true">iOS Dev Center</a></li>
+				<li><a href="/devcenter/mac/index.action" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/mac/index.action_2&quot;;return this.s_oc?this.s_oc(e):true">Mac Dev Center</a></li>
+				<li><a href="/devcenter/safari/index.action" onclick="s_objectID=&quot;https://developer.apple.com/devcenter/safari/index.action_2&quot;;return this.s_oc?this.s_oc(e):true">Safari Dev Center</a></li>
+				<li><a href="/app-store/" onclick="s_objectID=&quot;https://developer.apple.com/app-store/_1&quot;;return this.s_oc?this.s_oc(e):true">App Store</a></li>
+				<li><a href="/iad/" onclick="s_objectID=&quot;https://developer.apple.com/iad/_1&quot;;return this.s_oc?this.s_oc(e):true">iAd</a></li>
+				<li><a href="/icloud/" onclick="s_objectID=&quot;https://developer.apple.com/icloud/_4&quot;;return this.s_oc?this.s_oc(e):true">iCloud</a></li>
+			</ul>
+		</div><!--/dn-colb-->
+		<div id="dn-colc" class="column">
+			<h3 class="empty">&nbsp;</h3>
+			<ul>
+				<li><a href="/devforums/" onclick="s_objectID=&quot;https://developer.apple.com/devforums/_1&quot;;return this.s_oc?this.s_oc(e):true">Forums</a></li>
+				<li><a href="/videos/" onclick="s_objectID=&quot;https://developer.apple.com/videos/_7&quot;;return this.s_oc?this.s_oc(e):true">Videos</a></li>
+				<li><a href="/softwarelicensing/" onclick="s_objectID=&quot;https://developer.apple.com/softwarelicensing/_1&quot;;return this.s_oc?this.s_oc(e):true">Licensing and Trademarks</a></li>
+				<li><a href="/hardwaredrivers/" onclick="s_objectID=&quot;https://developer.apple.com/hardwaredrivers/_1&quot;;return this.s_oc?this.s_oc(e):true">Hardware and Drivers</a></li>
+				<li><a href="/resources/cases/" onclick="s_objectID=&quot;https://developer.apple.com/resources/cases/_1&quot;;return this.s_oc?this.s_oc(e):true">iPod, iPhone, and iPad Cases</a></li>
+				<li><a href="/opensource/" onclick="s_objectID=&quot;https://developer.apple.com/opensource/_1&quot;;return this.s_oc?this.s_oc(e):true">Open Source</a></li>
+			</ul>
+		</div><!--/dn-colc-->
+		<div id="dn-cold" class="column">
+			<h3><a href="/programs/" onclick="s_objectID=&quot;https://developer.apple.com/programs/_2&quot;;return this.s_oc?this.s_oc(e):true">Programs</a></h3>
+			<ul>
+				<li><a href="/programs/ios/" onclick="s_objectID=&quot;https://developer.apple.com/programs/ios/_2&quot;;return this.s_oc?this.s_oc(e):true">iOS Developer Program</a></li>
+				<li><a href="/programs/ios/enterprise/" onclick="s_objectID=&quot;https://developer.apple.com/programs/ios/enterprise/_1&quot;;return this.s_oc?this.s_oc(e):true">iOS Developer Enterprise Program</a></li>
+				<li><a href="/programs/ios/university/" onclick="s_objectID=&quot;https://developer.apple.com/programs/ios/university/_1&quot;;return this.s_oc?this.s_oc(e):true">iOS Developer University Program</a></li>
+				<li><a href="/programs/mac/" onclick="s_objectID=&quot;https://developer.apple.com/programs/mac/_1&quot;;return this.s_oc?this.s_oc(e):true">Mac Developer Program</a></li>
+				<li><a href="/programs/safari/" onclick="s_objectID=&quot;https://developer.apple.com/programs/safari/_1&quot;;return this.s_oc?this.s_oc(e):true">Safari Developer Program</a></li>				
+				<li><a href="/programs/mfi/" onclick="s_objectID=&quot;https://developer.apple.com/programs/mfi/_1&quot;;return this.s_oc?this.s_oc(e):true">MFi Program</a></li>
+			</ul>
+		</div><!--/dn-cold-->
+		<div id="dn-cole" class="column last">
+			<h3><a href="/support/" onclick="s_objectID=&quot;https://developer.apple.com/support/_2&quot;;return this.s_oc?this.s_oc(e):true">Support</a></h3>
+			<ul>
+				<li><a href="/support/ios/" onclick="s_objectID=&quot;https://developer.apple.com/support/ios/_2&quot;;return this.s_oc?this.s_oc(e):true">iOS Developer Program</a></li>
+				<li><a href="/support/mac/" onclick="s_objectID=&quot;https://developer.apple.com/support/mac/_1&quot;;return this.s_oc?this.s_oc(e):true">Mac Developer Program</a></li>
+				<li><a href="/support/safari/" onclick="s_objectID=&quot;https://developer.apple.com/support/safari/_1&quot;;return this.s_oc?this.s_oc(e):true">Safari Developer Program</a></li>
+				<li><a href="/support/appstore/" onclick="s_objectID=&quot;https://developer.apple.com/support/appstore/_1&quot;;return this.s_oc?this.s_oc(e):true">App Store</a></li>
+				<li><a href="/support/resources/itunes-connect.html" onclick="s_objectID=&quot;https://developer.apple.com/support/resources/itunes-connect.html_1&quot;;return this.s_oc?this.s_oc(e):true">iTunes Connect</a></li>
+				<li><a href="/support/technical/" onclick="s_objectID=&quot;https://developer.apple.com/support/technical/_1&quot;;return this.s_oc?this.s_oc(e):true">Technical Support</a></li>
+			</ul>
+		</div><!--/dn-cole-->
+		<div class="capbottom"></div>
+	</div><!--/directorynav-->
+			<div id="top">
+<!-- SiteCatalyst code version: H.8. Copyright 1997-2006 Omniture, Inc. -->
+<script type="text/javascript">
+/* RSID: */
+var s_account="appleglobal,appleusdeveloper"
+</script>
+
+<script type="text/javascript" src="https://www.apple.com/metrics/scripts/s_code_h.js"></script>
+<script type="text/javascript">
+s.pageName=AC.Tracking.pageName();
+s.channel="www.us.developer"
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+var s_code=s.t();if(s_code)document.write(s_code)</script>
+<!-- End SiteCatalyst code version: H.8. -->
+</div>			
+		</div><!--/breadory-->
+	
+	
+
+
+
+	<p class="gf-buy">Shop the <a href="http://www.apple.com/store/" onclick="s_objectID=&quot;http://www.apple.com/store/_1&quot;;return this.s_oc?this.s_oc(e):true">Apple Online Store</a> (1-800-MY-APPLE), visit an <a href="http://www.apple.com/retail/" onclick="s_objectID=&quot;http://www.apple.com/retail/_1&quot;;return this.s_oc?this.s_oc(e):true">Apple Retail Store</a>, or find a <a href="http://www.apple.com/buy/locator/" onclick="s_objectID=&quot;http://www.apple.com/buy/locator/_1&quot;;return this.s_oc?this.s_oc(e):true">reseller</a>.</p>	
+	<ul class="gf-links piped">
+		<li><a href="/news/" class="first" onclick="s_objectID=&quot;https://developer.apple.com/news/_3&quot;;return this.s_oc?this.s_oc(e):true">News</a></li>
+		<li><a href="/register/" onclick="s_objectID=&quot;https://developer.apple.com/register/_1&quot;;return this.s_oc?this.s_oc(e):true">Register</a></li>
+		<li><a href="/bugreporter/" onclick="s_objectID=&quot;https://developer.apple.com/bugreporter/_1&quot;;return this.s_oc?this.s_oc(e):true">Report Bugs</a></li>
+		<li><a href="/contact/" onclick="s_objectID=&quot;https://developer.apple.com/contact/_1&quot;;return this.s_oc?this.s_oc(e):true">Contact Us</a></li>
+	</ul>	
+	<div class="gf-sosumi">
+		<p>Copyright © 2015 Apple Inc. All rights reserved.</p>
+		<ul class="piped">
+			<li><a href="http://www.apple.com/legal/terms/site.html" onclick="s_objectID=&quot;http://www.apple.com/legal/terms/site.html_1&quot;;return this.s_oc?this.s_oc(e):true">Terms of Use</a></li>
+			<li><a href="http://www.apple.com/legal/privacy/" onclick="s_objectID=&quot;http://www.apple.com/legal/privacy/_1&quot;;return this.s_oc?this.s_oc(e):true">Privacy Policy</a></li>
+		</ul>
+	</div>
+	<div id="localization-links">
+		<ul>
+			<li style="padding-left:10px;"><a href="/cn/" title="Simplified Chinese" onclick="s_objectID=&quot;https://developer.apple.com/cn/_1&quot;;return this.s_oc?this.s_oc(e):true">简体中文</a></li>
+			<li style="padding-left:10px;"><a href="/jp/" title="Japanese" onclick="s_objectID=&quot;https://developer.apple.com/jp/_1&quot;;return this.s_oc?this.s_oc(e):true">日本語</a></li>
+			<li style="padding-left:10px;"><a href="/kr/" title="Korean" onclick="s_objectID=&quot;https://developer.apple.com/kr/_1&quot;;return this.s_oc?this.s_oc(e):true">한국어</a></li>
+		</ul>
+	</div>
+</div><!--/globalfooter-->
+
+
+</body></html>

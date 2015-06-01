@@ -92,6 +92,11 @@ module XcodeInstall
       result ? CACHE_DIR + dmg_file : nil
     end
 
+    def download_beta(beta)
+      result = Curl.new.fetch(beta.url, CACHE_DIR, devcenter.cookies, beta.file_name)
+      result ? CACHE_DIR + beta.file_name : nil
+    end
+
     def exist?(version)
       list_versions.include?(version)
     end
@@ -141,6 +146,10 @@ module XcodeInstall
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean)
+    end
+
+    def list_ios_betas
+      ios_betas
     end
 
     def list_current
@@ -232,6 +241,13 @@ module XcodeInstall
       links.map { |pre| Xcode.new_prelease(pre.text.strip.gsub(/.*Xcode /, ''), pre['href']) }
     end
 
+    def ios_betas
+      page = Nokogiri::HTML.parse(devcenter.download_file('/devcenter/ios/index.action'))
+      links = page.xpath('//a').select { |link| link['href'] && link['href'].end_with?('.zip') }
+
+      links.select { |link| link['href'] =~ %r{path=/iOS/} }.map { |link| Beta.new(link) }
+    end
+
     def seedlist
       @xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
       xcodes || fetch_seedlist
@@ -239,6 +255,24 @@ module XcodeInstall
 
     def xcode_license_approved?
       !(`/usr/bin/xcrun clang 2>&1` =~ /license/ && !$CHILD_STATUS.success?)
+    end
+  end
+
+  class Beta
+    attr_reader :device
+    attr_reader :url
+
+    def initialize(a_tag)
+      @device = a_tag.children.text
+      @url = "https://developer.apple.com#{a_tag['href']}"
+    end
+
+    def file_name
+      Pathname.new(File.basename(url))
+    end
+
+    def version
+      File.basename(File.dirname(url)).gsub('_', ' ').sub('iOS ', '')
     end
   end
 

@@ -16,6 +16,7 @@ module XcodeInstall
     require 'xcode/install/cleanup'
     require 'xcode/install/install'
     require 'xcode/install/installed'
+    require 'xcode/install/ios'
     require 'xcode/install/list'
     require 'xcode/install/uninstall'
     require 'xcode/install/update'
