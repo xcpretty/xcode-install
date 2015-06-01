@@ -5,6 +5,18 @@ require 'rubygems/version'
 require 'xcode/install/command'
 require 'xcode/install/version'
 
+module CredentialsManager
+  class PasswordManager
+    alias_method :old_ask_for_login, :ask_for_login
+
+    def ask_for_login
+      puts "\nXcodeInstall needs your developer AppleID credentials to access the DevCenter."
+
+      old_ask_for_login
+    end
+  end
+end
+
 module FastlaneCore
   class DeveloperCenter
     def cookies
