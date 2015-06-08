@@ -144,7 +144,8 @@ module XcodeInstall
     end
 
     def list_current
-      majors = list_versions.map { |v| v.split('.')[0] }.select { |v| v.length == 1 }.uniq
+      majors = list_versions.map { |v| v.split('.')[0] }.map { |v| v.split(' ')[0] }
+      majors = majors.select { |v| v.length == 1 }.uniq
       list_versions.select { |v| v.start_with?(majors.last) }.join("\n")
     end
 

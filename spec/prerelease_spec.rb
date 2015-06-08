@@ -39,5 +39,12 @@ module XcodeInstall
       prereleases.first.should == Xcode.new_prelease('6.3.2 GM seed', '/Developer_Tools/Xcode_6.3.2_GM_seed/Xcode_6.3.2_GM_seed.dmg')
       prereleases.last.should == Xcode.new_prelease('6.4 beta 2', '/Developer_Tools/Xcode_6.4_beta_2/Xcode_6.4_beta_2.dmg')
     end
+
+    it 'can parse prereleases from 20150608' do
+      prereleases = parse_prereleases('20150608')
+
+      prereleases.count.should == 2
+      puts prereleases
+    end
   end
 end
