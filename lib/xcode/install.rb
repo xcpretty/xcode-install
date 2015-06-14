@@ -144,9 +144,9 @@ module XcodeInstall
     end
 
     def list_current
-      majors = list_versions.map { |v| v.split('.')[0] }.map { |v| v.split(' ')[0] }
-      majors = majors.select { |v| v.length == 1 }.uniq
-      list_versions.select { |v| v.start_with?(majors.last) }.join("\n")
+      stable_majors = list_versions.reject { |v| /beta/i =~ v }.map { |v| v.split('.')[0] }.map { |v| v.split(' ')[0] }
+      latest_stable_major = stable_majors.select { |v| v.length == 1 }.uniq.sort.last.to_i
+      list_versions.select { |v| v.split('.')[0].to_i >= latest_stable_major }.sort.join("\n")
     end
 
     def list
