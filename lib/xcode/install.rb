@@ -1,3 +1,5 @@
+require 'fileutils'
+require 'pathname'
 require 'spaceship'
 require 'nokogiri'
 require 'rubygems/version'
