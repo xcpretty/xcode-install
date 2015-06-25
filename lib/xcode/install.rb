@@ -1,49 +1,10 @@
-require 'fastlane_core'
-require 'fastlane_core/developer_center/developer_center'
+require 'fileutils'
+require 'pathname'
+require 'spaceship'
 require 'nokogiri'
 require 'rubygems/version'
 require 'xcode/install/command'
 require 'xcode/install/version'
-
-module CredentialsManager
-  class PasswordManager
-    alias_method :old_ask_for_login, :ask_for_login
-
-    def ask_for_login
-      puts "\nXcodeInstall needs your developer AppleID credentials to access the DevCenter."
-
-      old_ask_for_login
-    end
-  end
-end
-
-module FastlaneCore
-  class DeveloperCenter
-    def cookies
-      cookie_string = ''
-
-      page.driver.cookies.each do |_key, cookie|
-        cookie_string << "#{cookie.name}=#{cookie.value};"
-      end
-
-      cookie_string
-    end
-
-    def download_seedlist
-      JSON.parse(page.evaluate_script("$.ajax({data: { start: \"0\", limit: \"1000\", " \
-        "sort: \"dateModified\", dir: \"DESC\", searchTextField: \"\", " \
-        "searchCategories: \"\", search: \"false\" } , type: 'GET', " \
-        "url: '/services-account/QH65B2/downloadws/listDownloads.action', " \
-        'async: false})')['responseText'])
-    end
-  end
-
-  module Helper
-    def self.is_test?
-      true
-    end
-  end
-end
 
 module XcodeInstall
   class Curl
@@ -88,7 +49,7 @@ module XcodeInstall
       xcode = seedlist.find { |x| x.name == version }
       dmg_file = Pathname.new(File.basename(xcode.path))
 
-      result = Curl.new.fetch(xcode.url, CACHE_DIR, devcenter.cookies, dmg_file)
+      result = Curl.new.fetch(xcode.url, CACHE_DIR, spaceship.cookie, dmg_file)
       result ? CACHE_DIR + dmg_file : nil
     end
 
@@ -169,14 +130,20 @@ module XcodeInstall
 
     private
 
+    def spaceship
+      @spaceship ||= begin
+        Spaceship.login(ENV["XCODE_INSTALL_USER"], ENV["XCODE_INSTALL_PASSWORD"])
+        if ENV.key?("XCODE_INSTALL_TEAM_ID")
+          Spaceship.client.team_id = ENV["XCODE_INSTALL_TEAM_ID"]
+        end
+        Spaceship.client
+      end
+    end
+
     CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
     LIST_FILE = CACHE_DIR + Pathname.new('xcodes.bin')
     MINIMUM_VERSION = Gem::Version.new('4.3')
     SYMLINK_PATH = Pathname.new('/Applications/Xcode.app')
-
-    def devcenter
-      @devcenter ||= FastlaneCore::DeveloperCenter.new
-    end
 
     def enable_developer_mode
       `sudo /usr/sbin/DevToolsSecurity -enable`
@@ -193,7 +160,15 @@ module XcodeInstall
     end
 
     def fetch_seedlist
-      @xcodes = parse_seedlist(devcenter.download_seedlist)
+      @xcodes = parse_seedlist(spaceship.send(:request, :get, '/services-account/QH65B2/downloadws/listDownloads.action', {
+        start: "0",
+        limit: "1000",
+        sort: "dateModified",
+        dir: "DESC",
+        searchTextField: "",
+        searchCategories: "",
+        search: "false",
+      }).body)
 
       names = @xcodes.map(&:name)
       @xcodes += prereleases.reject { |pre| names.include?(pre.name) }
@@ -227,7 +202,7 @@ module XcodeInstall
     end
 
     def prereleases
-      page = Nokogiri::HTML.parse(devcenter.download_file('/xcode/downloads/'))
+      page = Nokogiri::HTML.parse(spaceship.send(:request, :get, '/xcode/downloads/').body)
       links = page.xpath('//a').select { |link| link['href'].end_with?('.dmg') }
 
       links.map { |pre| Xcode.new_prelease(pre.text.strip.gsub(/.*Xcode /, ''), pre['href']) }

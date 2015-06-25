@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'claide', '~> 0.8.1'
+  spec.add_dependency 'spaceship', '0.0.11'
   spec.add_dependency 'fastlane_core', '~> 0.5.0'
   spec.add_dependency 'nokogiri', '~> 1.3'
 
