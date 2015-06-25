@@ -18,6 +18,12 @@ module XcodeInstall
       devcenter = mock
       devcenter.stubs(:download_file).returns(nil)
       Installer.any_instance.stubs(:devcenter).returns(devcenter)
+
+      result = mock
+      result.stubs(:body).returns(nil)
+      client = mock
+      client.stubs(:request).returns(result)
+      Spaceship::Client.stubs(:login).returns(client)
     end
 
     it 'can parse prereleases from 20150414' do
