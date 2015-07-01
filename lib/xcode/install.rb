@@ -96,12 +96,12 @@ module XcodeInstall
       FileUtils.rm_f(dmgPath) if clean
     end
 
-    def install_version(version, switch = true, clean = true)
+    def install_version(version, switch = true, clean = true, install = true)
       return if version.nil?
       dmg_path = get_dmg(version)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
-      install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean)
+      install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
     end
 
     def list_current
