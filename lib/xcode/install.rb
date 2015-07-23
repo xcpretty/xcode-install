@@ -202,7 +202,7 @@ module XcodeInstall
 
     def prereleases
       body=spaceship.send(:request, :get, '/xcode/downloads/').body
-      links=body.scan(/<a.+?href="(.+?).dmg".*>(.*)<\/a>/)
+      links=body.scan(/<a.+?href="(.+?.dmg)".*>(.*)<\/a>/)
 
       links.map { |pre| Xcode.new_prelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0]) }
     end
