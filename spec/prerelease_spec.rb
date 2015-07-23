@@ -3,12 +3,12 @@ require File.expand_path('../spec_helper', __FILE__)
 module XcodeInstall
   describe Installer do
     def fixture(date)
-      Nokogiri::HTML.parse(File.read("spec/fixtures/devcenter/xcode-#{date}.html"))
+      File.read("spec/fixtures/devcenter/xcode-#{date}.html")
     end
 
     def parse_prereleases(date)
       fixture = fixture(date)
-      Nokogiri::HTML.stubs(:parse).returns(fixture)
+      @result.stubs(:body).returns(fixture)
 
       installer = Installer.new
       installer.send(:prereleases)
@@ -19,10 +19,10 @@ module XcodeInstall
       devcenter.stubs(:download_file).returns(nil)
       Installer.any_instance.stubs(:devcenter).returns(devcenter)
 
-      result = mock
-      result.stubs(:body).returns(nil)
+      @result = mock
+      @result.stubs(:body).returns(nil)
       client = mock
-      client.stubs(:request).returns(result)
+      client.stubs(:request).returns(@result)
       Spaceship::Client.stubs(:login).returns(client)
     end
 
