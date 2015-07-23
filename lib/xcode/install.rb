@@ -1,7 +1,6 @@
 require 'fileutils'
 require 'pathname'
 require 'spaceship'
-require 'nokogiri'
 require 'rubygems/version'
 require 'xcode/install/command'
 require 'xcode/install/version'
@@ -202,10 +201,10 @@ module XcodeInstall
     end
 
     def prereleases
-      page = Nokogiri::HTML.parse(spaceship.send(:request, :get, '/xcode/downloads/').body)
-      links = page.xpath('//a').select { |link| link['href'].end_with?('.dmg') }
+      body=spaceship.send(:request, :get, '/xcode/downloads/').body
+      links=body.scan(/<a.+?href="(.+?).dmg".*>(.*)<\/a>/)
 
-      links.map { |pre| Xcode.new_prelease(pre.text.strip.gsub(/.*Xcode /, ''), pre['href']) }
+      links.map { |pre| Xcode.new_prelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0]) }
     end
 
     def seedlist
