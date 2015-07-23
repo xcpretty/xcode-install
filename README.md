@@ -52,10 +52,6 @@ This will download and install that version of Xcode. It will also be automatica
 
 ## Limitations
 
-Because some dependencies uses C extensions, a working Xcode is required to actually install this gem (see [#17](../../issues/17)).
-
-![](http://i.giphy.com/aImJnc9F8Omzu.gif)
-
 Unfortunately, the installation size of Xcodes downloaded will be bigger than when downloading via the Mac App Store, see [#10](/../../issues/10) and feel free to dupe the radar. 📡
 
 ## Thanks
