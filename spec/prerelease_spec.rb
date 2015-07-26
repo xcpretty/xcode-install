@@ -23,7 +23,7 @@ module XcodeInstall
       @result.stubs(:body).returns(nil)
       client = mock
       client.stubs(:request).returns(@result)
-      Spaceship::Client.stubs(:login).returns(client)
+      Spaceship::PortalClient.stubs(:login).returns(client)
     end
 
     it 'can parse prereleases from 20150414' do
