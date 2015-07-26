@@ -11,9 +11,11 @@ module XcodeInstall
       def initialize(argv)
         @installer = Installer.new
         @version = argv.shift_argument
+        super
       end
 
       def validate!
+        super
         fail Informative, "Version #{@version} is not installed." unless @installer.installed?(@version)
       end
 

@@ -24,6 +24,8 @@ module XcodeInstall
       end
 
       def validate!
+        super
+
         return if @version.nil?
         fail Informative, "Version #{@version} already installed." if @installer.installed?(@version)
         fail Informative, "Version #{@version} doesn't exist." unless @installer.exist?(@version)
