@@ -63,6 +63,10 @@ XcodeInstall automatically installs additional components so that it is immediat
 commandline. Unfortunately, Xcode will load third-party plugins even in that situation, which leads
 to a dialog popping up. Feel free to dupe [the radar][5]. 📡
 
+XcodeInstall uses the Spotlight index to locate installed versions of Xcode. If you use it while
+indexing is happening, it might show inaccurate results and it will not be able to see installed
+versions on unindexed volumes.
+
 ## Thanks
 
 [This][3] downloading script which has been used for some inspiration, also [this][4]
