@@ -59,6 +59,10 @@ This will download and install that version of Xcode. It will also be automatica
 
 Unfortunately, the installation size of Xcodes downloaded will be bigger than when downloading via the Mac App Store, see [#10](/../../issues/10) and feel free to dupe the radar. 📡
 
+XcodeInstall automatically installs additional components so that it is immediately usable from the
+commandline. Unfortunately, Xcode will load third-party plugins even in that situation, which leads
+to a dialog popping up. Feel free to dupe [the radar][5]. 📡
+
 ## Thanks
 
 [This][3] downloading script which has been used for some inspiration, also [this][4]
@@ -77,3 +81,4 @@ for doing the installation.
 [2]: http://fastlane.tools
 [3]: http://atastypixel.com/blog/resuming-adc-downloads-cos-safari-sucks/
 [4]: https://github.com/magneticbear/Jenkins_Bootstrap
+[5]: http://www.openradar.me/22001810

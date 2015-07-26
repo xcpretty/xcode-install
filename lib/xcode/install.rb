@@ -56,6 +56,10 @@ module XcodeInstall
       list_versions.include?(version)
     end
 
+    def install_components(xcode_path)
+      `#{xcode_path}/Contents/MacOS/Xcode -installComponents`
+    end
+
     def installed?(version)
       installed_versions.map(&:version).include?(version)
     end
@@ -87,6 +91,7 @@ HELP
 
       enable_developer_mode
       `sudo xcodebuild -license` unless xcode_license_approved?
+      install_components(xcode_path)
 
       if switch
         `sudo rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
