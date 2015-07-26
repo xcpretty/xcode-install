@@ -74,7 +74,11 @@ module XcodeInstall
       source =  Dir.glob('/Volumes/Xcode/Xcode*.app').first
 
       if source.nil?
-        puts 'No `Xcode.app` found in DMG.'
+        $stderr.puts <<-HELP
+No `Xcode.app` found in DMG. Please remove #{dmgPath} if you suspect a corrupted
+download or run `xcode-install update` to see if the version you tried to install
+has been pulled by Apple. If none of this is true, please open a new GH issue.
+HELP
         return
       end
 
