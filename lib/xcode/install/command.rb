@@ -8,7 +8,7 @@ module XcodeInstall
 
   class Informative < PlainInformative
     def message
-      "[!] #{super}".red
+      "[!] #{super}".ansi.red
     end
   end
 
