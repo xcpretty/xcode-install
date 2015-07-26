@@ -70,7 +70,8 @@ versions on unindexed volumes.
 ## Thanks
 
 [This][3] downloading script which has been used for some inspiration, also [this][4]
-for doing the installation.
+for doing the installation. Additionally, many thanks to everyone who has contributed to this
+project, especially [@henrikhodne][6] and [@lacostej][7] for making XcodeInstall C extension free.
 
 ## Contributing
 
@@ -86,3 +87,5 @@ for doing the installation.
 [3]: http://atastypixel.com/blog/resuming-adc-downloads-cos-safari-sucks/
 [4]: https://github.com/magneticbear/Jenkins_Bootstrap
 [5]: http://www.openradar.me/22001810
+[6]: https://github.com/henrikhodne
+[7]: https://github.com/lacostej
