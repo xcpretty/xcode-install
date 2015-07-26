@@ -131,7 +131,16 @@ module XcodeInstall
 
     def spaceship
       @spaceship ||= begin
-        Spaceship.login(ENV["XCODE_INSTALL_USER"], ENV["XCODE_INSTALL_PASSWORD"])
+        begin
+          Spaceship.login(ENV["XCODE_INSTALL_USER"], ENV["XCODE_INSTALL_PASSWORD"])
+        rescue Spaceship::Client::InvalidUserCredentialsError
+          $stderr.puts <<-HELP
+Please provide your Apple developer account credentials via the
+XCODE_INSTALL_USER and XCODE_INSTALL_PASSWORD environment variables.
+HELP
+          exit(1)
+        end
+
         if ENV.key?("XCODE_INSTALL_TEAM_ID")
           Spaceship.client.team_id = ENV["XCODE_INSTALL_TEAM_ID"]
         end
