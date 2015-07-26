@@ -20,8 +20,13 @@ $ gem install xcode-install
 
 ## Usage
 
-XcodeInstall will ask for your credentials to access the Apple Developer Center, they are stored
-using the [CredentialsManager][1] of [Fastlane][2].
+XcodeInstall needs environment variables with your credentials to access the Apple Developer
+Center, they are stored using the [CredentialsManager][1] of [Fastlane][2]:
+
+```
+XCODE_INSTALL_USER
+XCODE_INSTALL_PASSWORD
+```
 
 To list available versions:
 
@@ -68,7 +73,7 @@ for doing the installation.
 5. Create a new Pull Request
 
 
-[1]: https://github.com/KrauseFx/CredentialsManager
+[1]: https://github.com/fastlane/credentials_manager#using-environment-variables
 [2]: http://fastlane.tools
 [3]: http://atastypixel.com/blog/resuming-adc-downloads-cos-safari-sucks/
 [4]: https://github.com/magneticbear/Jenkins_Bootstrap
