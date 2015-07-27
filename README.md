@@ -21,7 +21,7 @@ $ gem install xcode-install
 ## Usage
 
 XcodeInstall needs environment variables with your credentials to access the Apple Developer
-Center, they are stored using the [CredentialsManager][1] of [Fastlane][2]:
+Center, they are stored using the [CredentialsManager][1] of [fastlane][2]:
 
 ```
 XCODE_INSTALL_USER
