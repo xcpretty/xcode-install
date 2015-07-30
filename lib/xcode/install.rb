@@ -9,7 +9,7 @@ module XcodeInstall
   class Curl
     COOKIES_PATH = Pathname.new('/tmp/curl-cookies.txt')
 
-    def fetch(url, directory = nil, cookies = nil, output = nil)
+    def fetch(url, directory = nil, cookies = nil, output = nil, progress = true)
       options = cookies.nil? ? '' : "-b '#{cookies}' -c #{COOKIES_PATH}"
       # options += ' -vvv'
 
@@ -17,7 +17,8 @@ module XcodeInstall
       output ||= File.basename(uri.path)
       output = (Pathname.new(directory) + Pathname.new(output)) if directory
 
-      command = "curl #{options} -L -C - -# -o #{output} #{url}"
+      progress = progress ? '-#' : '-s'
+      command = "curl #{options} -L -C - #{progress} -o #{output} #{url}"
       IO.popen(command).each do |fd|
         puts(fd)
       end
@@ -43,12 +44,12 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
-    def download(version)
+    def download(version, progress)
       return unless exist?(version)
       xcode = seedlist.find { |x| x.name == version }
       dmg_file = Pathname.new(File.basename(xcode.path))
 
-      result = Curl.new.fetch(xcode.url, CACHE_DIR, spaceship.cookie, dmg_file)
+      result = Curl.new.fetch(xcode.url, CACHE_DIR, spaceship.cookie, dmg_file, progress)
       result ? CACHE_DIR + dmg_file : nil
     end
 
@@ -104,9 +105,9 @@ HELP
       FileUtils.rm_f(dmgPath) if clean
     end
 
-    def install_version(version, switch = true, clean = true, install = true)
+    def install_version(version, switch = true, clean = true, install = true, progress = true)
       return if version.nil?
-      dmg_path = get_dmg(version)
+      dmg_path = get_dmg(version, progress)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
@@ -167,13 +168,13 @@ HELP
       `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
     end
 
-    def get_dmg(version)
+    def get_dmg(version, progress = true)
       if ENV.key?('XCODE_INSTALL_CACHE_DIR')
         cache_path = Pathname.new(ENV['XCODE_INSTALL_CACHE_DIR']) + Pathname.new("xcode-#{version}.dmg")
         return cache_path if cache_path.exist?
       end
 
-      download(version)
+      download(version, progress)
     end
 
     def fetch_seedlist

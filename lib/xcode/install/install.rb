@@ -11,6 +11,7 @@ module XcodeInstall
       def self.options
         [['--no-switch', 'Don’t switch to this version after installation'],
          ['--no-install', 'Only download DMG, but do not install it.'],
+         ['--no-progress', 'Don’t show download progress.'],
          ['--no-clean', 'Don’t delete DMG after installation.']].concat(super)
       end
 
@@ -20,6 +21,7 @@ module XcodeInstall
         @should_clean = argv.flag?('clean', true)
         @should_install = argv.flag?('install', true)
         @should_switch = argv.flag?('switch', true)
+        @progress = argv.flag?('progress', true)
         super
       end
 
@@ -33,7 +35,7 @@ module XcodeInstall
 
       def run
         return if @version.nil?
-        @installer.install_version(@version, @should_switch, @should_clean, @should_install)
+        @installer.install_version(@version, @should_switch, @should_clean, @should_install, @progress)
       end
     end
   end
