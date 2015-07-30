@@ -144,6 +144,9 @@ HELP
         begin
           Spaceship.login(ENV["XCODE_INSTALL_USER"], ENV["XCODE_INSTALL_PASSWORD"])
         rescue Spaceship::Client::InvalidUserCredentialsError
+          $stderr.puts 'The specified Apple developer account credentials are incorrect.'
+          exit(1)
+        rescue Spaceship::Client::NoUserCredentialsError
           $stderr.puts <<-HELP
 Please provide your Apple developer account credentials via the
 XCODE_INSTALL_USER and XCODE_INSTALL_PASSWORD environment variables.
