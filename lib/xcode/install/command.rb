@@ -18,6 +18,7 @@ module XcodeInstall
     require 'xcode/install/installed'
     require 'xcode/install/list'
     require 'xcode/install/select'
+    require 'xcode/install/selected'
     require 'xcode/install/uninstall'
     require 'xcode/install/update'
 
