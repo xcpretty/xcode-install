@@ -258,6 +258,7 @@ HELP
 
     def get_version(xcode_path)
       output = `DEVELOPER_DIR='' "#{xcode_path}/Contents/Developer/usr/bin/xcodebuild" -version`
+      return '0.0' if output.nil? # ¯\_(ツ)_/¯
       output.split("\n").first.split(' ')[1]
     end
   end
