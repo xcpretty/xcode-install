@@ -229,7 +229,7 @@ HELP
     end
 
     def prereleases
-      body=spaceship.send(:request, :get, '/xcode/downloads/').body
+      body=spaceship.send(:request, :get, '/xcode/download/').body
       links=body.scan(/<a.+?href="(.+?.dmg)".*>(.*)<\/a>/)
 
       links.map { |pre| Xcode.new_prelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0]) }
