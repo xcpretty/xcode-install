@@ -55,6 +55,16 @@ Build version 6D570
 
 This will download and install that version of Xcode. It will also be automatically selected.
 
+Note: GMs and beta versions usually have special names, e.g.
+
+```bash
+$ xcode-install list
+7 GM seed
+7.1 beta
+```
+
+they have to be installed using the full name, e.g. `xcode-install install '7 GM seed'`.
+
 ## Limitations
 
 Unfortunately, the installation size of Xcodes downloaded will be bigger than when downloading via the Mac App Store, see [#10](/../../issues/10) and feel free to dupe the radar. 📡
