@@ -90,6 +90,10 @@ HELP
       `sudo ditto "#{source}" "#{xcode_path}"`
       `umount "/Volumes/Xcode"`
 
+      if not verify_integrity(xcode_path)
+        `sudo rm -f #{xcode_path}`
+      end
+
       enable_developer_mode
       `sudo xcodebuild -license` unless xcode_license_approved?
       install_components(xcode_path) if components
@@ -238,6 +242,11 @@ HELP
     def seedlist
       @xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
       xcodes || fetch_seedlist
+    end
+
+    def verify_integrity(path)
+      puts `codesign --verify --verbose #{path}`
+      $?.exitstatus == 0
     end
 
     def xcode_license_approved?
