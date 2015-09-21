@@ -92,6 +92,7 @@ HELP
 
       if not verify_integrity(xcode_path)
         `sudo rm -f #{xcode_path}`
+        return
       end
 
       enable_developer_mode
