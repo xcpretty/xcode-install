@@ -246,7 +246,7 @@ HELP
     end
 
     def verify_integrity(path)
-      puts `codesign --verify --verbose #{path}`
+      puts `codesign --verify --deep --verbose #{path}`
       $?.exitstatus == 0
     end
 
