@@ -96,7 +96,7 @@ HELP
       end
 
       enable_developer_mode
-      `sudo xcodebuild -license` unless xcode_license_approved?
+      `sudo xcodebuild -license accept` unless xcode_license_approved?
       install_components(xcode_path) if components
 
       if switch
