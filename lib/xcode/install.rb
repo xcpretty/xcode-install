@@ -246,7 +246,7 @@ HELP
     end
 
     def verify_integrity(path)
-      puts `codesign --verify --deep --verbose #{path}`
+      puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{path}`
       $?.exitstatus == 0
     end
 
