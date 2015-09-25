@@ -57,10 +57,6 @@ module XcodeInstall
       list_versions.include?(version)
     end
 
-    def install_components(xcode_path)
-      `#{xcode_path}/Contents/MacOS/Xcode -installComponents`
-    end
-
     def installed?(version)
       installed_versions.map(&:version).include?(version)
     end
@@ -71,7 +67,7 @@ module XcodeInstall
       end
     end
 
-    def install_dmg(dmgPath, suffix = '', switch = true, clean = true, components = true)
+    def install_dmg(dmgPath, suffix = '', switch = true, clean = true)
       xcode_path = "/Applications/Xcode#{suffix}.app"
 
       `hdiutil mount -nobrowse -noverify #{dmgPath}`
@@ -97,7 +93,6 @@ HELP
 
       enable_developer_mode
       `sudo xcodebuild -license accept` unless xcode_license_approved?
-      install_components(xcode_path) if components
 
       if switch
         `sudo rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
@@ -110,13 +105,12 @@ HELP
       FileUtils.rm_f(dmgPath) if clean
     end
 
-    def install_version(version, switch = true, clean = true, install = true, progress = true,
-          components = true)
+    def install_version(version, switch = true, clean = true, install = true, progress = true)
       return if version.nil?
       dmg_path = get_dmg(version, progress)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
-      install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean, components) if install
+      install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
     end
 
     def list_current

@@ -12,26 +12,20 @@ module XcodeInstall
 
     it 'downloads and installs' do
       Installer.any_instance.expects(:download).with('6.3', true).returns('/some/path')
-      Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true, true)
+      Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true)
       Command::Install.run(['6.3'])
     end
 
     it 'downloads and installs and does not switch if --no-switch given' do
       Installer.any_instance.expects(:download).with('6.3', true).returns('/some/path')
-      Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', false, true, true)
+      Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', false, true)
       Command::Install.run(['6.3', '--no-switch'])
     end
 
     it 'downloads without progress if switch --no-progress is given' do
       Installer.any_instance.expects(:download).with('6.3', false).returns('/some/path')
-      Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true, true)
+      Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true)
       Command::Install.run(['6.3', '--no-progress'])
-    end
-
-    it 'does not install components if switch --no-components is given' do
-      Installer.any_instance.expects(:download).with('6.3', true).returns('/some/path')
-      Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true, false)
-      Command::Install.run(['6.3', '--no-components'])
     end
   end
 end
