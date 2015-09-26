@@ -110,7 +110,11 @@ HELP
       dmg_path = get_dmg(version, progress)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
-      install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
+      if install
+        install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean)
+      else
+        puts "Downloaded Xcode #{version} to #{dmg_path}"
+      end
 
       open_release_notes_url(version)
     end
