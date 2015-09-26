@@ -44,12 +44,12 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
-    def download(version, progress)
-      return unless exist?(version)
+    def download(version, progress, url)
+      return unless exist?(version) || url
       xcode = seedlist.find { |x| x.name == version }
-      dmg_file = Pathname.new(File.basename(xcode.path))
+      dmg_file = Pathname.new(File.basename(url || xcode.path))
 
-      result = Curl.new.fetch(xcode.url, CACHE_DIR, spaceship.cookie, dmg_file, progress)
+      result = Curl.new.fetch(url || xcode.url, CACHE_DIR, spaceship.cookie, dmg_file, progress)
       result ? CACHE_DIR + dmg_file : nil
     end
 
@@ -105,9 +105,8 @@ HELP
       FileUtils.rm_f(dmgPath) if clean
     end
 
-    def install_version(version, switch = true, clean = true, install = true, progress = true)
-      return if version.nil?
-      dmg_path = get_dmg(version, progress)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url)
+      dmg_path = get_dmg(version, progress, url)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
@@ -171,13 +170,17 @@ HELP
       `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
     end
 
-    def get_dmg(version, progress = true)
+    def get_dmg(version, progress = true, url)
+      if url
+        path = Pathname.new(url)
+        return path if path.exist?
+      end
       if ENV.key?('XCODE_INSTALL_CACHE_DIR')
         cache_path = Pathname.new(ENV['XCODE_INSTALL_CACHE_DIR']) + Pathname.new("xcode-#{version}.dmg")
         return cache_path if cache_path.exist?
       end
 
-      download(version, progress)
+      download(version, progress, url)
     end
 
     def fetch_seedlist
