@@ -67,7 +67,7 @@ module XcodeInstall
       end
     end
 
-    def install_dmg(dmgPath, suffix = '', switch = true, clean = true)
+    def install_dmg(dmgPath, suffix = '', switch = true, clean = true, version = nil)
       xcode_path = "/Applications/Xcode#{suffix}.app"
 
       `hdiutil mount -nobrowse -noverify #{dmgPath}`
@@ -103,6 +103,10 @@ HELP
       end
 
       FileUtils.rm_f(dmgPath) if clean
+
+      return if version.nil?
+      xcode = seedlist.find { |x| x.name == version }
+      `open #{xcode.release_notes_url}` unless xcode.nil? || xcode.release_notes_url.nil?
     end
 
     def install_version(version, switch = true, clean = true, install = true, progress = true)
@@ -110,7 +114,7 @@ HELP
       dmg_path = get_dmg(version, progress)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
-      install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
+      install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean, version) if install
     end
 
     def list_current
