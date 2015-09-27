@@ -111,6 +111,14 @@ HELP
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
+
+      open_release_notes_url(version)
+    end
+
+    def open_release_notes_url(version)
+      return if version.nil?
+      xcode = seedlist.find { |x| x.name == version }
+      `open #{xcode.release_notes_url}` unless xcode.nil? || xcode.release_notes_url.nil?
     end
 
     def list_current
@@ -230,8 +238,16 @@ HELP
     def prereleases
       body=spaceship.send(:request, :get, '/xcode/download/').body
       links=body.scan(/<a.+?href="(.+?.dmg)".*>(.*)<\/a>/)
-
-      links.map { |pre| Xcode.new_prelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0]) }
+      links = links.map do |link|
+        parent = link[0].scan(/path=(\/.*\/.*\/)/).first.first
+        match = body.scan(/#{Regexp.quote(parent)}(.+?.pdf)/).first
+        if match
+          link += [parent + match.first]
+        else
+          link += [nil]
+        end
+      end
+      links.map { |pre| Xcode.new_prerelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0], pre[2]) }
     end
 
     def seedlist
@@ -273,12 +289,15 @@ HELP
     attr_reader :path
     attr_reader :url
     attr_reader :version
+    attr_reader :release_notes_url
 
     def initialize(json)
       @date_modified = json['dateModified'].to_i
       @name = json['name'].gsub(/^Xcode /, '')
       @path = json['files'].first['remotePath']
-      @url = "https://developer.apple.com/devcenter/download.action?path=#{@path}"
+      url_prefix = 'https://developer.apple.com/devcenter/download.action?path='
+      @url = "#{url_prefix}#{@path}"
+      @release_notes_url = "#{url_prefix}#{json['release_notes_path']}" if json['release_notes_path']
 
       begin
         @version = Gem::Version.new(@name.split(' ')[0])
@@ -296,10 +315,11 @@ HELP
         url == other.url && version == other.version
     end
 
-    def self.new_prelease(version, url)
+    def self.new_prerelease(version, url, release_notes_path)
       new('name' => version,
           'dateModified' => Time.now.to_i,
-          'files' => [{ 'remotePath' => url.split('=').last }])
+          'files' => [{ 'remotePath' => url.split('=').last }],
+          'release_notes_path' => release_notes_path)
     end
   end
 end
