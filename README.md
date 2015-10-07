@@ -65,6 +65,10 @@ $ xcode-install list
 
 they have to be installed using the full name, e.g. `xcode-install install '7 GM seed'`.
 
+### Command Line Tools
+
+XcodeInstall can also install Xcode's Command Line Tools by calling `xcode-install install cli_tools`.
+
 ## Limitations
 
 Unfortunately, the installation size of Xcodes downloaded will be bigger than when downloading via the Mac App Store, see [#10](/../../issues/10) and feel free to dupe the radar. 📡
