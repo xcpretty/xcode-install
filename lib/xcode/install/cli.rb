@@ -5,9 +5,16 @@ module XcodeInstall
       self.summary = 'Installs Xcode Command Line Tools.'
 
       def run
-        `xcode-select -p`
-        fail Informative, 'Xcode CLI Tools are already installed.' if $?.exitstatus == 0
+        fail Informative, 'Xcode CLI Tools are already installed.' if installed?
+        install
+      end
 
+      def installed?
+        `xcode-select -p`
+        $?.exitstatus == 0
+      end
+
+      def install
         cli_placeholder_file = '/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress'
         # create the placeholder file that's checked by CLI updates' .dist code in Apple's SUS catalog
         FileUtils.touch(cli_placeholder_file)
