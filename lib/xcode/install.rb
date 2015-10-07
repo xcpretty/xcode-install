@@ -32,6 +32,8 @@ module XcodeInstall
   class Installer
     attr_reader :xcodes
 
+    CLI_TOOLS_KEY = 'cli_tools'
+
     def initialize
       FileUtils.mkdir_p(CACHE_DIR)
     end
@@ -54,7 +56,7 @@ module XcodeInstall
     end
 
     def exist?(version)
-      list_versions.include?(version)
+      list_versions.include?(version) || version == CLI_TOOLS_KEY
     end
 
     def installed?(version)
@@ -109,7 +111,7 @@ HELP
     def install_version(version, switch = true, clean = true, install = true, progress = true)
       return if version.nil?
 
-      if version == 'cli_tools'
+      if version == CLI_TOOLS_KEY
         install_cli_tools
         return
       end
