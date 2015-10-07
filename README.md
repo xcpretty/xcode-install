@@ -67,7 +67,7 @@ they have to be installed using the full name, e.g. `xcode-install install '7 GM
 
 ### Command Line Tools
 
-XcodeInstall can also install Xcode's Command Line Tools by calling `xcode-install install cli_tools`.
+XcodeInstall can also install Xcode's Command Line Tools by calling `xcode-install install-cli-tools`.
 
 ## Limitations
 

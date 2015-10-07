@@ -14,6 +14,7 @@ module XcodeInstall
 
   class Command < CLAide::Command
     require 'xcode/install/cleanup'
+    require 'xcode/install/cli'
     require 'xcode/install/install'
     require 'xcode/install/installed'
     require 'xcode/install/list'

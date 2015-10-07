@@ -32,8 +32,6 @@ module XcodeInstall
   class Installer
     attr_reader :xcodes
 
-    CLI_TOOLS_KEY = 'cli_tools'
-
     def initialize
       FileUtils.mkdir_p(CACHE_DIR)
     end
@@ -56,7 +54,7 @@ module XcodeInstall
     end
 
     def exist?(version)
-      list_versions.include?(version) || version == CLI_TOOLS_KEY
+      list_versions.include?(version)
     end
 
     def installed?(version)
@@ -110,31 +108,12 @@ HELP
 
     def install_version(version, switch = true, clean = true, install = true, progress = true)
       return if version.nil?
-
-      if version == CLI_TOOLS_KEY
-        install_cli_tools
-        return
-      end
-
       dmg_path = get_dmg(version, progress)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
 
       open_release_notes_url(version)
-    end
-
-    def install_cli_tools
-      `xcode-select -p`
-      fail Informative, 'Xcode CLI Tools are already installed.' if $?.exitstatus == 0
-
-      cli_placeholder_file = '/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress'
-      # create the placeholder file that's checked by CLI updates' .dist code in Apple's SUS catalog
-      FileUtils.touch(cli_placeholder_file)
-      # find the CLI Tools update
-      product = `softwareupdate -l | grep "\*.*Command Line" | head -n 1 | awk -F"*" '{print $2}' | sed -e 's/^ *//' | tr -d '\n'`
-      `softwareupdate -i "#{product}" -v`
-      FileUtils.rm(cli_placeholder_file)
     end
 
     def open_release_notes_url(version)
