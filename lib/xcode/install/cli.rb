@@ -11,7 +11,7 @@ module XcodeInstall
 
       def installed?
         `xcode-select -p`
-        $?.exitstatus == 0
+        $?.success?
       end
 
       def install
