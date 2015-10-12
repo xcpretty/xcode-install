@@ -93,7 +93,7 @@ HELP
       end
 
       enable_developer_mode
-      `sudo xcodebuild -license accept` unless xcode_license_approved?
+      InstalledXcode.new(xcode_path).approve_license
 
       if switch
         `sudo rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
@@ -260,10 +260,6 @@ HELP
       puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{path}`
       $?.exitstatus == 0
     end
-
-    def xcode_license_approved?
-      !(`/usr/bin/xcrun clang 2>&1` =~ /license/ && !$CHILD_STATUS.success?)
-    end
   end
 
   class InstalledXcode
@@ -273,6 +269,15 @@ HELP
     def initialize(path)
       @path = Pathname.new(path)
       @version = get_version(path)
+    end
+
+    def approve_license
+      license_path = "#{@path}/Contents/Resources/English.lproj/License.rtf"
+      license_id = IO.read(license_path).match(/^EA\d{4}/)
+      license_plist_path = '/Library/Preferences/com.apple.dt.Xcode.plist'
+      `sudo rm -rf #{license_plist_path}`
+      `sudo /usr/libexec/PlistBuddy -c "add :IDELastGMLicenseAgreedTo string #{license_id}" #{license_plist_path}`
+      `sudo /usr/libexec/PlistBuddy -c "add :IDEXcodeVersionForAgreedToGMLicense string #{@version}" #{license_plist_path}`
     end
 
     :private
