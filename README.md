@@ -69,6 +69,35 @@ they have to be installed using the full name, e.g. `xcversion install '7 GM see
 
 XcodeInstall can also install Xcode's Command Line Tools by calling `xcversion install-cli-tools`.
 
+### Simulators
+
+XcodeInstall can also manage your local simulators using the `simulators` command.
+
+```bash
+$ xcode-install simulators
+Xcode 6.4.0 (/Applications/Xcode.app)
+iOS 7.1 Simulator (installed)
+iOS 8.1 Simulator (not installed)
+iOS 8.2 Simulator (not installed)
+iOS 8.3 Simulator (installed)
+Xcode 7.0.0 (/Applications/Xcode-beta.app)
+iOS 8.1 Simulator (not installed)
+iOS 8.2 Simulator (not installed)
+iOS 8.3 Simulator (installed)
+iOS 8.4 Simulator (installed)
+```
+
+To install a simulator, simply:
+
+```bash
+$ xcode-install simulators --install=8.4
+###########################################################               82.1%
+######################################################################## 100.0%
+Please authenticate to install iOS 8.4 Simulator...
+
+Successfully installed iOS 8.4 Simulator
+```
+
 ## Limitations
 
 Unfortunately, the installation size of Xcodes downloaded will be bigger than when downloading via the Mac App Store, see [#10](/../../issues/10) and feel free to dupe the radar. 📡
