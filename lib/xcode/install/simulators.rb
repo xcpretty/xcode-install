@@ -34,12 +34,12 @@ module XcodeInstall
       elsif filtered_simulators.count == 1
         simulator = filtered_simulators.first
         fail Informative, "#{simulator.name} is already installed." if simulator.installed?
-        puts "Installing #{simulator.name} for Xcode #{simulator.xcode.version}..."
+        puts "Installing #{simulator.name} for Xcode #{simulator.xcode.bundle_version}..."
         simulator.install
       else
         puts "[!] More than one simulator matching #{@install} was found. Please specify the full version.".ansi.red
         filtered_simulators.each do |simulator|
-          puts "Xcode #{simulator.xcode.version} (#{simulator.xcode.path})".ansi.green
+          puts "Xcode #{simulator.xcode.bundle_version} (#{simulator.xcode.path})".ansi.green
           puts "xcode-install simulator --install=#{simulator.version}"
         end
         exit 1

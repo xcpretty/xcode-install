@@ -377,6 +377,7 @@ HELP
   class InstalledXcode
     attr_reader :path
     attr_reader :version
+    attr_reader :bundle_version
     attr_reader :uuid
     attr_reader :downloadable_index_url
     attr_reader :available_simulators
@@ -386,7 +387,11 @@ HELP
     end
 
     def version
-      @version ||= Gem::Version.new(plist_entry(':DTXcode').to_i.to_s.split(//).join('.'))
+      @version ||= get_version
+    end
+
+    def bundle_version
+      @bundle_version ||= Gem::Version.new(plist_entry(':DTXcode').to_i.to_s.split(//).join('.'))
     end
 
     def uuid
@@ -394,7 +399,7 @@ HELP
     end
 
     def downloadable_index_url
-      @downloadable_index_url ||= "https://devimages.apple.com.edgekey.net/downloads/xcode/simulators/index-#{version}-#{uuid}.dvtdownloadableindex"
+      @downloadable_index_url ||= "https://devimages.apple.com.edgekey.net/downloads/xcode/simulators/index-#{bundle_version}-#{uuid}.dvtdownloadableindex"
     end
 
     def approve_license
