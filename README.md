@@ -9,13 +9,13 @@ Install and update your Xcodes automatically.
 
 ```bash
 $ gem install xcode-install
-$ xcode-install install 6.3
+$ xcversion install 6.3
 ```
 
 ## Installation
 
 ```bash
-$ gem install xcode-install
+$ gem install xcversion
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ XCODE_INSTALL_PASSWORD
 To list available versions:
 
 ```bash
-$ xcode-install list
+$ xcversion list
 6.0.1
 6.1
 6.1.1
@@ -44,7 +44,7 @@ By default, only the latest major version is listed.
 To install a certain version, simply:
 
 ```bash
-$ xcode-install install 6.3
+$ xcversion install 6.3
 ###########################################################               82.1%
 ######################################################################## 100.0%
 Please authenticate for Xcode installation...
@@ -58,16 +58,16 @@ This will download and install that version of Xcode. It will also be automatica
 Note: GMs and beta versions usually have special names, e.g.
 
 ```bash
-$ xcode-install list
+$ xcversion list
 7 GM seed
 7.1 beta
 ```
 
-they have to be installed using the full name, e.g. `xcode-install install '7 GM seed'`.
+they have to be installed using the full name, e.g. `xcversion install '7 GM seed'`.
 
 ### Command Line Tools
 
-XcodeInstall can also install Xcode's Command Line Tools by calling `xcode-install install-cli-tools`.
+XcodeInstall can also install Xcode's Command Line Tools by calling `xcversion install-cli-tools`.
 
 ## Limitations
 
