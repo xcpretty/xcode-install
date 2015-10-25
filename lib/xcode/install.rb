@@ -170,7 +170,7 @@ HELP
       `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
     end
 
-    def get_dmg(version, progress = true, url)
+    def get_dmg(version, progress = true, url = nil)
       if url
         path = Pathname.new(url)
         return path if path.exist?
