@@ -44,7 +44,7 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
-    def download(version, progress, url)
+    def download(version, progress, url = nil)
       return unless exist?(version) || url
       xcode = seedlist.find { |x| x.name == version }
       dmg_file = Pathname.new(File.basename(url || xcode.path))
@@ -105,7 +105,7 @@ HELP
       FileUtils.rm_f(dmgPath) if clean
     end
 
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil)
       dmg_path = get_dmg(version, progress, url)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
