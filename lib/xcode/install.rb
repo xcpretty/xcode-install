@@ -223,7 +223,7 @@ HELP
     end
 
     def parse_seedlist(seedlist)
-      seeds = seedlist['downloads'].select do |t|
+      seeds = Array(seedlist['downloads']).select do |t|
         /^Xcode [0-9]/.match(t['name'])
       end
 
