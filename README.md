@@ -95,6 +95,9 @@ project, especially [@henrikhodne][6] and [@lacostej][7] for making XcodeInstall
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
+## Help needed
+
+Follow [@NeoNacho](https://twitter.com/NeoNacho) to help me beat [@orta](https://twitter.com/orta) in followers count.
 
 [1]: https://github.com/fastlane/credentials_manager#using-environment-variables
 [2]: http://fastlane.tools
