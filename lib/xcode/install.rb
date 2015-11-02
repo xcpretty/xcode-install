@@ -93,7 +93,9 @@ HELP
       end
 
       enable_developer_mode
-      InstalledXcode.new(xcode_path).approve_license
+      xcode = InstalledXcode.new(xcode_path)
+      xcode.approve_license
+      xcode.install_components
 
       if switch
         `sudo rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
@@ -271,7 +273,7 @@ HELP
 
     def initialize(path)
       @path = Pathname.new(path)
-      @version = get_version(path)
+      @version = get_version
     end
 
     def approve_license
@@ -283,10 +285,18 @@ HELP
       `sudo /usr/libexec/PlistBuddy -c "add :IDEXcodeVersionForAgreedToGMLicense string #{@version}" #{license_plist_path}`
     end
 
+    def install_components
+      `sudo installer -pkg #{@path}/Contents/Resources/Packages/MobileDevice.pkg -target /`
+      osx_build_version = `sw_vers -buildVersion`.chomp
+      tools_version = `/usr/libexec/PlistBuddy -c "Print :ProductBuildVersion" "#{@path}/Contents/version.plist"`.chomp
+      cache_dir = `getconf DARWIN_USER_CACHE_DIR`.chomp
+      `touch #{cache_dir}com.apple.dt.Xcode.InstallCheckCache_#{osx_build_version}_#{tools_version}`
+    end
+
     :private
 
-    def get_version(xcode_path)
-      output = `DEVELOPER_DIR='' "#{xcode_path}/Contents/Developer/usr/bin/xcodebuild" -version`
+    def get_version
+      output = `DEVELOPER_DIR='' "#{@path}/Contents/Developer/usr/bin/xcodebuild" -version`
       return '0.0' if output.nil? # ¯\_(ツ)_/¯
       output.split("\n").first.split(' ')[1]
     end
