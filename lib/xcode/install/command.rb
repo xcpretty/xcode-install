@@ -24,7 +24,7 @@ module XcodeInstall
     require 'xcode/install/update'
 
     self.abstract_command = true
-    self.command = 'xcode-install'
+    self.command = 'xcversion'
     self.version = VERSION
     self.description = 'Xcode installation manager.'
   end

@@ -77,7 +77,7 @@ module XcodeInstall
       if source.nil?
         out <<-HELP
 No `Xcode.app` found in DMG. Please remove #{dmgPath} if you suspect a corrupted
-download or run `xcode-install update` to see if the version you tried to install
+download or run `xcversion update` to see if the version you tried to install
 has been pulled by Apple. If none of this is true, please open a new GH issue.
 HELP
         $stderr.puts out.gsub("\n", ' ')
