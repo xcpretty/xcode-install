@@ -83,6 +83,9 @@ HELP
         $stderr.puts out.gsub("\n", ' ')
         return
       end
+      
+      `sudo ls`
+      puts "Success! Extracting Xcode now..."
 
       `sudo ditto "#{source}" "#{xcode_path}"`
       `umount "/Volumes/Xcode"`
