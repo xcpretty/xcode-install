@@ -22,6 +22,7 @@ module XcodeInstall
     require 'xcode/install/selected'
     require 'xcode/install/uninstall'
     require 'xcode/install/update'
+    require 'xcode/install/simulators'
 
     self.abstract_command = true
     self.command = 'xcversion'

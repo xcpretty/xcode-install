@@ -1,11 +1,13 @@
 require 'fileutils'
 require 'pathname'
 require 'spaceship'
+require 'json'
 require 'rubygems/version'
 require 'xcode/install/command'
 require 'xcode/install/version'
 
 module XcodeInstall
+  CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
   class Curl
     COOKIES_PATH = Pathname.new('/tmp/curl-cookies.txt')
 
@@ -171,7 +173,6 @@ HELP
       end
     end
 
-    CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
     LIST_FILE = CACHE_DIR + Pathname.new('xcodes.bin')
     MINIMUM_VERSION = Gem::Version.new('4.3')
     SYMLINK_PATH = Pathname.new('/Applications/Xcode.app')
@@ -267,13 +268,133 @@ HELP
     end
   end
 
+  class Simulator
+    attr_reader :version
+    attr_reader :name
+    attr_reader :identifier
+    attr_reader :source
+    attr_reader :xcode
+
+    def initialize(downloadable)
+      @version = Gem::Version.new(downloadable['version'])
+      @install_prefix = apply_variables(downloadable['userInfo']['InstallPrefix'])
+      @name = apply_variables(downloadable['name'])
+      @identifier = apply_variables(downloadable['identifier'])
+      @source = apply_variables(downloadable['source'])
+    end
+
+    def installed?
+      # FIXME: use downloadables' `InstalledIfAllReceiptsArePresentOrNewer` key
+      File.directory?(@install_prefix)
+    end
+
+    def installed_string
+      installed? ? 'installed' : 'not installed'
+    end
+
+    def to_s
+      "#{name} (#{installed_string})"
+    end
+
+    def xcode
+      Installer.new.installed_versions.find do |x|
+        x.available_simulators.find do |s|
+          s.version == version
+        end
+      end
+    end
+
+    def download
+      result = Curl.new.fetch(source, CACHE_DIR)
+      result ? dmg_path : nil
+    end
+
+    def install
+      download unless dmg_path.exist?
+      prepare_package unless pkg_path.exist?
+      puts "Please authenticate to install #{name}..."
+      `sudo installer -pkg #{pkg_path} -target /`
+      fail Informative, "Could not install #{name}, please try again" unless installed?
+      source_receipts_dir = '/private/var/db/receipts'
+      target_receipts_dir = "#{@install_prefix}/System/Library/Receipts"
+      FileUtils.mkdir_p(target_receipts_dir)
+      FileUtils.cp("#{source_receipts_dir}/#{@identifier}.bom", target_receipts_dir)
+      FileUtils.cp("#{source_receipts_dir}/#{@identifier}.plist", target_receipts_dir)
+      puts "Successfully installed #{name}"
+    end
+
+    :private
+
+    def prepare_package
+      puts 'Mounting DMG'
+      mount_location = `hdiutil mount -nobrowse -noverify #{dmg_path}`.scan(/\/Volumes.*\n/).first.chomp
+      puts 'Expanding pkg'
+      expanded_pkg_path = CACHE_DIR + identifier
+      FileUtils.rm_rf(expanded_pkg_path)
+      `pkgutil --expand #{mount_location}/*.pkg #{expanded_pkg_path}`
+      puts "Expanded pkg into #{expanded_pkg_path}"
+      puts 'Unmounting DMG'
+      `umount #{mount_location}`
+      puts 'Setting package installation location'
+      package_info_path = expanded_pkg_path + 'PackageInfo'
+      package_info_contents = File.read(package_info_path)
+      File.open(package_info_path, 'w') do |f|
+        f << package_info_contents.sub('pkg-info', %(pkg-info install-location="#{@install_prefix}"))
+      end
+      puts 'Rebuilding package'
+      `pkgutil --flatten #{expanded_pkg_path} #{pkg_path}`
+      FileUtils.rm_rf(expanded_pkg_path)
+    end
+
+    def dmg_path
+      CACHE_DIR + Pathname.new(source).basename
+    end
+
+    def pkg_path
+      CACHE_DIR + "#{identifier}.pkg"
+    end
+
+    def apply_variables(template)
+      variable_map = {
+        '$(DOWNLOADABLE_VERSION_MAJOR)' => version.to_s.split('.')[0],
+        '$(DOWNLOADABLE_VERSION_MINOR)' => version.to_s.split('.')[1],
+        '$(DOWNLOADABLE_IDENTIFIER)' => identifier,
+        '$(DOWNLOADABLE_VERSION)' => version.to_s
+      }.freeze
+      variable_map.each do |key, value|
+        next unless template.include?(key)
+        template.sub!(key, value)
+      end
+      template
+    end
+  end
+
   class InstalledXcode
     attr_reader :path
     attr_reader :version
+    attr_reader :bundle_version
+    attr_reader :uuid
+    attr_reader :downloadable_index_url
+    attr_reader :available_simulators
 
     def initialize(path)
       @path = Pathname.new(path)
-      @version = get_version
+    end
+
+    def version
+      @version ||= get_version
+    end
+
+    def bundle_version
+      @bundle_version ||= Gem::Version.new(plist_entry(':DTXcode').to_i.to_s.split(//).join('.'))
+    end
+
+    def uuid
+      @uuid ||= plist_entry(':DVTPlugInCompatibilityUUID')
+    end
+
+    def downloadable_index_url
+      @downloadable_index_url ||= "https://devimages.apple.com.edgekey.net/downloads/xcode/simulators/index-#{bundle_version}-#{uuid}.dvtdownloadableindex"
     end
 
     def approve_license
@@ -285,6 +406,12 @@ HELP
       `sudo /usr/libexec/PlistBuddy -c "add :IDEXcodeVersionForAgreedToGMLicense string #{@version}" #{license_plist_path}`
     end
 
+    def available_simulators
+      @available_simulators ||= JSON.parse(`curl -Ls #{downloadable_index_url} | plutil -convert json -o - -`)['downloadables'].map do |downloadable|
+        Simulator.new(downloadable)
+      end
+    end
+
     def install_components
       `sudo installer -pkg #{@path}/Contents/Resources/Packages/MobileDevice.pkg -target /`
       osx_build_version = `sw_vers -buildVersion`.chomp
@@ -294,6 +421,10 @@ HELP
     end
 
     :private
+
+    def plist_entry(keypath)
+      `/usr/libexec/PlistBuddy -c "Print :#{keypath}" "#{path}/Contents/Info.plist"`.chomp
+    end
 
     def get_version
       output = `DEVELOPER_DIR='' "#{@path}/Contents/Developer/usr/bin/xcodebuild" -version`
