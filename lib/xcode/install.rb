@@ -62,7 +62,7 @@ module XcodeInstall
     end
 
     def installed_versions
-      @installed =installed.map { |x| InstalledXcode.new(x) }.sort do |a, b|
+      installed.map { |x| InstalledXcode.new(x) }.sort do |a, b|
         Gem::Version.new(a.version) <=> Gem::Version.new(b.version)
       end
     end
