@@ -1,5 +1,4 @@
-#!/bin/bash
-set -euo pipefail
->&2 echo 'DEPRECATED: `xcode-install` is now named `🎉` (or `xcversion`)'
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-exec $DIR/xcversion $@
+#!/usr/bin/env ruby
+
+warn 'DEPRECATED: `xcode-install` is now named `🎉` (or `xcversion`)'
+load File.expand_path('../xcversion', __FILE__)
