@@ -15,7 +15,7 @@ $ xcversion install 6.3
 ## Installation
 
 ```bash
-$ gem install xcversion
+$ gem install xcode-install
 ```
 
 ## Usage
