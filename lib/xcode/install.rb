@@ -55,6 +55,11 @@ module XcodeInstall
       result ? CACHE_DIR + dmg_file : nil
     end
 
+    def download_beta(beta)
+      result = Curl.new.fetch(beta.url, CACHE_DIR, devcenter.cookies, beta.file_name)
+      result ? CACHE_DIR + beta.file_name : nil
+    end
+
     def exist?(version)
       list_versions.include?(version)
     end
@@ -123,6 +128,10 @@ HELP
       return if version.nil?
       xcode = seedlist.find { |x| x.name == version }
       `open #{xcode.release_notes_url}` unless xcode.nil? || xcode.release_notes_url.nil?
+    end
+
+    def list_ios_betas
+      ios_betas
     end
 
     def list_current
@@ -257,6 +266,13 @@ HELP
       links.map { |pre| Xcode.new_prerelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0], pre[2]) }
     end
 
+    def ios_betas
+      page = Nokogiri::HTML.parse(devcenter.download_file('/devcenter/ios/index.action'))
+      links = page.xpath('//a').select { |link| link['href'] && link['href'].end_with?('.zip') }
+
+      links.select { |link| link['href'] =~ %r{path=/iOS/} }.map { |link| Beta.new(link) }
+    end
+
     def seedlist
       @xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
       xcodes || fetch_seedlist
@@ -366,6 +382,24 @@ HELP
         template.sub!(key, value)
       end
       template
+    end
+  end
+
+  class Beta
+    attr_reader :device
+    attr_reader :url
+
+    def initialize(a_tag)
+      @device = a_tag.children.text
+      @url = "https://developer.apple.com#{a_tag['href']}"
+    end
+
+    def file_name
+      Pathname.new(File.basename(url))
+    end
+
+    def version
+      File.basename(File.dirname(url)).gsub('_', ' ').sub('iOS ', '')
     end
   end
 
