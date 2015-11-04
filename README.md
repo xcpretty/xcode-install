@@ -12,12 +12,6 @@ $ gem install xcode-install
 $ xcversion install 6.3
 ```
 
-## Installation
-
-```bash
-$ gem install xcversion
-```
-
 ## Usage
 
 XcodeInstall needs environment variables with your credentials to access the Apple Developer
