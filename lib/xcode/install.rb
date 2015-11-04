@@ -467,7 +467,6 @@ HELP
 
     def self.new_prerelease(version, url, release_notes_path)
       new('name' => version,
-          'dateModified' => Time.now.to_i,
           'files' => [{ 'remotePath' => url.split('=').last }],
           'release_notes_path' => release_notes_path)
     end
