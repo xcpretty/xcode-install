@@ -12,6 +12,7 @@ Style/Documentation:
 Style/FileName:
   Exclude:
     - bin/🎉
+    - bin/xcode-install
 
 Style/SpecialGlobalVars:
   Enabled: false
