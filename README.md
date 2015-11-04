@@ -7,15 +7,15 @@
 
 Install and update your Xcodes automatically.
 
-```bash
+```
 $ gem install xcode-install
 $ xcversion install 6.3
 ```
 
 ## Installation
 
-```bash
-$ gem install xcversion
+```
+$ gem install xcode-install
 ```
 
 ## Usage
@@ -30,7 +30,7 @@ XCODE_INSTALL_PASSWORD
 
 To list available versions:
 
-```bash
+```
 $ xcversion list
 6.0.1
 6.1
@@ -43,7 +43,7 @@ By default, only the latest major version is listed.
 
 To install a certain version, simply:
 
-```bash
+```
 $ xcversion install 6.3
 ###########################################################               82.1%
 ######################################################################## 100.0%
@@ -57,7 +57,7 @@ This will download and install that version of Xcode. It will also be automatica
 
 Note: GMs and beta versions usually have special names, e.g.
 
-```bash
+```
 $ xcversion list
 7 GM seed
 7.1 beta
@@ -73,8 +73,8 @@ XcodeInstall can also install Xcode's Command Line Tools by calling `xcversion i
 
 XcodeInstall can also manage your local simulators using the `simulators` command.
 
-```bash
-$ xcode-install simulators
+```
+$ xcversion simulators
 Xcode 6.4.0 (/Applications/Xcode.app)
 iOS 7.1 Simulator (installed)
 iOS 8.1 Simulator (not installed)
@@ -89,8 +89,8 @@ iOS 8.4 Simulator (installed)
 
 To install a simulator, simply:
 
-```bash
-$ xcode-install simulators --install=8.4
+```
+$ xcversion simulators --install=8.4
 ###########################################################               82.1%
 ######################################################################## 100.0%
 Please authenticate to install iOS 8.4 Simulator...
