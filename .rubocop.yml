@@ -23,5 +23,8 @@ Style/FileName:
   Exclude:
     - bin/🎉
 
+Style/SpecialGlobalVars:
+  Enabled: false
+
 Lint/Void:
   Enabled: false
