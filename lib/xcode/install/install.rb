@@ -35,15 +35,12 @@ module XcodeInstall
         return if @version.nil?
         fail Informative, "Version #{@version} already installed." if @installer.installed?(@version)
         fail Informative, "Version #{@version} doesn't exist." unless @installer.exist?(@version)
-
-        if @url
-          fail Informative, "Invalid URL: `#{@url}`" unless @url =~ /\A#{URI::regexp}\z/
-        end
+        fail Informative, "Invalid URL: `#{@url}`" unless !@url || @url =~ /\A#{URI.regexp}\z/
       end
 
       def run
         @installer.install_version(@version, @should_switch, @should_clean, @should_install,
-          @progress, @url)
+                                   @progress, @url)
       end
     end
   end

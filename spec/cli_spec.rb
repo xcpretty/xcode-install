@@ -4,7 +4,7 @@ module XcodeInstall
   describe Command::InstallCLITools do
     it 'fails if tools are already installed' do
       Command::InstallCLITools.any_instance.expects(:installed?).returns(true)
-      lambda { Command::InstallCLITools.run }.should.raise(SystemExit)
+      -> { Command::InstallCLITools.run }.should.raise(SystemExit)
     end
 
     it 'runs if tools are not installed' do

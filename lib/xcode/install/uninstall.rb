@@ -25,10 +25,9 @@ module XcodeInstall
 
         `sudo rm -rf #{installed_path.path}`
 
-        if @installer.symlinks_to == installed_path.path
-          newest_version = @installer.installed_versions.last
-          @installer.symlink(newest_version)
-        end
+        return unless @installer.symlinks_to == installed_path.path
+        newest_version = @installer.installed_versions.last
+        @installer.symlink(newest_version)
       end
     end
   end

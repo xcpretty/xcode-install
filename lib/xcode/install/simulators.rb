@@ -24,23 +24,24 @@ module XcodeInstall
     :private
 
     def install
-      filtered_simulators = @installed_xcodes.map { |x| x.available_simulators }.flatten.select do |sim|
+      filtered_simulators = @installed_xcodes.map(&:available_simulators).flatten.select do |sim|
         sim.version.to_s.start_with?(@install)
       end
-      if filtered_simulators.count == 0
+      case filtered_simulators.count
+      when 0
         puts "[!] No simulator matching #{@install} was found. Please specify a version from the following available simulators:".ansi.red
         list
         exit 1
-      elsif filtered_simulators.count == 1
+      when 1
         simulator = filtered_simulators.first
         fail Informative, "#{simulator.name} is already installed." if simulator.installed?
         puts "Installing #{simulator.name} for Xcode #{simulator.xcode.bundle_version}..."
         simulator.install
       else
         puts "[!] More than one simulator matching #{@install} was found. Please specify the full version.".ansi.red
-        filtered_simulators.each do |simulator|
-          puts "Xcode #{simulator.xcode.bundle_version} (#{simulator.xcode.path})".ansi.green
-          puts "xcode-install simulator --install=#{simulator.version}"
+        filtered_simulators.each do |candidate|
+          puts "Xcode #{candidate.xcode.bundle_version} (#{candidate.xcode.path})".ansi.green
+          puts "xcode-install candidate --install=#{candidate.version}"
         end
         exit 1
       end

@@ -13,8 +13,15 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 20
 
+Style/AsciiComments:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
+
+Style/FileName:
+  Exclude:
+    - bin/🎉
 
 Lint/Void:
   Enabled: false
