@@ -24,7 +24,7 @@ module XcodeInstall
       IO.popen(command).each do |fd|
         puts(fd)
       end
-      result = $CHILD_STATUS.to_i == 0
+      result = $?.to_i == 0
 
       FileUtils.rm_f(COOKIES_PATH)
       result
@@ -74,7 +74,7 @@ module XcodeInstall
 
       `hdiutil mount -nobrowse -noverify #{dmgPath}`
       puts 'Please authenticate for Xcode installation...'
-      source =  Dir.glob('/Volumes/Xcode/Xcode*.app').first
+      source = Dir.glob('/Volumes/Xcode/Xcode*.app').first
 
       if source.nil?
         out <<-HELP
@@ -82,14 +82,14 @@ No `Xcode.app` found in DMG. Please remove #{dmgPath} if you suspect a corrupted
 download or run `xcversion update` to see if the version you tried to install
 has been pulled by Apple. If none of this is true, please open a new GH issue.
 HELP
-        $stderr.puts out.gsub("\n", ' ')
+        $stderr.puts out.tr("\n", ' ')
         return
       end
 
       `sudo ditto "#{source}" "#{xcode_path}"`
       `umount "/Volumes/Xcode"`
 
-      if not verify_integrity(xcode_path)
+      unless verify_integrity(xcode_path)
         `sudo rm -f #{xcode_path}`
         return
       end
@@ -154,7 +154,7 @@ HELP
     def spaceship
       @spaceship ||= begin
         begin
-          Spaceship.login(ENV["XCODE_INSTALL_USER"], ENV["XCODE_INSTALL_PASSWORD"])
+          Spaceship.login(ENV['XCODE_INSTALL_USER'], ENV['XCODE_INSTALL_PASSWORD'])
         rescue Spaceship::Client::InvalidUserCredentialsError
           $stderr.puts 'The specified Apple developer account credentials are incorrect.'
           exit(1)
@@ -166,8 +166,8 @@ HELP
           exit(1)
         end
 
-        if ENV.key?("XCODE_INSTALL_TEAM_ID")
-          Spaceship.client.team_id = ENV["XCODE_INSTALL_TEAM_ID"]
+        if ENV.key?('XCODE_INSTALL_TEAM_ID')
+          Spaceship.client.team_id = ENV['XCODE_INSTALL_TEAM_ID']
         end
         Spaceship.client
       end
@@ -196,15 +196,15 @@ HELP
     end
 
     def fetch_seedlist
-      @xcodes = parse_seedlist(spaceship.send(:request, :get, '/services-account/QH65B2/downloadws/listDownloads.action', {
-        start: "0",
-        limit: "1000",
-        sort: "dateModified",
-        dir: "DESC",
-        searchTextField: "",
-        searchCategories: "",
-        search: "false",
-      }).body)
+      @xcodes = parse_seedlist(spaceship.send(:request, :get,
+                                              '/services-account/QH65B2/downloadws/listDownloads.action',
+                                              start: '0',
+                                              limit: '1000',
+                                              sort: 'dateModified',
+                                              dir: 'DESC',
+                                              searchTextField: '',
+                                              searchCategories: '',
+                                              search: 'false').body)
 
       names = @xcodes.map(&:name)
       @xcodes += prereleases.reject { |pre| names.include?(pre.name) }
@@ -243,15 +243,15 @@ HELP
     end
 
     def prereleases
-      body=spaceship.send(:request, :get, '/xcode/download/').body
-      links=body.scan(/<a.+?href="(.+?.dmg)".*>(.*)<\/a>/)
+      body = spaceship.send(:request, :get, '/xcode/download/').body
+      links = body.scan(%r{<a.+?href="(.+?.dmg)".*>(.*)</a>})
       links = links.map do |link|
-        parent = link[0].scan(/path=(\/.*\/.*\/)/).first.first
+        parent = link[0].scan(%r{path=(/.*/.*/)}).first.first
         match = body.scan(/#{Regexp.quote(parent)}(.+?.pdf)/).first
         if match
-          link += [parent + match.first]
+          link + [parent + match.first]
         else
-          link += [nil]
+          link + [nil]
         end
       end
       links.map { |pre| Xcode.new_prerelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0], pre[2]) }
@@ -327,7 +327,7 @@ HELP
 
     def prepare_package
       puts 'Mounting DMG'
-      mount_location = `hdiutil mount -nobrowse -noverify #{dmg_path}`.scan(/\/Volumes.*\n/).first.chomp
+      mount_location = `hdiutil mount -nobrowse -noverify #{dmg_path}`.scan(%r{/Volumes.*\n}).first.chomp
       puts 'Expanding pkg'
       expanded_pkg_path = CACHE_DIR + identifier
       FileUtils.rm_rf(expanded_pkg_path)
@@ -382,7 +382,7 @@ HELP
     end
 
     def version
-      @version ||= get_version
+      @version ||= fetch_version
     end
 
     def bundle_version
@@ -426,7 +426,7 @@ HELP
       `/usr/libexec/PlistBuddy -c "Print :#{keypath}" "#{path}/Contents/Info.plist"`.chomp
     end
 
-    def get_version
+    def fetch_version
       output = `DEVELOPER_DIR='' "#{@path}/Contents/Developer/usr/bin/xcodebuild" -version`
       return '0.0' if output.nil? # ¯\_(ツ)_/¯
       output.split("\n").first.split(' ')[1]

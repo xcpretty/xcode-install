@@ -1,19 +1,20 @@
-Metrics/AbcSize:
-  Max: 18
-
-Metrics/ClassLength:
-  Max: 130
-
-Metrics/CyclomaticComplexity:
-  Max: 7
+inherit_from: .rubocop_todo.yml
 
 Metrics/LineLength:
   Max: 215
 
-Metrics/MethodLength:
-  Max: 20
+Style/AsciiComments:
+  Enabled: false
 
 Style/Documentation:
+  Enabled: false
+
+Style/FileName:
+  Exclude:
+    - bin/🎉
+    - bin/xcode-install
+
+Style/SpecialGlobalVars:
   Enabled: false
 
 Lint/Void:
