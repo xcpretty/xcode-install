@@ -24,7 +24,7 @@ module XcodeInstall
       IO.popen(command).each do |fd|
         puts(fd)
       end
-      result = $CHILD_STATUS.to_i == 0
+      result = $?.to_i == 0
 
       FileUtils.rm_f(COOKIES_PATH)
       result
@@ -262,7 +262,7 @@ HELP
 
     def verify_integrity(path)
       puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{path}`
-      $CHILD_STATUS.exitstatus == 0
+      $?.exitstatus == 0
     end
   end
 

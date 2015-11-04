@@ -11,7 +11,7 @@ module XcodeInstall
 
       def installed?
         `xcode-select -p`
-        $CHILD_STATUS.success?
+        $?.success?
       end
 
       def install
