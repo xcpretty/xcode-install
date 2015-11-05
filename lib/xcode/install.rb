@@ -12,19 +12,20 @@ module XcodeInstall
     COOKIES_PATH = Pathname.new('/tmp/curl-cookies.txt')
 
     def fetch(url, directory = nil, cookies = nil, output = nil, progress = true)
-      options = cookies.nil? ? '' : "-b '#{cookies}' -c #{COOKIES_PATH}"
-      # options += ' -vvv'
+      options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
+      # options << ' -vvv'
 
       uri = URI.parse(url)
       output ||= File.basename(uri.path)
       output = (Pathname.new(directory) + Pathname.new(output)) if directory
 
-      progress = progress ? '-#' : '-s'
-      command = "curl #{options} -L -C - #{progress} -o #{output} #{url}"
-      IO.popen(command).each do |fd|
-        puts(fd)
-      end
-      result = $?.to_i == 0
+      progress = progress ? '--progress-bar' : '--silent'
+      command = ['curl', *options, '--location', '--continue-at', '-', progress, '--output', output, url].map(&:to_s)
+      io = IO.popen(command)
+      io.each { |line| puts line }
+      io.close
+
+      result = $?.exitstatus == 0
 
       FileUtils.rm_f(COOKIES_PATH)
       result
