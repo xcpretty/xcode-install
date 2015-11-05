@@ -272,7 +272,7 @@ HELP
       io = IO.popen(['hdiutil', *args])
       result = io.read
       io.close
-      fail Informative, "Failed to invoke hdiutil." unless $?.exitstatus == 0
+      fail Informative, 'Failed to invoke hdiutil.' unless $?.exitstatus == 0
       result
     end
 
@@ -280,7 +280,7 @@ HELP
       plist = hdiutil('mount', '-plist', '-nobrowse', '-noverify', dmg_path.to_s)
       document = REXML::Document.new(plist)
       node = REXML::XPath.first(document, "//key[.='mount-point']/following-sibling::*[1]")
-      fail Informative, "Failed to mount image." unless node
+      fail Informative, 'Failed to mount image.' unless node
       node.text
     end
   end

@@ -2,7 +2,7 @@ require File.expand_path('../spec_helper', __FILE__)
 
 module XcodeInstall
   describe Command::Install do
-    describe "when invoked" do
+    describe 'when invoked' do
       before do
         Installer.any_instance.stubs(:exists).returns(true)
         Installer.any_instance.stubs(:installed).returns([])
