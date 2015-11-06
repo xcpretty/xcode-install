@@ -1,4 +1,5 @@
 require 'bundler/gem_tasks'
+require 'rubocop/rake_task'
 
 def specs(dir)
   FileList["spec/#{dir}/*_spec.rb"].shuffle.join(' ')
@@ -9,4 +10,7 @@ task :spec do
   sh "bundle exec bacon #{specs('**')}"
 end
 
-task default: :spec
+desc 'Lints all the files'
+RuboCop::RakeTask.new(:rubocop)
+
+task default: [:spec, :rubocop]
