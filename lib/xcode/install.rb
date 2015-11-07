@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'pathname'
+require 'rexml/document'
 require 'spaceship'
 require 'json'
 require 'rubygems/version'
@@ -70,16 +71,16 @@ module XcodeInstall
       end
     end
 
-    def install_dmg(dmgPath, suffix = '', switch = true, clean = true)
+    def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
       xcode_path = "/Applications/Xcode#{suffix}.app"
 
-      `hdiutil mount -nobrowse -noverify #{dmgPath}`
+      mount_dir = mount(dmg_path)
       puts 'Please authenticate for Xcode installation...'
-      source = Dir.glob('/Volumes/Xcode/Xcode*.app').first
+      source = Dir.glob(File.join(mount_dir, 'Xcode*.app')).first
 
       if source.nil?
         out = <<-HELP
-No `Xcode.app` found in DMG. Please remove #{dmgPath} if you suspect a corrupted
+No `Xcode.app` found in DMG. Please remove #{dmg_path} if you suspect a corrupted
 download or run `xcversion update` to see if the version you tried to install
 has been pulled by Apple. If none of this is true, please open a new GH issue.
 HELP
@@ -108,7 +109,7 @@ HELP
         puts `xcodebuild -version`
       end
 
-      FileUtils.rm_f(dmgPath) if clean
+      FileUtils.rm_f(dmg_path) if clean
     end
 
     def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil)
@@ -267,6 +268,22 @@ HELP
       puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{path}`
       $?.exitstatus == 0
     end
+
+    def hdiutil(*args)
+      io = IO.popen(['hdiutil', *args])
+      result = io.read
+      io.close
+      fail Informative, 'Failed to invoke hdiutil.' unless $?.exitstatus == 0
+      result
+    end
+
+    def mount(dmg_path)
+      plist = hdiutil('mount', '-plist', '-nobrowse', '-noverify', dmg_path.to_s)
+      document = REXML::Document.new(plist)
+      node = REXML::XPath.first(document, "//key[.='mount-point']/following-sibling::*[1]")
+      fail Informative, 'Failed to mount image.' unless node
+      node.text
+    end
   end
 
   class Simulator
@@ -328,7 +345,7 @@ HELP
 
     def prepare_package
       puts 'Mounting DMG'
-      mount_location = `hdiutil mount -nobrowse -noverify #{dmg_path}`.scan(%r{/Volumes.*\n}).first.chomp
+      mount_location = mount(dmg_path)
       puts 'Expanding pkg'
       expanded_pkg_path = CACHE_DIR + identifier
       FileUtils.rm_rf(expanded_pkg_path)
