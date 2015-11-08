@@ -1,4 +1,0 @@
-#!/usr/bin/env ruby
-
-warn 'DEPRECATED: `xcode-install` is now named `🎉` (or `xcversion`)'
-load File.expand_path('../xcversion', __FILE__)
