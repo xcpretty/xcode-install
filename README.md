@@ -39,7 +39,7 @@ $ xcversion list
 6.3
 ```
 
-By default, only the latest major version is listed.
+Installed versions will be omitted and by default, only the latest major version is listed.
 
 To install a certain version, simply:
 
