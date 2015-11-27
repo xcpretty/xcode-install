@@ -151,6 +151,14 @@ HELP
       File.absolute_path(File.readlink(current_symlink), SYMLINK_PATH.dirname) if current_symlink
     end
 
+    def mount(dmg_path)
+      plist = hdiutil('mount', '-plist', '-nobrowse', '-noverify', dmg_path.to_s)
+      document = REXML::Document.new(plist)
+      node = REXML::XPath.first(document, "//key[.='mount-point']/following-sibling::*[1]")
+      fail Informative, 'Failed to mount image.' unless node
+      node.text
+    end
+
     private
 
     def spaceship
@@ -276,14 +284,6 @@ HELP
       fail Informative, 'Failed to invoke hdiutil.' unless $?.exitstatus == 0
       result
     end
-
-    def mount(dmg_path)
-      plist = hdiutil('mount', '-plist', '-nobrowse', '-noverify', dmg_path.to_s)
-      document = REXML::Document.new(plist)
-      node = REXML::XPath.first(document, "//key[.='mount-point']/following-sibling::*[1]")
-      fail Informative, 'Failed to mount image.' unless node
-      node.text
-    end
   end
 
   class Simulator
@@ -345,7 +345,7 @@ HELP
 
     def prepare_package
       puts 'Mounting DMG'
-      mount_location = mount(dmg_path)
+      mount_location = Installer.new.mount(dmg_path)
       puts 'Expanding pkg'
       expanded_pkg_path = CACHE_DIR + identifier
       FileUtils.rm_rf(expanded_pkg_path)
