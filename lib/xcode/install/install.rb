@@ -12,6 +12,7 @@ module XcodeInstall
 
       def self.options
         [['--url', 'Custom Xcode DMG file path or HTTP URL.'],
+         ['--force', 'Install even if the same version is already installed.'],
          ['--no-switch', 'Don’t switch to this version after installation'],
          ['--no-install', 'Only download DMG, but do not install it.'],
          ['--no-progress', 'Don’t show download progress.'],
@@ -22,6 +23,7 @@ module XcodeInstall
         @installer = Installer.new
         @version = argv.shift_argument
         @url = argv.option('url')
+        @force = argv.flag?('force', false)
         @should_clean = argv.flag?('clean', true)
         @should_install = argv.flag?('install', true)
         @should_switch = argv.flag?('switch', true)
@@ -33,7 +35,7 @@ module XcodeInstall
         super
 
         help! 'A VERSION argument is required.' unless @version
-        fail Informative, "Version #{@version} already installed." if @installer.installed?(@version)
+        fail Informative, "Version #{@version} already installed." if @installer.installed?(@version) && !@force
         fail Informative, "Version #{@version} doesn't exist." unless @installer.exist?(@version)
         fail Informative, "Invalid URL: `#{@url}`" unless !@url || @url =~ /\A#{URI.regexp}\z/
       end
