@@ -7,7 +7,7 @@ module XcodeInstall
       self.summary = 'List or install iOS simulators.'
 
       def self.options
-        [['--install=version', 'Install simulator with the given version.']].concat(super)
+        [['--install=name', 'Install simulator beginning with name, e.g. \'iOS 8.4\', \'tvOS 9.0\'.']].concat(super)
       end
 
       def initialize(argv)
@@ -24,8 +24,8 @@ module XcodeInstall
     :private
 
     def install
-      filtered_simulators = @installed_xcodes.map(&:available_simulators).flatten.select do |sim|
-        sim.version.to_s.start_with?(@install)
+      filtered_simulators = @installed_xcodes.map(&:available_simulators).flatten.uniq{|x| x.name}.select do |sim|
+        sim.name.start_with?(@install)
       end
       case filtered_simulators.count
       when 0
