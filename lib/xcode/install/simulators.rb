@@ -24,7 +24,7 @@ module XcodeInstall
     :private
 
     def install
-      filtered_simulators = @installed_xcodes.map(&:available_simulators).flatten.uniq{|x| x.name}.select do |sim|
+      filtered_simulators = @installed_xcodes.map(&:available_simulators).flatten.uniq(&:name).select do |sim|
         sim.name.start_with?(@install)
       end
       case filtered_simulators.count
