@@ -32,7 +32,7 @@ module XcodeInstall
       def validate!
         super
 
-        return if @version.nil?
+        help! 'A VERSION argument is required.' unless @version
         fail Informative, "Version #{@version} already installed." if @installer.installed?(@version)
         fail Informative, "Version #{@version} doesn't exist." unless @installer.exist?(@version)
         fail Informative, "Invalid URL: `#{@url}`" unless !@url || @url =~ /\A#{URI.regexp}\z/
