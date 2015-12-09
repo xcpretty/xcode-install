@@ -41,7 +41,7 @@ module XcodeInstall
         puts "[!] More than one simulator matching #{@install} was found. Please specify the full version.".ansi.red
         filtered_simulators.each do |candidate|
           puts "Xcode #{candidate.xcode.bundle_version} (#{candidate.xcode.path})".ansi.green
-          puts "xcode-install candidate --install=#{candidate.version}"
+          puts "xcversion simulators --install=#{candidate.version}"
         end
         exit 1
       end
