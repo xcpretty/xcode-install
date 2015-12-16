@@ -127,14 +127,20 @@ HELP
       `open #{xcode.release_notes_url}` unless xcode.nil? || xcode.release_notes_url.nil?
     end
 
+    def list_annotated(xcodes_list)
+      installed = installed_versions.map(&:version)
+      xcodes_list.map { |x| installed.include?(x) ? "#{x} (installed)" : x }.join("\n")
+    end
+
     def list_current
       stable_majors = list_versions.reject { |v| /beta/i =~ v }.map { |v| v.split('.')[0] }.map { |v| v.split(' ')[0] }
       latest_stable_major = stable_majors.select { |v| v.length == 1 }.uniq.sort.last.to_i
-      list_versions.select { |v| v.split('.')[0].to_i >= latest_stable_major }.sort.join("\n")
+      current_versions = list_versions.select { |v| v.split('.')[0].to_i >= latest_stable_major }.sort
+      list_annotated(current_versions)
     end
 
     def list
-      list_versions.join("\n")
+      list_annotated(list_versions.sort)
     end
 
     def rm_list_cache
@@ -248,8 +254,7 @@ HELP
     end
 
     def list_versions
-      installed = installed_versions.map(&:version)
-      seedlist.map(&:name).reject { |x| installed.include?(x) }
+      seedlist.map(&:name)
     end
 
     def prereleases
