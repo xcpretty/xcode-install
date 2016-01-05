@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'claide', '~> 0.9.1'
+  spec.add_dependency 'claide', '>= 0.9.1', '< 1.1.0'
   # spec.add_dependency 'spaceship', '>= 0.16.0', '< 1.0.0'
   spec.add_dependency 'spaceship', '= 0.15.1'
 
