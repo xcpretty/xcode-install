@@ -10,8 +10,7 @@ module XcodeInstall
       end
 
       def installed?
-        `xcode-select -p`
-        $?.success?
+        File.exist?('/Library/Developer/CommandLineTools/usr/lib/libxcrun.dylib')
       end
 
       def install
