@@ -34,7 +34,7 @@ module XcodeInstall
         exit 1
       when 1
         simulator = filtered_simulators.first
-        fail Informative, "#{simulator.name} is already installed." if simulator.installed?
+        raise Informative, "#{simulator.name} is already installed." if simulator.installed?
         puts "Installing #{simulator.name} for Xcode #{simulator.xcode.bundle_version}..."
         simulator.install
       else
