@@ -53,7 +53,7 @@ module XcodeInstall
       xcode = seedlist.find { |x| x.name == version }
       dmg_file = Pathname.new(File.basename(url || xcode.path))
 
-      result = Curl.new.fetch(url || xcode.url, CACHE_DIR, spaceship.cookie, dmg_file, progress)
+      result = Curl.new.fetch(url || xcode.url, CACHE_DIR, url ? nil : spaceship.cookie, dmg_file, progress)
       result ? CACHE_DIR + dmg_file : nil
     end
 
@@ -114,7 +114,7 @@ HELP
 
     def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil)
       dmg_path = get_dmg(version, progress, url)
-      fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
+      raise Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
 
@@ -161,7 +161,7 @@ HELP
       plist = hdiutil('mount', '-plist', '-nobrowse', '-noverify', dmg_path.to_s)
       document = REXML::Document.new(plist)
       node = REXML::XPath.first(document, "//key[.='mount-point']/following-sibling::*[1]")
-      fail Informative, 'Failed to mount image.' unless node
+      raise Informative, 'Failed to mount image.' unless node
       node.text
     end
 
@@ -286,7 +286,7 @@ HELP
       io = IO.popen(['hdiutil', *args])
       result = io.read
       io.close
-      fail Informative, 'Failed to invoke hdiutil.' unless $?.exitstatus == 0
+      raise Informative, 'Failed to invoke hdiutil.' unless $?.exitstatus == 0
       result
     end
   end
@@ -337,7 +337,7 @@ HELP
       prepare_package unless pkg_path.exist?
       puts "Please authenticate to install #{name}..."
       `sudo installer -pkg #{pkg_path} -target /`
-      fail Informative, "Could not install #{name}, please try again" unless installed?
+      raise Informative, "Could not install #{name}, please try again" unless installed?
       source_receipts_dir = '/private/var/db/receipts'
       target_receipts_dir = "#{@install_prefix}/System/Library/Receipts"
       FileUtils.mkdir_p(target_receipts_dir)
