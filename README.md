@@ -90,7 +90,7 @@ iOS 8.4 Simulator (installed)
 To install a simulator, simply:
 
 ```
-$ xcversion simulators --install=8.4
+$ xcversion simulators --install="iOS 8.4"
 ###########################################################               82.1%
 ######################################################################## 100.0%
 Please authenticate to install iOS 8.4 Simulator...
