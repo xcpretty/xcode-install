@@ -75,22 +75,26 @@ XcodeInstall can also manage your local simulators using the `simulators` comman
 
 ```
 $ xcversion simulators
-Xcode 6.4.0 (/Applications/Xcode.app)
+Xcode 6.4 (/Applications/Xcode-6.4.app)
 iOS 7.1 Simulator (installed)
 iOS 8.1 Simulator (not installed)
 iOS 8.2 Simulator (not installed)
 iOS 8.3 Simulator (installed)
-Xcode 7.0.0 (/Applications/Xcode-beta.app)
+Xcode 7.2.1 (/Applications/Xcode-7.2.1.app)
 iOS 8.1 Simulator (not installed)
 iOS 8.2 Simulator (not installed)
 iOS 8.3 Simulator (installed)
-iOS 8.4 Simulator (installed)
+iOS 8.4 Simulator (not installed)
+iOS 9.0 Simulator (not installed)
+iOS 9.1 Simulator (not installed)
+tvOS 9.0 Simulator (not installed)
+watchOS 2.0 Simulator (installed)
 ```
 
-To install a simulator, simply:
+To install a simulator, use `--install` and the beginning of a simulator name:
 
 ```
-$ xcversion simulators --install=8.4
+$ xcversion simulators --install='iOS 8.4'
 ###########################################################               82.1%
 ######################################################################## 100.0%
 Please authenticate to install iOS 8.4 Simulator...
