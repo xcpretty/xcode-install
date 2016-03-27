@@ -16,6 +16,8 @@ module XcodeInstall
 
       def validate!
         super
+        help! 'A VERSION argument is required.' unless @version
+
         raise Informative, "Version #{@version} is not installed." unless @installer.installed?(@version)
       end
 
