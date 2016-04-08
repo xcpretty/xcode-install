@@ -7,6 +7,33 @@ require 'rubygems/version'
 require 'xcode/install/command'
 require 'xcode/install/version'
 
+module Spaceship
+  class PortalClient
+    # 🐒🔧 to change `landing_url` 😢
+    # see <https://github.com/neonichu/xcode-install/issues/122>
+    def api_key
+      cache_path = '/tmp/spaceship_api_key.txt'
+      begin
+        cached = File.read(cache_path)
+      rescue Errno::ENOENT
+      end
+      return cached if cached
+
+      landing_url = 'https://developer.apple.com/account/'
+      logger.info('GET: ' + landing_url)
+      headers = @client.get(landing_url).headers
+      results = headers['location'].match(/.*appIdKey=(\h+)/)
+      if (results || []).length > 1
+        api_key = results[1]
+        File.write(cache_path, api_key) if api_key.length == 64
+        return api_key
+      else
+        fail 'Could not find latest API Key from the Dev Portal - the server might be slow right now'
+      end
+    end
+  end
+end
+
 module XcodeInstall
   CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
   class Curl

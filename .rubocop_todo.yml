@@ -28,3 +28,8 @@ Metrics/MethodLength:
 # Configuration parameters: CountKeywordArgs.
 Metrics/ParameterLists:
   Max: 6
+
+# FIXME: for spaceship workaround
+Lint/HandleExceptions:
+  Exclude:
+    - 'lib/xcode/install.rb'
