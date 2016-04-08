@@ -17,8 +17,8 @@ module XcodeInstall
       def validate!
         super
 
-        raise Informative, 'Please specify a version to select.' if @version.nil?
-        raise Informative, "Version #{@version} not installed." unless @installer.installed?(@version)
+        fail Informative, 'Please specify a version to select.' if @version.nil?
+        fail Informative, "Version #{@version} not installed." unless @installer.installed?(@version)
       end
 
       def run

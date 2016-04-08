@@ -141,7 +141,7 @@ HELP
 
     def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil)
       dmg_path = get_dmg(version, progress, url)
-      raise Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
+      fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
 
@@ -188,7 +188,7 @@ HELP
       plist = hdiutil('mount', '-plist', '-nobrowse', '-noverify', dmg_path.to_s)
       document = REXML::Document.new(plist)
       node = REXML::XPath.first(document, "//key[.='mount-point']/following-sibling::*[1]")
-      raise Informative, 'Failed to mount image.' unless node
+      fail Informative, 'Failed to mount image.' unless node
       node.text
     end
 
@@ -313,7 +313,7 @@ HELP
       io = IO.popen(['hdiutil', *args])
       result = io.read
       io.close
-      raise Informative, 'Failed to invoke hdiutil.' unless $?.exitstatus == 0
+      fail Informative, 'Failed to invoke hdiutil.' unless $?.exitstatus == 0
       result
     end
   end
@@ -364,7 +364,7 @@ HELP
       prepare_package unless pkg_path.exist?
       puts "Please authenticate to install #{name}..."
       `sudo installer -pkg #{pkg_path} -target /`
-      raise Informative, "Could not install #{name}, please try again" unless installed?
+      fail Informative, "Could not install #{name}, please try again" unless installed?
       source_receipts_dir = '/private/var/db/receipts'
       target_receipts_dir = "#{@install_prefix}/System/Library/Receipts"
       FileUtils.mkdir_p(target_receipts_dir)
