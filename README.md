@@ -18,6 +18,15 @@ $ xcversion install 6.3
 $ gem install xcode-install
 ```
 
+Note: unfortunately, XcodeInstall has a transitive dependency on a gem with native extensions and this is not really fixable at this point in time. If you are installing this on a machine without a working compiler, please use these alternative instructions instead:
+
+```
+$ curl -sL -O https://github.com/neonichu/ruby-domain_name/releases/download/v0.5.99999999/domain_name-0.5.99999999.gem
+$ gem install domain_name-0.5.99999999.gem
+$ gem install --conservative xcode-install
+$ rm -f domain_name-0.5.99999999.gem
+```
+
 ## Usage
 
 XcodeInstall needs environment variables with your credentials to access the Apple Developer
