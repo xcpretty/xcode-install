@@ -75,7 +75,6 @@ module XcodeInstall
       xcode_path = "/Applications/Xcode#{suffix}.app"
 
       mount_dir = mount(dmg_path)
-      puts 'Please authenticate for Xcode installation...'
       source = Dir.glob(File.join(mount_dir, 'Xcode*.app')).first
 
       if source.nil?
@@ -88,7 +87,8 @@ HELP
         return
       end
 
-      `sudo ditto "#{source}" "#{xcode_path}"`
+      prompt = "Please authenticate for Xcode installation.\nPassword: "
+      `sudo -p "#{prompt}" ditto "#{source}" "#{xcode_path}"`
       `umount "/Volumes/Xcode"`
 
       unless verify_integrity(xcode_path)
