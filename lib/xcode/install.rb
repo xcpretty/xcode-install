@@ -436,7 +436,9 @@ HELP
     end
 
     def install_components
-      `sudo installer -pkg #{@path}/Contents/Resources/Packages/MobileDevice.pkg -target /`
+      Dir.glob("#{@path}/Contents/Resources/Packages/*.pkg").each do |pkg|
+        `sudo installer -pkg #{pkg} -target /`
+      end
       osx_build_version = `sw_vers -buildVersion`.chomp
       tools_version = `/usr/libexec/PlistBuddy -c "Print :ProductBuildVersion" "#{@path}/Contents/version.plist"`.chomp
       cache_dir = `getconf DARWIN_USER_CACHE_DIR`.chomp
