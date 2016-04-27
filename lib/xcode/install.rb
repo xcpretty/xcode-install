@@ -49,8 +49,8 @@ module XcodeInstall
     end
 
     def download(version, progress, url = nil)
-      return unless exist?(version) || url
-      xcode = seedlist.find { |x| x.name == version }
+      return unless url || exist?(version)
+      xcode = seedlist.find { |x| x.name == version } unless url
       dmg_file = Pathname.new(File.basename(url || xcode.path))
 
       result = Curl.new.fetch(url || xcode.url, CACHE_DIR, url ? nil : spaceship.cookie, dmg_file, progress)
@@ -118,7 +118,7 @@ HELP
 
       install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean) if install
 
-      open_release_notes_url(version)
+      open_release_notes_url(version) unless url
     end
 
     def open_release_notes_url(version)
