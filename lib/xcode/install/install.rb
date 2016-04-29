@@ -36,7 +36,7 @@ module XcodeInstall
 
         help! 'A VERSION argument is required.' unless @version
         fail Informative, "Version #{@version} already installed." if @installer.installed?(@version) && !@force
-        fail Informative, "Version #{@version} doesn't exist." unless @installer.exist?(@version)
+        fail Informative, "Version #{@version} doesn't exist." unless @url || @installer.exist?(@version)
         fail Informative, "Invalid URL: `#{@url}`" unless !@url || @url =~ /\A#{URI.regexp}\z/
       end
 
