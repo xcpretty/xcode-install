@@ -5,7 +5,7 @@ module XcodeInstall
       self.summary = 'List installed Xcodes.'
 
       def self.options
-        [['--uuid', 'Show DVTPlugInCompatibilityUUID of plist.']].concat(super)
+        [['--uuid', 'Show DVTPlugInCompatibilityUUIDs in the list.']].concat(super)
       end
 
       def initialize(argv)
