@@ -4,10 +4,19 @@ module XcodeInstall
       self.command = 'installed'
       self.summary = 'List installed Xcodes.'
 
+      def self.options
+        [['--uuid', 'Show DVTPlugInCompatibilityUUID of plist.']].concat(super)
+      end
+
+      def initialize(argv)
+        @uuid = argv.flag?('uuid', false)
+        super
+      end
+
       def run
         installer = XcodeInstall::Installer.new
         installer.installed_versions.each do |xcode|
-          puts "#{xcode.version}\t(#{xcode.path})"
+          puts "#{xcode.version}\t(#{xcode.path})\t#{@uuid ? xcode.uuid : ''}"
         end
       end
     end
