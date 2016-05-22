@@ -22,6 +22,9 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'claide', '>= 0.9.1', '< 1.1.0'
   spec.add_dependency 'spaceship', '>= 0.25.1', '< 1.0.0'
+  spec.add_dependency 'nokogiri'
+  spec.add_dependency 'rails'
+  spec.add_dependency 'fastlane'
 
   spec.add_development_dependency 'bundler', '~> 1.7'
   spec.add_development_dependency 'rake', '~> 10.0'
