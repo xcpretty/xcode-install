@@ -1,4 +1,6 @@
 language: ruby
+os: osx
+osx_image: xcode7.3
 rvm: 2.0.0-p598
 cache: bundler
 script:
