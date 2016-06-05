@@ -286,7 +286,13 @@ HELP
       io = IO.popen(['hdiutil', *args])
       result = io.read
       io.close
-      fail Informative, 'Failed to invoke hdiutil.' unless $?.exitstatus == 0
+      unless $?.exitstatus == 0
+        file_path = args[-1]
+        if `file -b #{file_path}`.start_with?('HTML')
+          fail Informative, "Failed to mount #{file_path}, logging into your account from a browser should tell you what is going wrong."
+        end
+        fail Informative, 'Failed to invoke hdiutil.'
+      end
       result
     end
   end
