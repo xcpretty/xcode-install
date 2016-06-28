@@ -259,6 +259,7 @@ HELP
 
     def prereleases
       body = spaceship.send(:request, :get, '/xcode/download/').body
+      
       links = body.scan(%r{<a.+?href="(.+?.dmg)".*>(.*)</a>})
       links = links.map do |link|
         parent = link[0].scan(%r{path=(/.*/.*/)}).first.first
@@ -269,7 +270,16 @@ HELP
           link + [nil]
         end
       end
-      links.map { |pre| Xcode.new_prerelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0], pre[2]) }
+      links = links.map { |pre| Xcode.new_prerelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0], pre[2]) }
+
+      if links.count == 0
+        version = body.scan(%r{Xcode.* beta}).last.sub(/<.*?>/, '').gsub(/.*Xcode /, '')
+        link = body.scan(%r{<button .*(/go/\?id=xcode-.+?)".*</button>}).first.first
+        notes = body.scan(%r{<a.+?href="(/go/\?id=xcode-.+?)".*>(.*)</a>}).first.first
+        links << Xcode.new(version, link, notes)
+      end
+
+      links
     end
 
     def seedlist
@@ -472,13 +482,20 @@ HELP
     attr_reader :version
     attr_reader :release_notes_url
 
-    def initialize(json)
-      @date_modified = json['dateModified'].to_i
-      @name = json['name'].gsub(/^Xcode /, '')
-      @path = json['files'].first['remotePath']
-      url_prefix = 'https://developer.apple.com/devcenter/download.action?path='
-      @url = "#{url_prefix}#{@path}"
-      @release_notes_url = "#{url_prefix}#{json['release_notes_path']}" if json['release_notes_path']
+    def initialize(json, url = nil, release_notes_url = nil)
+      unless url
+        @date_modified = json['dateModified'].to_i
+        @name = json['name'].gsub(/^Xcode /, '')
+        @path = json['files'].first['remotePath']
+        url_prefix = 'https://developer.apple.com/devcenter/download.action?path='
+        @url = "#{url_prefix}#{@path}"
+        @release_notes_url = "#{url_prefix}#{json['release_notes_path']}" if json['release_notes_path']
+      else
+        @name = json
+        url_prefix = 'https://developer.apple.com/'
+        @url = "#{url_prefix}#{url}"
+        @release_notes_url = "#{url_prefix}#{release_notes_url}"
+      end
 
       begin
         @version = Gem::Version.new(@name.split(' ')[0])
