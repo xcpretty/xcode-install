@@ -258,7 +258,7 @@ HELP
     end
 
     def prereleases
-      body = spaceship.send(:request, :get, '/xcode/download/').body
+      body = spaceship.send(:request, :get, '/download/').body
       
       links = body.scan(%r{<a.+?href="(.+?.dmg)".*>(.*)</a>})
       links = links.map do |link|
@@ -274,7 +274,7 @@ HELP
 
       if links.count == 0
         version = body.scan(%r{Xcode.* beta}).last.sub(/<.*?>/, '').gsub(/.*Xcode /, '')
-        link = body.scan(%r{<button .*(/go/\?id=xcode-.+?)".*</button>}).first.first
+        link = body.scan(%r{<button .*"(.+?.xip)".*</button>}).first.first
         notes = body.scan(%r{<a.+?href="(/go/\?id=xcode-.+?)".*>(.*)</a>}).first.first
         links << Xcode.new(version, link, notes)
       end
@@ -492,6 +492,7 @@ HELP
         @release_notes_url = "#{url_prefix}#{json['release_notes_path']}" if json['release_notes_path']
       else
         @name = json
+        @path = url.split('/').last
         url_prefix = 'https://developer.apple.com/'
         @url = "#{url_prefix}#{url}"
         @release_notes_url = "#{url_prefix}#{release_notes_url}"
