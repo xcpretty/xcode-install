@@ -72,24 +72,31 @@ module XcodeInstall
     end
 
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
+      prompt = "Please authenticate for Xcode installation.\nPassword: "
       xcode_path = "/Applications/Xcode#{suffix}.app"
 
-      mount_dir = mount(dmg_path)
-      source = Dir.glob(File.join(mount_dir, 'Xcode*.app')).first
+      if dmg_path.extname == '.xip'
+        `xar -x -f #{dmg_path} --exclude 'Metadata'`
+        `sudo -p "#{prompt}" ditto -x Content /Applications`
+        `sudo -p "#{prompt}" mv /Applications/Xcode-beta.app "#{xcode_path}"`
+        FileUtils.rm_f('Content')
+      else
+        mount_dir = mount(dmg_path)
+        source = Dir.glob(File.join(mount_dir, 'Xcode*.app')).first
 
-      if source.nil?
-        out = <<-HELP
+        if source.nil?
+          out = <<-HELP
 No `Xcode.app` found in DMG. Please remove #{dmg_path} if you suspect a corrupted
 download or run `xcversion update` to see if the version you tried to install
 has been pulled by Apple. If none of this is true, please open a new GH issue.
 HELP
-        $stderr.puts out.tr("\n", ' ')
-        return
-      end
+          $stderr.puts out.tr("\n", ' ')
+          return
+        end
 
-      prompt = "Please authenticate for Xcode installation.\nPassword: "
-      `sudo -p "#{prompt}" ditto "#{source}" "#{xcode_path}"`
-      `umount "/Volumes/Xcode"`
+        `sudo -p "#{prompt}" ditto "#{source}" "#{xcode_path}"`
+        `umount "/Volumes/Xcode"`
+      end
 
       unless verify_integrity(xcode_path)
         `sudo rm -f #{xcode_path}`
@@ -258,7 +265,8 @@ HELP
     end
 
     def prereleases
-      body = spaceship.send(:request, :get, '/xcode/download/').body
+      body = spaceship.send(:request, :get, '/download/').body
+
       links = body.scan(%r{<a.+?href="(.+?.dmg)".*>(.*)</a>})
       links = links.map do |link|
         parent = link[0].scan(%r{path=(/.*/.*/)}).first.first
@@ -269,7 +277,16 @@ HELP
           link + [nil]
         end
       end
-      links.map { |pre| Xcode.new_prerelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0], pre[2]) }
+      links = links.map { |pre| Xcode.new_prerelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0], pre[2]) }
+
+      if links.count == 0
+        version = body.scan(/Xcode.* beta/).last.sub(/<.*?>/, '').gsub(/.*Xcode /, '')
+        link = body.scan(%r{<button .*"(.+?.xip)".*</button>}).first.first
+        notes = body.scan(%r{<a.+?href="(/go/\?id=xcode-.+?)".*>(.*)</a>}).first.first
+        links << Xcode.new(version, link, notes)
+      end
+
+      links
     end
 
     def seedlist
@@ -472,13 +489,21 @@ HELP
     attr_reader :version
     attr_reader :release_notes_url
 
-    def initialize(json)
-      @date_modified = json['dateModified'].to_i
-      @name = json['name'].gsub(/^Xcode /, '')
-      @path = json['files'].first['remotePath']
-      url_prefix = 'https://developer.apple.com/devcenter/download.action?path='
-      @url = "#{url_prefix}#{@path}"
-      @release_notes_url = "#{url_prefix}#{json['release_notes_path']}" if json['release_notes_path']
+    def initialize(json, url = nil, release_notes_url = nil)
+      if url.nil?
+        @date_modified = json['dateModified'].to_i
+        @name = json['name'].gsub(/^Xcode /, '')
+        @path = json['files'].first['remotePath']
+        url_prefix = 'https://developer.apple.com/devcenter/download.action?path='
+        @url = "#{url_prefix}#{@path}"
+        @release_notes_url = "#{url_prefix}#{json['release_notes_path']}" if json['release_notes_path']
+      else
+        @name = json
+        @path = url.split('/').last
+        url_prefix = 'https://developer.apple.com/'
+        @url = "#{url_prefix}#{url}"
+        @release_notes_url = "#{url_prefix}#{release_notes_url}"
+      end
 
       begin
         @version = Gem::Version.new(@name.split(' ')[0])

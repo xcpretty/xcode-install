@@ -69,5 +69,12 @@ module XcodeInstall
       prereleases.first.should == Xcode.new_prerelease('7.1 beta', '/Developer_Tools/Xcode_7.1_beta/Xcode_7.1_beta.dmg', '/Developer_Tools/Xcode_7.1_beta/Xcode_7.1_beta_Release_Notes.pdf')
       prereleases.last.should == Xcode.new_prerelease('7 GM seed', '/Developer_Tools/Xcode_7_GM_seed/Xcode_7_GM_seed.dmg', nil)
     end
+
+    it 'can parse prereleases from 20160601' do
+      prereleases = parse_prereleases('20160601')
+
+      prereleases.count.should == 1
+      prereleases.first.should == Xcode.new('8 beta', '/services-account/download?path=/WWDC_2016/Xcode_8_beta/Xcode_8_beta.xip', '/go/?id=xcode-8-beta-rn')
+    end
   end
 end
