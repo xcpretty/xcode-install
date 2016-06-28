@@ -266,7 +266,7 @@ HELP
 
     def prereleases
       body = spaceship.send(:request, :get, '/download/').body
-      
+
       links = body.scan(%r{<a.+?href="(.+?.dmg)".*>(.*)</a>})
       links = links.map do |link|
         parent = link[0].scan(%r{path=(/.*/.*/)}).first.first
@@ -280,7 +280,7 @@ HELP
       links = links.map { |pre| Xcode.new_prerelease(pre[1].strip.gsub(/.*Xcode /, ''), pre[0], pre[2]) }
 
       if links.count == 0
-        version = body.scan(%r{Xcode.* beta}).last.sub(/<.*?>/, '').gsub(/.*Xcode /, '')
+        version = body.scan(/Xcode.* beta/).last.sub(/<.*?>/, '').gsub(/.*Xcode /, '')
         link = body.scan(%r{<button .*"(.+?.xip)".*</button>}).first.first
         notes = body.scan(%r{<a.+?href="(/go/\?id=xcode-.+?)".*>(.*)</a>}).first.first
         links << Xcode.new(version, link, notes)
@@ -490,7 +490,7 @@ HELP
     attr_reader :release_notes_url
 
     def initialize(json, url = nil, release_notes_url = nil)
-      unless url
+      if url.nil?
         @date_modified = json['dateModified'].to_i
         @name = json['name'].gsub(/^Xcode /, '')
         @path = json['files'].first['remotePath']
