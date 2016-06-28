@@ -72,24 +72,31 @@ module XcodeInstall
     end
 
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
+      prompt = "Please authenticate for Xcode installation.\nPassword: "
       xcode_path = "/Applications/Xcode#{suffix}.app"
 
-      mount_dir = mount(dmg_path)
-      source = Dir.glob(File.join(mount_dir, 'Xcode*.app')).first
+      if dmg_path.extname == '.xip'
+        `xar -x -f #{dmg_path} --exclude 'Metadata'`
+        `sudo -p "#{prompt}" ditto -x Content /Applications`
+        `sudo -p "#{prompt}" mv /Applications/Xcode-beta.app "#{xcode_path}"`
+        FileUtils.rm_f('Content')
+      else
+        mount_dir = mount(dmg_path)
+        source = Dir.glob(File.join(mount_dir, 'Xcode*.app')).first
 
-      if source.nil?
-        out = <<-HELP
+        if source.nil?
+          out = <<-HELP
 No `Xcode.app` found in DMG. Please remove #{dmg_path} if you suspect a corrupted
 download or run `xcversion update` to see if the version you tried to install
 has been pulled by Apple. If none of this is true, please open a new GH issue.
 HELP
-        $stderr.puts out.tr("\n", ' ')
-        return
-      end
+          $stderr.puts out.tr("\n", ' ')
+          return
+        end
 
-      prompt = "Please authenticate for Xcode installation.\nPassword: "
-      `sudo -p "#{prompt}" ditto "#{source}" "#{xcode_path}"`
-      `umount "/Volumes/Xcode"`
+        `sudo -p "#{prompt}" ditto "#{source}" "#{xcode_path}"`
+        `umount "/Volumes/Xcode"`
+      end
 
       unless verify_integrity(xcode_path)
         `sudo rm -f #{xcode_path}`
