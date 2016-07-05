@@ -76,5 +76,12 @@ module XcodeInstall
       prereleases.count.should == 1
       prereleases.first.should == Xcode.new('8 beta', '/services-account/download?path=/WWDC_2016/Xcode_8_beta/Xcode_8_beta.xip', '/go/?id=xcode-8-beta-rn')
     end
+
+    it 'can parse prereleases from 20160705' do
+      prereleases = parse_prereleases('20160705')
+
+      prereleases.count.should == 1
+      prereleases.first.should == Xcode.new('8 beta 2', '/services-account/download?path=/Developer_Tools/Xcode_8_beta_2/Xcode_8_beta_2.xip', '/go/?id=xcode-8-beta-rn')
+    end
   end
 end
