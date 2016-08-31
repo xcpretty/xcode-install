@@ -1,9 +1,7 @@
 # Xcode::Install
 
-[![Build Status](http://img.shields.io/travis/neonichu/xcode-install/master.svg?style=flat)](https://travis-ci.org/neonichu/xcode-install)
-[![Coverage Status](https://coveralls.io/repos/neonichu/xcode-install/badge.svg)](https://coveralls.io/r/neonichu/xcode-install)
+[![Build Status](http://img.shields.io/travis/KrauseFx/xcode-install/master.svg?style=flat)](https://travis-ci.org/neonichu/xcode-install)
 [![Gem Version](http://img.shields.io/gem/v/xcode-install.svg?style=flat)](http://badge.fury.io/rb/xcode-install)
-[![Code Climate](http://img.shields.io/codeclimate/github/neonichu/xcode-install.svg?style=flat)](https://codeclimate.com/github/neonichu/xcode-install)
 
 Install and update your Xcodes automatically.
 
