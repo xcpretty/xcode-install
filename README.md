@@ -30,7 +30,7 @@ $ rm -f domain_name-0.5.99999999.gem
 ## Usage
 
 XcodeInstall needs environment variables with your credentials to access the Apple Developer
-Center, they are stored using the [CredentialsManager][1] of [fastlane][2]:
+Center, they are stored using the [credentials_manager][1] of [fastlane][2]:
 
 ```
 XCODE_INSTALL_USER

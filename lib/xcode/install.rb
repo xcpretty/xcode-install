@@ -126,7 +126,7 @@ HELP
       if install
         install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean)
       else
-        puts "Downloaded Xcode #{version} to #{dmg_path}"
+        puts "Downloaded Xcode #{version} to '#{dmg_path}'"
       end
 
       open_release_notes_url(version) unless url
