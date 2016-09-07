@@ -284,7 +284,15 @@ HELP
       links = links.map { |pre| Xcode.new_prerelease(pre[2].strip.gsub(/.*Xcode /, ''), pre[0], pre[3]) }
 
       if links.count == 0
-        version = body.scan(%r{Xcode.* beta.*<\/p>}).last.gsub(/<.*?>/, '').gsub(/.*Xcode /, '')
+        rg = %r{Xcode.* beta.*<\/p>}
+        scan = body.scan(rg)
+
+        if scan.count == 0
+          rg = %r{Xcode.* GM.*<\/p>}
+          scan = body.scan(rg)
+        end
+
+        version = scan.last.gsub(/<.*?>/, '').gsub(/.*Xcode /, '')
         link = body.scan(%r{<button .*"(.+?.xip)".*</button>}).first.first
         notes = body.scan(%r{<a.+?href="(/go/\?id=xcode-.+?)".*>(.*)</a>}).first.first
         links << Xcode.new(version, link, notes)
