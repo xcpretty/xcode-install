@@ -80,15 +80,15 @@ module XcodeInstall
         `'#{archive_util}' #{dmg_path}`
         xcode_orig_path = dmg_path.dirname + 'Xcode.app'
         xcode_beta_path = dmg_path.dirname + 'Xcode-beta.app'
-        if Pathname.new(xcode_orig_path).exist?()
+        if Pathname.new(xcode_orig_path).exist?
           `sudo -p "#{prompt}" mv "#{xcode_orig_path}" "#{xcode_path}"`
-        elsif Pathname.new(xcode_beta_path).exist?()
+        elsif Pathname.new(xcode_beta_path).exist?
           `sudo -p "#{prompt}" mv "#{xcode_beta_path}" "#{xcode_path}"`
         else
           out = <<-HELP
-No `Xcode.app(or Xcode-beta.app)` found in XIP. Please remove #{dmg_path} if you 
-suspect a corrupted download or run `xcversion update` to see if the version 
-you tried to install has been pulled by Apple. If none of this is true, 
+No `Xcode.app(or Xcode-beta.app)` found in XIP. Please remove #{dmg_path} if you
+suspect a corrupted download or run `xcversion update` to see if the version
+you tried to install has been pulled by Apple. If none of this is true,
 please open a new GH issue.
 HELP
           $stderr.puts out.tr("\n", ' ')
