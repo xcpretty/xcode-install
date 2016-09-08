@@ -74,12 +74,26 @@ module XcodeInstall
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
       archive_util = '/System/Library/CoreServices/Applications/Archive Utility.app/Contents/MacOS/Archive Utility'
       prompt = "Please authenticate for Xcode installation.\nPassword: "
-      xcode_beta_path = dmg_path.dirname + 'Xcode-beta.app'
       xcode_path = "/Applications/Xcode#{suffix}.app"
 
       if dmg_path.extname == '.xip'
         `'#{archive_util}' #{dmg_path}`
-        `sudo -p "#{prompt}" mv "#{xcode_beta_path}" "#{xcode_path}"`
+        xcode_orig_path = dmg_path.dirname + 'Xcode.app'
+        xcode_beta_path = dmg_path.dirname + 'Xcode-beta.app'
+        if Pathname.new(xcode_orig_path).exist?()
+          `sudo -p "#{prompt}" mv "#{xcode_orig_path}" "#{xcode_path}"`
+        elsif Pathname.new(xcode_beta_path).exist?()
+          `sudo -p "#{prompt}" mv "#{xcode_beta_path}" "#{xcode_path}"`
+        else
+          out = <<-HELP
+No `Xcode.app(or Xcode-beta.app)` found in DMG. Please remove #{dmg_path} if you 
+suspect a corrupted download or run `xcversion update` to see if the version 
+you tried to install has been pulled by Apple. If none of this is true, 
+please open a new GH issue.
+HELP
+          $stderr.puts out.tr("\n", ' ')
+          return
+        end
       else
         mount_dir = mount(dmg_path)
         source = Dir.glob(File.join(mount_dir, 'Xcode*.app')).first
