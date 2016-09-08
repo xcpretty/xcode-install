@@ -86,7 +86,7 @@ module XcodeInstall
           `sudo -p "#{prompt}" mv "#{xcode_beta_path}" "#{xcode_path}"`
         else
           out = <<-HELP
-No `Xcode.app(or Xcode-beta.app)` found in DMG. Please remove #{dmg_path} if you 
+No `Xcode.app(or Xcode-beta.app)` found in XIP. Please remove #{dmg_path} if you 
 suspect a corrupted download or run `xcversion update` to see if the version 
 you tried to install has been pulled by Apple. If none of this is true, 
 please open a new GH issue.
