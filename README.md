@@ -48,6 +48,11 @@ $ xcversion list
 
 Installed versions will be omitted and by default, only the latest major version is listed.
 
+To list all available versions run
+```
+$ xcversion list --all
+```
+
 To install a certain version, simply:
 
 ```
