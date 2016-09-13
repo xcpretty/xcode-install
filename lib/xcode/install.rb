@@ -275,7 +275,7 @@ HELP
         a.date_modified <=> b.date_modified
       end
 
-      xcodes.select { |x| x.url.end_with?('.dmg') }
+      xcodes.select { |x| x.url.end_with?('.dmg') || x.url.end_with?('.xip') }
     end
 
     def list_versions
