@@ -56,12 +56,12 @@ $ xcversion list --all
 To install a certain version, simply:
 
 ```
-$ xcversion install 6.3
+$ xcversion install 8
 ###########################################################               82.1%
 ######################################################################## 100.0%
 Please authenticate for Xcode installation...
 
-Xcode 6.3
+Xcode 8
 Build version 6D570
 ```
 

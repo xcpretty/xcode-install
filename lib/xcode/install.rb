@@ -275,7 +275,7 @@ HELP
         a.date_modified <=> b.date_modified
       end
 
-      xcodes.select { |x| x.url.end_with?('.dmg') }
+      xcodes.select { |x| x.url.end_with?('.dmg') || x.url.end_with?('.xip') }
     end
 
     def list_versions
@@ -305,6 +305,8 @@ HELP
           rg = %r{Xcode.* GM.*<\/p>}
           scan = body.scan(rg)
         end
+
+        return [] if scan.empty?
 
         version = scan.last.gsub(/<.*?>/, '').gsub(/.*Xcode /, '')
         link = body.scan(%r{<button .*"(.+?.xip)".*</button>}).first.first
