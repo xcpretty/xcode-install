@@ -306,6 +306,8 @@ HELP
           scan = body.scan(rg)
         end
 
+        return [] if scan.empty?
+
         version = scan.last.gsub(/<.*?>/, '').gsub(/.*Xcode /, '')
         link = body.scan(%r{<button .*"(.+?.xip)".*</button>}).first.first
         notes = body.scan(%r{<a.+?href="(/go/\?id=xcode-.+?)".*>(.*)</a>}).first.first
