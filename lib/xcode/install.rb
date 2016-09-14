@@ -48,6 +48,25 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
+    def os_version_compatibility_issue?(version)
+      if version != "8"
+        return false
+      end
+
+      osx_version = `sw_vers -productVersion`.delete!("\n")
+      version_parts = osx_version.split('.')
+
+      major = version_parts[0].to_i
+      minor = version_parts[1].to_i
+      patch = version_parts[2].to_i
+
+      if minor < 12
+        if minor < 11 or minor == 11 and patch < 5
+          return true
+        end
+      end
+    end
+
     def download(version, progress, url = nil)
       return unless url || exist?(version)
       xcode = seedlist.find { |x| x.name == version } unless url
