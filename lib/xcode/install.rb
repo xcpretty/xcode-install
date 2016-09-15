@@ -49,22 +49,15 @@ module XcodeInstall
     end
 
     def os_version_compatibility_issue?(version)
-      if version != "8"
-        return false
-      end
+      return false if version != '8'
 
       osx_version = `sw_vers -productVersion`.delete!("\n")
       version_parts = osx_version.split('.')
 
-      major = version_parts[0].to_i
       minor = version_parts[1].to_i
       patch = version_parts[2].to_i
 
-      if minor < 12
-        if minor < 11 or minor == 11 and patch < 5
-          return true
-        end
-      end
+      return true if minor < 12 && minor < 11 || minor == 11 && patch < 5
     end
 
     def download(version, progress, url = nil)
@@ -126,7 +119,6 @@ HELP
           $stderr.puts out.tr("\n", ' ')
           return
         end
-
         `sudo -p "#{prompt}" ditto "#{source}" "#{xcode_path}"`
         `umount "/Volumes/Xcode"`
       end
