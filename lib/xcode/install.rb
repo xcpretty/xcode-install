@@ -49,7 +49,7 @@ module XcodeInstall
     end
 
     def os_version_compatibility_issue?(version)
-      #After Xcode 8 requires 10.11.5+ to extract the .xip
+      #Xcode 8 requires 10.11.5+ to extract the .xip
       #Extracting the Xcode .xip with < 10.11.5 returns  this  error `cpio read error: Undefined error: 0`
       return false if version != '8'
 
