@@ -298,7 +298,7 @@ HELP
       links = links.map { |pre| Xcode.new_prerelease(pre[2].strip.gsub(/.*Xcode /, ''), pre[0], pre[3]) }
 
       if links.count == 0
-        rg = %r{Xcode.* beta.*<\/p>}
+        rg = %r{platform-title.*Xcode.* beta.*<\/p>}
         scan = body.scan(rg)
 
         if scan.count == 0
