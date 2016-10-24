@@ -19,7 +19,7 @@ module XcodeInstall
         FileUtils.touch(cli_placeholder_file)
         # find the CLI Tools update
         product = `softwareupdate -l | grep "\*.*Command Line" | head -n 1 | awk -F"*" '{print $2}' | sed -e 's/^ *//' | tr -d '\n'`
-        `softwareupdate -i "#{product}" -v`
+        `softwareupdate --verbose -i "#{product}"`
         FileUtils.rm(cli_placeholder_file)
       end
     end
