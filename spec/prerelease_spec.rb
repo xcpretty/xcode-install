@@ -97,5 +97,12 @@ module XcodeInstall
       prereleases.count.should == 1
       prereleases.first.should == Xcode.new('8.1 beta', '/services-account/download?path=/Developer_Tools/Xcode_8.1_beta/Xcode_8.1_beta.xip', '/go/?id=xcode-8.1-beta-rn')
     end
+
+    it 'can parse prereleases from 20161024' do
+      prereleases = parse_prereleases('20161024')
+
+      prereleases.count.should == 1
+      prereleases.first.should == Xcode.new('8.1 GM seed', '/services-account/download?path=/Developer_Tools/Xcode_8.1_GM_Seed/Xcode_8.1_GM_Seed.xip', '/go/?id=xcode-8.1-beta-rn')
+    end
   end
 end
