@@ -468,7 +468,13 @@ HELP
     end
 
     def downloadable_index_url
-      @downloadable_index_url ||= "https://devimages.apple.com.edgekey.net/downloads/xcode/simulators/index-#{bundle_version}-#{uuid}.dvtdownloadableindex"
+      @downloadable_index_url ||= begin
+        if Gem::Version.new(version) >= Gem::Version.new('8.1')
+          "https://devimages-cdn.apple.com/downloads/xcode/simulators/index-#{bundle_version}-#{uuid}.dvtdownloadableindex"
+        else
+          "https://devimages.apple.com.edgekey.net/downloads/xcode/simulators/index-#{bundle_version}-#{uuid}.dvtdownloadableindex"
+        end
+      end
     end
 
     def approve_license
