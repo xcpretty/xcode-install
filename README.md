@@ -1,6 +1,5 @@
 # Xcode::Install
 
-[![Build Status](http://img.shields.io/travis/KrauseFx/xcode-install/master.svg?style=flat)](https://travis-ci.org/KrauseFx/xcode-install)
 [![Gem Version](http://img.shields.io/gem/v/xcode-install.svg?style=flat)](http://badge.fury.io/rb/xcode-install)
 
 Install and update your Xcodes automatically.
