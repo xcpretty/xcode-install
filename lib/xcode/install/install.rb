@@ -12,6 +12,7 @@ module XcodeInstall
 
       def self.options
         [['--url', 'Custom Xcode DMG file path or HTTP URL.'],
+         ['--password', 'System password'],
          ['--force', 'Install even if the same version is already installed.'],
          ['--no-switch', 'Don’t switch to this version after installation'],
          ['--no-install', 'Only download DMG, but do not install it.'],
@@ -23,11 +24,13 @@ module XcodeInstall
         @installer = Installer.new
         @version = argv.shift_argument
         @url = argv.option('url')
+        @password = argv.option('password')
         @force = argv.flag?('force', false)
         @should_clean = argv.flag?('clean', true)
         @should_install = argv.flag?('install', true)
         @should_switch = argv.flag?('switch', true)
         @progress = argv.flag?('progress', true)
+        
         super
       end
 
@@ -41,7 +44,7 @@ module XcodeInstall
       end
 
       def run
-        @installer.install_version(@version, @should_switch, @should_clean, @should_install,
+        @installer.install_version(@version, @password, @should_switch, @should_clean, @should_install,
                                    @progress, @url)
       end
     end
