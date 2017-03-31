@@ -17,31 +17,24 @@ module XcodeInstall
       end
 
       def run
-        @install ? install : list
+        @install ? install(matching_simulator) : list
       end
     end
 
     :private
 
-    def install
+    def matching_simulator
       filtered_simulators = @installed_xcodes.map(&:available_simulators).flatten.uniq(&:name).select do |sim|
         sim.name.start_with?(@install)
       end
+
       case filtered_simulators.count
       when 0
         puts "[!] No simulator matching #{@install} was found. Please specify a version from the following available simulators:".ansi.red
         list
         exit 1
       when 1
-        simulator = filtered_simulators.first
-
-        if simulator.installed?
-          puts "[!] #{simulator.name} is already installed.".ansi.yellow
-          exit
-        end
-
-        puts "Installing #{simulator.name} for Xcode #{simulator.xcode.bundle_version}..."
-        simulator.install
+        return filtered_simulators.first
       else
         puts "[!] More than one simulator matching #{@install} was found. Please specify the full version.".ansi.red
         filtered_simulators.each do |candidate|
@@ -50,6 +43,16 @@ module XcodeInstall
         end
         exit 1
       end
+    end
+
+    def install(simulator)
+      if simulator.installed?
+        puts "[!] #{simulator.name} is already installed.".ansi.yellow
+        exit
+      end
+
+      puts "Installing #{simulator.name} for Xcode #{simulator.xcode.bundle_version}..."
+      simulator.install
     end
 
     def list
