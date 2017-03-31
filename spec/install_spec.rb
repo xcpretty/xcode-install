@@ -37,10 +37,9 @@ module XcodeInstall
       end
     end
 
-    it 'exists if version is already installed' do
+    it 'exits if version is already installed' do
       Installer.any_instance.stubs(:installed?).with('6.3').returns(true)
       Command::Install.any_instance.expects(:exit).with.throws :exit
-
       -> { Command::Install.run(['6.3']) }.should.throw :exit
     end
 
