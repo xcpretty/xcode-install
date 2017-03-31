@@ -6,7 +6,7 @@ module XcodeInstall
 
       def run
         if installed?
-          puts 'Xcode CLI Tools are already installed.'.ansi.yellow
+          puts '[!] Xcode CLI Tools are already installed.'.ansi.yellow
           exit
         end
 
