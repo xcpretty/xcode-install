@@ -37,6 +37,13 @@ module XcodeInstall
       end
     end
 
+    it 'exists if version is already installed' do
+      Installer.any_instance.stubs(:installed?).with('6.3').returns(true)
+      Command::Install.any_instance.expects(:exit).with.throws :exit
+
+      -> { Command::Install.run(['6.3']) }.should.throw :exit
+    end
+
     it 'parses hdiutil output' do
       installer = Installer.new
       fixture = Pathname.new('spec/fixtures/hdiutil.plist').read
