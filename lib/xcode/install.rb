@@ -484,8 +484,12 @@ HELP
     end
 
     def available_simulators
-      @available_simulators ||= JSON.parse(`curl -Ls #{downloadable_index_url} | plutil -convert json -o - -`)['downloadables'].map do |downloadable|
-        Simulator.new(downloadable)
+      begin
+        @available_simulators ||= JSON.parse(`curl -Ls #{downloadable_index_url} | plutil -convert json -o - -`)['downloadables'].map do |downloadable|
+          Simulator.new(downloadable)
+        end
+      rescue JSON::ParserError
+        return []
       end
     end
 
