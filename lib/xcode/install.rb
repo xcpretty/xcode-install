@@ -259,12 +259,8 @@ HELP
     end
 
     def installed
-      unless (`mdutil -s /` =~ /disabled/).nil?
-        $stderr.puts 'Please enable Spotlight indexing for /Applications.'
-        exit(1)
-      end
-
-      `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null`.split("\n")
+      app_xml = `system_profiler -detailLevel full SPApplicationsDataType -xml`
+      app_xml.scan(/<string>(.*?Xcode[-\d\.]*app)<\/string>/).flatten
     end
 
     def parse_seedlist(seedlist)
