@@ -491,6 +491,8 @@ HELP
       @available_simulators ||= JSON.parse(`curl -Ls #{downloadable_index_url} | plutil -convert json -o - -`)['downloadables'].map do |downloadable|
         Simulator.new(downloadable)
       end
+    rescue JSON::ParserError
+      return []
     end
 
     def install_components
@@ -511,7 +513,7 @@ HELP
 
     def fetch_version
       output = `DEVELOPER_DIR='' "#{@path}/Contents/Developer/usr/bin/xcodebuild" -version`
-      return '0.0' if output.nil? # ¯\_(ツ)_/¯
+      return '0.0' if output.nil? || output.empty? # ¯\_(ツ)_/¯
       output.split("\n").first.split(' ')[1]
     end
   end
