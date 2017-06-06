@@ -251,7 +251,7 @@ HELP
       names = @xcodes.map(&:name)
       @xcodes += prereleases.reject { |pre| names.include?(pre.name) }
 
-      File.open(LIST_FILE, 'w') do |f|
+      File.open(LIST_FILE, 'wb') do |f|
         f << Marshal.dump(xcodes)
       end
 
