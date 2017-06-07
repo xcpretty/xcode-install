@@ -71,9 +71,16 @@ module XcodeInstall
       end
     end
 
-    def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
+    def sudo(command, password = nil)
+      if password.nil?
+        `sudo -p "Please authenticate for Xcode installation.\nPassword: " #{command}`
+      else
+        `echo #{password} | sudo -S #{command}`
+      end
+    end
+
+    def install_dmg(dmg_path, password = nil, suffix = '', switch = true, clean = true)
       archive_util = '/System/Library/CoreServices/Applications/Archive Utility.app/Contents/MacOS/Archive Utility'
-      prompt = "Please authenticate for Xcode installation.\nPassword: "
       xcode_path = "/Applications/Xcode#{suffix}.app"
 
       if dmg_path.extname == '.xip'
@@ -81,9 +88,9 @@ module XcodeInstall
         xcode_orig_path = dmg_path.dirname + 'Xcode.app'
         xcode_beta_path = dmg_path.dirname + 'Xcode-beta.app'
         if Pathname.new(xcode_orig_path).exist?
-          `sudo -p "#{prompt}" mv "#{xcode_orig_path}" "#{xcode_path}"`
+          sudo("mv \"#{xcode_orig_path}\" \"#{xcode_path}\"", password)
         elsif Pathname.new(xcode_beta_path).exist?
-          `sudo -p "#{prompt}" mv "#{xcode_beta_path}" "#{xcode_path}"`
+          sudo("mv \"#{xcode_beta_path}\" \"#{xcode_path}\"", password)
         else
           out = <<-HELP
 No `Xcode.app(or Xcode-beta.app)` found in XIP. Please remove #{dmg_path} if you
@@ -95,7 +102,7 @@ HELP
           return
         end
       else
-        mount_dir = mount(dmg_path)
+        mount_dir = mount(dmg_path, password)
         source = Dir.glob(File.join(mount_dir, 'Xcode*.app')).first
 
         if source.nil?
@@ -108,37 +115,37 @@ HELP
           return
         end
 
-        `sudo -p "#{prompt}" ditto "#{source}" "#{xcode_path}"`
+        sudo("ditto \"#{source}\" \"#{xcode_path}\"", password)
         `umount "/Volumes/Xcode"`
       end
 
       unless verify_integrity(xcode_path)
-        `sudo rm -f #{xcode_path}`
+        sudo("rm -f #{xcode_path}", password)
         return
       end
 
-      enable_developer_mode
+      enable_developer_mode(password)
       xcode = InstalledXcode.new(xcode_path)
       xcode.approve_license
       xcode.install_components
 
       if switch
-        `sudo rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
-        `sudo ln -sf #{xcode_path} #{SYMLINK_PATH}` unless SYMLINK_PATH.exist?
+        sudo("rm -f #{SYMLINK_PATH}", password) unless current_symlink.nil?
+        sudo("ln -sf #{xcode_path} #{SYMLINK_PATH}", password) unless SYMLINK_PATH.exist?
 
-        `sudo xcode-select --switch #{xcode_path}`
+        sudo("xcode-select --switch #{xcode_path}", password)
         puts `xcodebuild -version`
       end
 
       FileUtils.rm_f(dmg_path) if clean
     end
 
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil)
+    def install_version(version, password = nil, switch = true, clean = true, install = true, progress = true, url = nil)
       dmg_path = get_dmg(version, progress, url)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       if install
-        install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean)
+        install_dmg(dmg_path, password, "-#{version.split(' ')[0]}", switch, clean)
       else
         puts "Downloaded Xcode #{version} to '#{dmg_path}'"
       end
@@ -183,7 +190,7 @@ HELP
       File.absolute_path(File.readlink(current_symlink), SYMLINK_PATH.dirname) if current_symlink
     end
 
-    def mount(dmg_path)
+    def mount(dmg_path, password = nil)
       plist = hdiutil('mount', '-plist', '-nobrowse', '-noverify', dmg_path.to_s)
       document = REXML::Document.new(plist)
       node = REXML::XPath.first(document, "//key[.='mount-point']/following-sibling::*[1]")
@@ -219,9 +226,9 @@ HELP
     MINIMUM_VERSION = Gem::Version.new('4.3')
     SYMLINK_PATH = Pathname.new('/Applications/Xcode.app')
 
-    def enable_developer_mode
-      `sudo /usr/sbin/DevToolsSecurity -enable`
-      `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
+    def enable_developer_mode(password = nil)
+      sudo("/usr/sbin/DevToolsSecurity -enable", password)
+      sudo("/usr/sbin/dseditgroup -o edit -t group -a staff _developer", password)
     end
 
     def get_dmg(version, progress = true, url = nil)
