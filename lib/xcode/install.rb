@@ -23,14 +23,22 @@ module XcodeInstall
       retry_options = ['--retry', '3']
       progress = progress ? '--progress-bar' : '--silent'
       command = ['curl', *options, *retry_options, '--location', '--continue-at', '-', progress, '--output', output, url].map(&:to_s)
-      io = IO.popen(command)
-      io.each { |line| puts line }
-      io.close
 
-      result = $?.exitstatus == 0
+      # Run the curl command in a loop, retry when curl exit status is 18
+      # "Partial file. Only a part of the file was transferred."
+      # https://curl.haxx.se/mail/archive-2008-07/0098.html
+      # https://github.com/KrauseFx/xcode-install/issues/210
+      3.times do
+        io = IO.popen(command)
+        io.each { |line| puts line }
+        io.close
 
+        exit_code = $?.exitstatus
+        return exit_code.zero? unless exit_code == 18
+      end
+      false
+    ensure
       FileUtils.rm_f(COOKIES_PATH)
-      result
     end
   end
 
