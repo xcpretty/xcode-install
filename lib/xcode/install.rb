@@ -379,13 +379,13 @@ HELP
       end
     end
 
-    def download
-      result = Curl.new.fetch(source, CACHE_DIR)
+    def download(progress)
+      result = Curl.new.fetch(source, CACHE_DIR, nil, nil, progress)
       result ? dmg_path : nil
     end
 
-    def install
-      download unless dmg_path.exist?
+    def install(progress)
+      download(progress) unless dmg_path.exist?
       prepare_package unless pkg_path.exist?
       puts "Please authenticate to install #{name}..."
       `sudo installer -pkg #{pkg_path} -target /`
