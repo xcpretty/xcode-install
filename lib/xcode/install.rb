@@ -48,6 +48,20 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
+    def os_version_compatibility_issue?(version)
+      #Xcode 8 requires 10.11.5+ to extract the .xip
+      #Extracting the Xcode .xip with < 10.11.5 returns  this  error `cpio read error: Undefined error: 0`
+      return false if version != '8'
+
+      osx_version = `sw_vers -productVersion`.delete!("\n")
+      version_parts = osx_version.split('.')
+
+      minor = version_parts[1].to_i
+      patch = version_parts[2].to_i
+
+      return true if minor < 12 && minor < 11 || minor == 11 && patch < 5
+    end
+
     def download(version, progress, url = nil)
       return unless url || exist?(version)
       xcode = seedlist.find { |x| x.name == version } unless url
@@ -107,7 +121,6 @@ HELP
           $stderr.puts out.tr("\n", ' ')
           return
         end
-
         `sudo -p "#{prompt}" ditto "#{source}" "#{xcode_path}"`
         `umount "/Volumes/Xcode"`
       end

@@ -6,7 +6,7 @@ Install and update your Xcodes automatically.
 
 ```
 $ gem install xcode-install
-$ xcversion install 6.3
+$ xcversion install 8
 ```
 
 ## Installation
@@ -34,15 +34,18 @@ XCODE_INSTALL_USER
 XCODE_INSTALL_PASSWORD
 ```
 
+or 
+
+```
+FASTLANE_USER
+FASTLANE_PASSWORD
+```
+
 To list available versions:
 
 ```
 $ xcversion list
-6.0.1
-6.1
-6.1.1
-6.2
-6.3
+8
 ```
 
 Installed versions will be omitted and by default, only the latest major version is listed.
@@ -56,12 +59,12 @@ To install a certain version, simply:
 
 ```
 $ xcversion install 8
-###########################################################               82.1%
 ######################################################################## 100.0%
-Please authenticate for Xcode installation...
+/Applications/Xcode-8.app: accepted
+source=Apple System
 
-Xcode 8
-Build version 6D570
+Xcode 8.0
+Build version 8A218a
 ```
 
 This will download and install that version of Xcode. It will also be automatically selected.

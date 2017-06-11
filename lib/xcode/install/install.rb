@@ -35,6 +35,7 @@ module XcodeInstall
         super
 
         help! 'A VERSION argument is required.' unless @version
+        fail Informative, 'An OS X version >10.11.4 is required for Xcode 8.' if @installer.os_version_compatibility_issue?(@version)
         fail Informative, "Version #{@version} already installed." if @installer.installed?(@version) && !@force
         fail Informative, "Version #{@version} doesn't exist." unless @url || @installer.exist?(@version)
         fail Informative, "Invalid URL: `#{@url}`" unless !@url || @url =~ /\A#{URI.regexp}\z/
