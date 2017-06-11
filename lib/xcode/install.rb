@@ -113,7 +113,7 @@ HELP
       end
 
       unless verify_integrity(xcode_path)
-        `sudo rm -f #{xcode_path}`
+        `sudo rm -rf #{xcode_path}`
         return
       end
 
