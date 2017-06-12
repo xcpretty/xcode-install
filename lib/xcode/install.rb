@@ -20,8 +20,9 @@ module XcodeInstall
       output ||= File.basename(uri.path)
       output = (Pathname.new(directory) + Pathname.new(output)) if directory
 
+      retry_options = ['--retry', '3']
       progress = progress ? '--progress-bar' : '--silent'
-      command = ['curl', *options, '--location', '--continue-at', '-', progress, '--output', output, url].map(&:to_s)
+      command = ['curl', *options, *retry_options, '--location', '--continue-at', '-', progress, '--output', output, url].map(&:to_s)
       io = IO.popen(command)
       io.each { |line| puts line }
       io.close
