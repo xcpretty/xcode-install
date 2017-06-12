@@ -7,6 +7,6 @@ group :development do
   gem 'mocha-on-bacon'
   gem 'mocha', '~> 0.11.4'
   gem 'prettybacon'
-  gem 'rubocop', '0.35.1'
+  gem 'rubocop', '~> 0.49.1', require: false
   gem 'coveralls', require: false
 end
