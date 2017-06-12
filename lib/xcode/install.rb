@@ -394,7 +394,7 @@ HELP
     end
 
     def install(progress)
-      download(progress) unless dmg_path.exist?
+      download(progress)
       prepare_package unless pkg_path.exist?
       puts "Please authenticate to install #{name}..."
       `sudo installer -pkg #{pkg_path} -target /`
