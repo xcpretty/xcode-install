@@ -385,7 +385,7 @@ HELP
     end
 
     def install
-      download unless dmg_path.exist?
+      download
       prepare_package unless pkg_path.exist?
       puts "Please authenticate to install #{name}..."
       `sudo installer -pkg #{pkg_path} -target /`
