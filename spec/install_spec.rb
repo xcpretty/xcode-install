@@ -48,7 +48,7 @@ module XcodeInstall
     it 'gives more helpful error when downloaded DMG turns out to be HTML' do
       installer = Installer.new
       should.raise(Informative) { installer.mount('spec/fixtures/mail-verify.html') }.message
-        .should.include 'logging into your account from a browser'
+            .should.include 'logging into your account from a browser'
     end
   end
 end

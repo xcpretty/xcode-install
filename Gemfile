@@ -4,9 +4,9 @@ gemspec
 
 group :development do
   gem 'bacon'
-  gem 'mocha-on-bacon'
+  gem 'coveralls', require: false
   gem 'mocha', '~> 0.11.4'
+  gem 'mocha-on-bacon'
   gem 'prettybacon'
   gem 'rubocop', '~> 0.49.1', require: false
-  gem 'coveralls', require: false
 end
