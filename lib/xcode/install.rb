@@ -307,11 +307,11 @@ HELP
       end
       links = links.map { |pre| Xcode.new_prerelease(pre[2].strip.gsub(/.*Xcode /, ''), pre[0], pre[3]) }
 
-      if links.count == 0
+      if links.count.zero?
         rg = %r{platform-title.*Xcode.* beta.*<\/p>}
         scan = body.scan(rg)
 
-        if scan.count == 0
+        if scan.count.zero?
           rg = %r{Xcode.* GM.*<\/p>}
           scan = body.scan(rg)
         end
@@ -334,14 +334,14 @@ HELP
 
     def verify_integrity(path)
       puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{path}`
-      $?.exitstatus == 0
+      $?.exitstatus.zero?
     end
 
     def hdiutil(*args)
       io = IO.popen(['hdiutil', *args])
       result = io.read
       io.close
-      unless $?.exitstatus == 0
+      unless $?.exitstatus.zero?
         file_path = args[-1]
         if `file -b #{file_path}`.start_with?('HTML')
           fail Informative, "Failed to mount #{file_path}, logging into your account from a browser should tell you what is going wrong."

@@ -13,4 +13,4 @@ end
 desc 'Lints all the files'
 RuboCop::RakeTask.new(:rubocop)
 
-task default: [:spec, :rubocop]
+task default: %i[spec rubocop]
