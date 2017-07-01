@@ -393,8 +393,11 @@ HELP
       result ? dmg_path : nil
     end
 
-    def install(progress)
-      download(progress)
+    def install(progress, should_install)
+      dmg_path = download(progress)
+      fail Informative, "Failed to download #{@name}." if dmg_path.nil?
+
+      return unless should_install
       prepare_package unless pkg_path.exist?
       puts "Please authenticate to install #{name}..."
       `sudo installer -pkg #{pkg_path} -target /`
