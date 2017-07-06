@@ -277,6 +277,8 @@ HELP
     end
 
     def parse_seedlist(seedlist)
+      fail Informative, seedlist['resultString'] unless seedlist['resultCode'].eql? 0
+
       seeds = Array(seedlist['downloads']).select do |t|
         /^Xcode [0-9]/.match(t['name'])
       end

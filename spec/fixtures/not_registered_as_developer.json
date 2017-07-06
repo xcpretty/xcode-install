@@ -1,0 +1,11 @@
+{
+  "responseId": "1030f934-1897-4308-a0e4-fb44a4355ae9",
+  "resultCode": 2100,
+  "resultString": "You are not registered as an Apple Developer.  Please visit Apple Developer Registration. https://developer.apple.com/register/",
+  "userString": "You are not registered as an Apple Developer.  Please visit Apple Developer Registration. https://developer.apple.com/register/",
+  "creationTimestamp": "2017-07-06T12:33:03Z",
+  "protocolVersion": "QH65B2",
+  "userLocale": "en_US",
+  "requestUrl": "https://developer.apple.com/services-account/QH65B2/downloadws/listDownloads.action",
+  "httpCode": 200
+}

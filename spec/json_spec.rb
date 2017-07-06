@@ -21,5 +21,12 @@ module XcodeInstall
 
       installer.list.should == "6.1\n6.1.1\n6.2"
     end
+
+    it 'raises informative error when account is not registered as a developer' do
+      installer = Installer.new
+      fixture = Pathname.new('spec/fixtures/not_registered_as_developer.json').read
+      should.raise(Informative) { installer.send(:parse_seedlist, JSON.parse(fixture)) }.message
+            .should.include fixture['You are not registered as an Apple Developer']
+    end
   end
 end
