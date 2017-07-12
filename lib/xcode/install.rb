@@ -142,7 +142,7 @@ HELP
       FileUtils.rm_f(dmg_path) if clean
     end
 
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true)
       dmg_path = get_dmg(version, progress, url)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
@@ -152,7 +152,7 @@ HELP
         puts "Downloaded Xcode #{version} to '#{dmg_path}'"
       end
 
-      open_release_notes_url(version) unless url
+      open_release_notes_url(version) if show_release_notes && !url
     end
 
     def open_release_notes_url(version)

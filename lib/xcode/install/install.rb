@@ -16,7 +16,8 @@ module XcodeInstall
          ['--no-switch', 'Don’t switch to this version after installation'],
          ['--no-install', 'Only download DMG, but do not install it.'],
          ['--no-progress', 'Don’t show download progress.'],
-         ['--no-clean', 'Don’t delete DMG after installation.']].concat(super)
+         ['--no-clean', 'Don’t delete DMG after installation.'],
+         ['--no-show-release-notes', 'Don’t open release notes in browser after installation.']].concat(super)
       end
 
       def initialize(argv)
@@ -28,6 +29,7 @@ module XcodeInstall
         @should_install = argv.flag?('install', true)
         @should_switch = argv.flag?('switch', true)
         @progress = argv.flag?('progress', true)
+        @show_release_notes = argv.flag?('show-release-notes', true)
         super
       end
 
@@ -42,7 +44,7 @@ module XcodeInstall
 
       def run
         @installer.install_version(@version, @should_switch, @should_clean, @should_install,
-                                   @progress, @url)
+                                   @progress, @url, @show_release_notes)
       end
     end
   end
