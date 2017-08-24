@@ -247,15 +247,8 @@ HELP
     end
 
     def fetch_seedlist
-      @xcodes = parse_seedlist(spaceship.send(:request, :get,
-                                              '/services-account/QH65B2/downloadws/listDownloads.action',
-                                              start: '0',
-                                              limit: '1000',
-                                              sort: 'dateModified',
-                                              dir: 'DESC',
-                                              searchTextField: '',
-                                              searchCategories: '',
-                                              search: 'false').body)
+      @xcodes = parse_seedlist(spaceship.send(:request, :post,
+                                              '/services-account/QH65B2/downloadws/listDownloads.action').body)
 
       names = @xcodes.map(&:name)
       @xcodes += prereleases.reject { |pre| names.include?(pre.name) }
