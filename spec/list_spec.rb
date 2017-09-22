@@ -29,22 +29,5 @@ module XcodeInstall
         installer.list.should == "1\n2.3\n3 some\n4 beta"
       end
     end
-
-    describe '#list_current' do
-      it 'shows versions from latest version only' do
-        fake_xcodes '2', '3.0', '3.1', '1.1'
-        installer.list_current.should == "3.0\n3.1"
-      end
-
-      it 'shows versions of new beta releases too' do
-        fake_xcodes '5', '6.1', '6', '6.4 beta', '7 beta'
-        installer.list_current.should == "6\n6.1\n6.4 beta\n7 beta"
-      end
-
-      it 'shows removes spurious versions from the list' do
-        fake_xcodes '8.1', '8.2', '', nil
-        installer.list_current.should == "8.1\n8.2"
-      end
-    end
   end
 end

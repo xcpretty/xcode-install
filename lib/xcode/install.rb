@@ -166,14 +166,6 @@ HELP
       xcodes_list.map { |x| installed.include?(x) ? "#{x} (installed)" : x }.join("\n")
     end
 
-    def list_current
-      safe_list_versions = list_versions.reject { |v| v.nil? || v.empty? }
-      stable_majors = safe_list_versions.reject { |v| /beta/i =~ v }.map { |v| v.split('.')[0] }.map { |v| v.split(' ')[0] }
-      latest_stable_major = stable_majors.select { |v| v.length == 1 }.uniq.sort.last.to_i
-      current_versions = safe_list_versions.select { |v| v.split('.')[0].to_i >= latest_stable_major }.sort
-      list_annotated(current_versions)
-    end
-
     def list
       list_annotated(list_versions.sort)
     end
