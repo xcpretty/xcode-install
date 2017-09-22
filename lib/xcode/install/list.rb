@@ -5,22 +5,12 @@ module XcodeInstall
       self.summary = 'List Xcodes available for download.'
 
       def self.options
-        [['--all', 'Show all available versions.']].concat(super)
-      end
-
-      def initialize(argv)
-        @all = argv.flag?('all', false)
-        super
+        [['--all', 'Show all available versions. (Default, Deprecated)']].concat(super)
       end
 
       def run
         installer = XcodeInstall::Installer.new
-
-        if @all
-          puts installer.list
-        else
-          puts installer.list_current
-        end
+        puts installer.list
       end
     end
   end
