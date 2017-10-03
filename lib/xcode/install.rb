@@ -282,7 +282,7 @@ HELP
     def prereleases
       body = spaceship.send(:request, :get, '/download/').body
 
-      links = body.scan(%r{<a.+?href="(.+?\.(dmg|xip))".*>(.*)</a>})
+      links = body.scan(%r{<a.+?href="(.+?/Xcode.+?/Xcode_(.+?)\.(dmg|xip))".*>(.*)</a>})
       links = links.map do |link|
         parent = link[0].scan(%r{path=(/.*/.*/)}).first.first
         match = body.scan(/#{Regexp.quote(parent)}(.+?.pdf)/).first
@@ -292,7 +292,7 @@ HELP
           link + [nil]
         end
       end
-      links = links.map { |pre| Xcode.new_prerelease(pre[2].strip.gsub(/.*Xcode /, ''), pre[0], pre[3]) }
+      links = links.map { |pre| Xcode.new_prerelease(pre[1].strip.tr('_', ' '), pre[0], pre[4]) }
 
       if links.count.zero?
         rg = %r{platform-title.*Xcode.* beta.*<\/p>}
