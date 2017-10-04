@@ -29,7 +29,7 @@ module XcodeInstall
     it 'can parse prereleases from 20150414' do
       prereleases = parse_prereleases('20150414')
 
-      prereleases.should == [Xcode.new_prerelease('6.4', '/Developer_Tools/Xcode_6.4_Beta/Xcode_6.4_beta.dmg', '/Developer_Tools/Xcode_6.4_Beta/Xcode_6.4_beta_Release_Notes.pdf')]
+      prereleases.should == [Xcode.new_prerelease('6.4 beta', '/Developer_Tools/Xcode_6.4_Beta/Xcode_6.4_beta.dmg', '/Developer_Tools/Xcode_6.4_Beta/Xcode_6.4_beta_Release_Notes.pdf')]
     end
 
     it 'can parse prereleases from 20150427' do
