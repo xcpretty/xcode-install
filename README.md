@@ -34,6 +34,8 @@ XCODE_INSTALL_USER
 XCODE_INSTALL_PASSWORD
 ```
 
+### List
+
 To list available versions:
 
 ```
@@ -41,16 +43,14 @@ $ xcversion list
 6.0.1
 6.1
 6.1.1
-6.2
+6.2 (installed)
 6.3
 ```
 
-Installed versions will be omitted and by default, only the latest major version is listed.
+Already installed versions are marked with `(installed)`.  
+(Use `$ xcversion installed` to only list installed Xcodes with their path).
 
-To list all available versions run
-```
-$ xcversion list --all
-```
+### Install
 
 To install a certain version, simply:
 
@@ -64,7 +64,10 @@ Xcode 8
 Build version 6D570
 ```
 
-This will download and install that version of Xcode. It will also be automatically selected.
+This will download and install that version of Xcode. Then you can start it from `/Applications` as usual.  
+The new version will also be automatically selected for CLI commands (see below).
+
+#### GMs and beta versions
 
 Note: GMs and beta versions usually have special names, e.g.
 
@@ -74,7 +77,19 @@ $ xcversion list
 7.1 beta
 ```
 
-they have to be installed using the full name, e.g. `xcversion install '7 GM seed'`.
+They have to be installed using the full name, e.g. `xcversion install '7 GM seed'`.
+
+### Select
+
+To see the currently selected version, run
+```
+$ xcversion selected
+```
+
+To select a version as active, run
+```
+$ xcversion select 8
+```
 
 ### Command Line Tools
 
