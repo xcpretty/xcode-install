@@ -50,6 +50,12 @@ $ xcversion list
 Already installed versions are marked with `(installed)`.  
 (Use `$ xcversion installed` to only list installed Xcodes with their path).
 
+To update the list of available versions, run:
+
+```
+$ xcversion update
+```
+
 ### Install
 
 To install a certain version, simply:
@@ -66,12 +72,6 @@ Build version 6D570
 
 This will download and install that version of Xcode. Then you can start it from `/Applications` as usual.  
 The new version will also be automatically selected for CLI commands (see below).
-
-To update the list of available versions, run:
-
-```
-$ xcversion update
-```
 
 #### GMs and beta versions
 
