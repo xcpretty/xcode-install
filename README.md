@@ -91,6 +91,14 @@ To select a version as active, run
 $ xcversion select 8
 ```
 
+### Update
+
+To update the list of available versions use run
+To select a version as active, run
+```
+$ xcversion update
+```
+
 ### Command Line Tools
 
 XcodeInstall can also install Xcode's Command Line Tools by calling `xcversion install-cli-tools`.
