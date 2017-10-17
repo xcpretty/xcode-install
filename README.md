@@ -67,6 +67,12 @@ Build version 6D570
 This will download and install that version of Xcode. Then you can start it from `/Applications` as usual.  
 The new version will also be automatically selected for CLI commands (see below).
 
+To update the list of available versions, run:
+
+```
+$ xcversion update
+```
+
 #### GMs and beta versions
 
 Note: GMs and beta versions usually have special names, e.g.
@@ -89,14 +95,6 @@ $ xcversion selected
 To select a version as active, run
 ```
 $ xcversion select 8
-```
-
-### Update
-
-To update the list of available versions use run
-To select a version as active, run
-```
-$ xcversion update
 ```
 
 ### Command Line Tools
