@@ -50,6 +50,12 @@ $ xcversion list
 Already installed versions are marked with `(installed)`.  
 (Use `$ xcversion installed` to only list installed Xcodes with their path).
 
+To update the list of available versions, run:
+
+```
+$ xcversion update
+```
+
 ### Install
 
 To install a certain version, simply:
