@@ -148,6 +148,8 @@ versions on unindexed volumes.
 
 ## Thanks
 
+Thanks to [@neonichu](https://github.com/neonichu), the original (and best) author.
+
 [This][3] downloading script which has been used for some inspiration, also [this][4]
 for doing the installation. Additionally, many thanks to everyone who has contributed to this
 project, especially [@henrikhodne][6] and [@lacostej][7] for making XcodeInstall C extension free.
