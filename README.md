@@ -47,7 +47,7 @@ $ xcversion list
 6.3
 ```
 
-Already installed versions are marked with `(installed)`.  
+Already installed versions are marked with `(installed)`.
 (Use `$ xcversion installed` to only list installed Xcodes with their path).
 
 To update the list of available versions, run:
@@ -70,7 +70,7 @@ Xcode 8
 Build version 6D570
 ```
 
-This will download and install that version of Xcode. Then you can start it from `/Applications` as usual.  
+This will download and install that version of Xcode. Then you can start it from `/Applications` as usual.
 The new version will also be automatically selected for CLI commands (see below).
 
 #### GMs and beta versions
@@ -95,6 +95,11 @@ $ xcversion selected
 To select a version as active, run
 ```
 $ xcversion select 8
+```
+
+To select a version as active and change the symlink at `/Applications/Xcode`, run
+```
+$ xcversion select 8 --symlink
 ```
 
 ### Command Line Tools
