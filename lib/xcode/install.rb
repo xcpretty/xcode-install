@@ -57,12 +57,19 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
-    def download(version, progress, url = nil)
+    def download(version, progress, url = nil, local_url = nil)
       return unless url || exist?(version)
       xcode = seedlist.find { |x| x.name == version } unless url
       dmg_file = Pathname.new(File.basename(url || xcode.path))
-
-      result = Curl.new.fetch(url || xcode.url, CACHE_DIR, url ? nil : spaceship.cookie, dmg_file, progress)
+      result = false
+      if local_url != nil
+        local_url = local_url + dmg_file.to_s
+        result = Curl.new.fetch(local_url, CACHE_DIR, local_url ? nil : spaceship.cookie, dmg_file, progress)  
+      end
+      if result == false
+        # Attempt download again using original url passed in.
+        result = Curl.new.fetch(url || xcode.url, CACHE_DIR, url ? nil : spaceship.cookie, dmg_file, progress)
+      end
       result ? CACHE_DIR + dmg_file : nil
     end
 
@@ -142,8 +149,8 @@ HELP
       FileUtils.rm_f(dmg_path) if clean
     end
 
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true)
-      dmg_path = get_dmg(version, progress, url)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, local_url = nil)
+      dmg_path = get_dmg(version, progress, url, local_url)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       if install
@@ -225,7 +232,7 @@ HELP
       `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
     end
 
-    def get_dmg(version, progress = true, url = nil)
+    def get_dmg(version, progress = true, url = nil, local_url = nil)
       if url
         path = Pathname.new(url)
         return path if path.exist?
@@ -235,7 +242,7 @@ HELP
         return cache_path if cache_path.exist?
       end
 
-      download(version, progress, url)
+      download(version, progress, url, local_url)
     end
 
     def fetch_seedlist

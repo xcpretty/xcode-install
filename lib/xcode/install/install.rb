@@ -16,8 +16,9 @@ module XcodeInstall
          ['--no-switch', 'Don’t switch to this version after installation'],
          ['--no-install', 'Only download DMG, but do not install it.'],
          ['--no-progress', 'Don’t show download progress.'],
-         ['--no-clean', 'Don’t delete DMG after installation.'],
-         ['--no-show-release-notes', 'Don’t open release notes in browser after installation.']].concat(super)
+         ['--no-clean', 'Don’t delete DMG after insPtallation.'],
+         ['--no-show-release-notes', 'Don’t open release notes in browser after installation.'],
+         ['--cache-url-base', 'Base URL containing the Xcode DMG (e.g. "http://10.1.1.1/XcodeCache". Overrides --url unless a failure occurs.']].concat(super)
       end
 
       def initialize(argv)
@@ -30,6 +31,7 @@ module XcodeInstall
         @should_switch = argv.flag?('switch', true)
         @progress = argv.flag?('progress', true)
         @show_release_notes = argv.flag?('show-release-notes', true)
+        @local_url = argv.option('cache-url-base')
         super
       end
 
@@ -40,11 +42,12 @@ module XcodeInstall
         fail Informative, "Version #{@version} already installed." if @installer.installed?(@version) && !@force
         fail Informative, "Version #{@version} doesn't exist." unless @url || @installer.exist?(@version)
         fail Informative, "Invalid URL: `#{@url}`" unless !@url || @url =~ /\A#{URI.regexp}\z/
+        fail Informative, "Invalid Cache URL: `#{@local_url}`" unless !@local_url || @local_url =~ /\A#{URI.regexp}\z/
       end
 
       def run
         @installer.install_version(@version, @should_switch, @should_clean, @should_install,
-                                   @progress, @url, @show_release_notes)
+                                   @progress, @url, @show_release_notes, @local_url)
       end
     end
   end
