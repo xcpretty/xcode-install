@@ -16,7 +16,7 @@ module XcodeInstall
          ['--no-switch', 'Don’t switch to this version after installation'],
          ['--no-install', 'Only download DMG, but do not install it.'],
          ['--no-progress', 'Don’t show download progress.'],
-         ['--no-clean', 'Don’t delete DMG after insPtallation.'],
+         ['--no-clean', 'Don’t delete DMG after installation.'],
          ['--no-show-release-notes', 'Don’t open release notes in browser after installation.'],
          ['--cache-url-base', 'Base URL containing the Xcode DMG (e.g. "http://10.1.1.1/XcodeCache". Overrides --url unless a failure occurs.']].concat(super)
       end
