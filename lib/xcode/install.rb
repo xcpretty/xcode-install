@@ -62,7 +62,7 @@ module XcodeInstall
       xcode = seedlist.find { |x| x.name == version } unless url
       dmg_file = Pathname.new(File.basename(url || xcode.path))
       result = false
-      if !local_url.nil?
+      unless local_url.nil?
         local_url += dmg_file.to_s
         result = Curl.new.fetch(local_url, CACHE_DIR, local_url ? nil : spaceship.cookie, dmg_file, progress)
       end
