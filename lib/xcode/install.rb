@@ -387,6 +387,7 @@ HELP
         'if [ "$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" \
         "{}/Contents/Info.plist" 2>/dev/null)" == "com.apple.dt.Xcode" ]; then echo "{}"; fi' ';'`.split("\n")
       end
+      result
     end
 
     def parse_seedlist(seedlist)
