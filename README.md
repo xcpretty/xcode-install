@@ -167,6 +167,18 @@ project, especially [@henrikhodne][6] and [@lacostej][7] for making XcodeInstall
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
+### Running tests
+
+```
+bundle exec spec
+```
+
+### Running code style linter
+
+```
+bundle exec rubocop -a
+```
+
 ## License
 
 This project is licensed under the terms of the MIT license. See the [LICENSE](LICENSE) file.
