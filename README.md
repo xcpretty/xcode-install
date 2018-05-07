@@ -170,7 +170,7 @@ project, especially [@henrikhodne][6] and [@lacostej][7] for making XcodeInstall
 ### Running tests
 
 ```
-bundle exec spec
+bundle exec rake spec
 ```
 
 ### Running code style linter
