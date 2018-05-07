@@ -93,7 +93,6 @@ module XcodeInstall
     def seedlist
       @xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
       all_xcodes = (xcodes || fetch_seedlist)
-      
 
       # We have to set the `installed` value here, as we might still use
       # the cached list of available Xcode versions, but have a new Xcode
@@ -103,7 +102,7 @@ module XcodeInstall
         current_xcode.installed = cached_installed_versions.include?(current_xcode.version)
       end
 
-      return all_xcodes.sort do |a, b|
+      all_xcodes.sort do |a, b|
         a.version <=> b.version
       end
     end
@@ -548,15 +547,15 @@ HELP
 
   # A version of Xcode we fetched from the Apple Developer Portal
   # we can download & install.
-  # 
+  #
   # Sample object:
-   # <XcodeInstall::Xcode:0x007fa1d451c390
-   #    @date_modified=2015,
-   #    @name="6.4",
-   #    @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
-   #    @url=
-   #     "https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
-   #    @version=Gem::Version.new("6.4")>,
+  # <XcodeInstall::Xcode:0x007fa1d451c390
+  #    @date_modified=2015,
+  #    @name="6.4",
+  #    @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+  #    @url=
+  #     "https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+  #    @version=Gem::Version.new("6.4")>,
   class Xcode
     attr_reader :date_modified
 
@@ -594,7 +593,7 @@ HELP
     end
 
     def installed?
-      return self.installed
+      installed
     end
 
     def to_s
