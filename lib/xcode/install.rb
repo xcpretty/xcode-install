@@ -80,6 +80,34 @@ module XcodeInstall
       end
     end
 
+    # Returns an array of `XcodeInstall::Xcode`
+    #   <XcodeInstall::Xcode:0x007fa1d451c390
+    #     @date_modified=2015,
+    #     @name="6.4",
+    #     @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+    #     @url=
+    #      "https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+    #     @version=Gem::Version.new("6.4")>,
+    #
+    # the resulting list is sorted with the most recent release as first element
+    def seedlist
+      @xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
+      all_xcodes = (xcodes || fetch_seedlist)
+      
+
+      # We have to set the `installed` value here, as we might still use
+      # the cached list of available Xcode versions, but have a new Xcode
+      # installed in the mean-time
+      cached_installed_versions = installed_versions.map(&:bundle_version)
+      all_xcodes.each do |current_xcode|
+        current_xcode.installed = cached_installed_versions.include?(current_xcode.version)
+      end
+
+      return all_xcodes.sort do |a, b|
+        a.version <=> b.version
+      end
+    end
+
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
       archive_util = '/System/Library/CoreServices/Applications/Archive Utility.app/Contents/MacOS/Archive Utility'
       prompt = "Please authenticate for Xcode installation.\nPassword: "
@@ -314,11 +342,6 @@ HELP
       links
     end
 
-    def seedlist
-      @xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
-      xcodes || fetch_seedlist
-    end
-
     def verify_integrity(path)
       puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{path}`
       $?.exitstatus.zero?
@@ -523,13 +546,29 @@ HELP
     end
   end
 
+  # A version of Xcode we fetched from the Apple Developer Portal
+  # we can download & install.
+  # 
+  # Sample object:
+   # <XcodeInstall::Xcode:0x007fa1d451c390
+   #    @date_modified=2015,
+   #    @name="6.4",
+   #    @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+   #    @url=
+   #     "https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+   #    @version=Gem::Version.new("6.4")>,
   class Xcode
     attr_reader :date_modified
+
+    # The name might include extra information like "for Lion" or "beta 2"
     attr_reader :name
     attr_reader :path
     attr_reader :url
     attr_reader :version
     attr_reader :release_notes_url
+
+    # Accessor since it's set by the `Installer`
+    attr_accessor :installed
 
     def initialize(json, url = nil, release_notes_url = nil)
       if url.nil?
@@ -552,6 +591,10 @@ HELP
       rescue
         @version = Installer::MINIMUM_VERSION
       end
+    end
+
+    def installed?
+      return self.installed
     end
 
     def to_s
