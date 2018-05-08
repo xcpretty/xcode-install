@@ -186,7 +186,7 @@ HELP
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       if install
-        install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean)
+        install_dmg(dmg_path, "-#{version.to_s.split(' ')[0]}", switch, clean)
       else
         puts "Downloaded Xcode #{version} to '#{dmg_path}'"
       end
