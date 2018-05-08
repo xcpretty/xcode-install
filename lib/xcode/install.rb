@@ -102,9 +102,7 @@ module XcodeInstall
         current_xcode.installed = cached_installed_versions.include?(current_xcode.version)
       end
 
-      all_xcodes.sort do |a, b|
-        a.version <=> b.version
-      end
+      all_xcodes.sort_by(&:version)
     end
 
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
@@ -569,6 +567,8 @@ HELP
     # Accessor since it's set by the `Installer`
     attr_accessor :installed
 
+    alias installed? installed
+
     def initialize(json, url = nil, release_notes_url = nil)
       if url.nil?
         @date_modified = json['dateModified'].to_i
@@ -590,10 +590,6 @@ HELP
       rescue
         @version = Installer::MINIMUM_VERSION
       end
-    end
-
-    def installed?
-      installed
     end
 
     def to_s
