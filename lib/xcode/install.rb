@@ -58,16 +58,31 @@ module XcodeInstall
     end
 
     def download(version, progress, url = nil)
-      return unless url || exist?(version)
-      xcode = seedlist.find { |x| x.name == version } unless url
+      xcode = find_xcode_version(version) if url.nil?
+      return if url.nil? && xcode.nil?
+
       dmg_file = Pathname.new(File.basename(url || xcode.path))
 
       result = Curl.new.fetch(url || xcode.url, CACHE_DIR, url ? nil : spaceship.cookie, dmg_file, progress)
       result ? CACHE_DIR + dmg_file : nil
     end
 
+    def find_xcode_version(version)
+      # By checking for the name and the version we have the best success rate
+      # Sometimes the user might pass
+      #   "4.3 for Lion"
+      # or they might pass an actual Gem::Version
+      #   Gem::Version.new("8.0.0")
+      # which should automatically match with "Xcode 8"
+      seedlist.each do |current_seed|
+        return current_seed if current_seed.version == Gem::Version.new(version)
+        return current_seed if current_seed.name == version
+      end
+      return nil
+    end
+
     def exist?(version)
-      list_versions.include?(version)
+      !find_xcode_version(version).nil?
     end
 
     def installed?(version)
@@ -530,16 +545,17 @@ HELP
       `touch #{cache_dir}com.apple.dt.Xcode.InstallCheckCache_#{osx_build_version}_#{tools_version}`
     end
 
-    :private
-
-    def plist_entry(keypath)
-      `/usr/libexec/PlistBuddy -c "Print :#{keypath}" "#{path}/Contents/Info.plist"`.chomp
-    end
-
+    # This method might take a few ms, this could be improved by implementing https://github.com/KrauseFx/xcode-install/issues/273
     def fetch_version
       output = `DEVELOPER_DIR='' "#{@path}/Contents/Developer/usr/bin/xcodebuild" -version`
       return '0.0' if output.nil? || output.empty? # ¯\_(ツ)_/¯
       output.split("\n").first.split(' ')[1]
+    end
+
+    :private
+
+    def plist_entry(keypath)
+      `/usr/libexec/PlistBuddy -c "Print :#{keypath}" "#{path}/Contents/Info.plist"`.chomp
     end
   end
 
