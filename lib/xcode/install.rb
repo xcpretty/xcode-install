@@ -41,7 +41,6 @@ module XcodeInstall
       FileUtils.rm_f(COOKIES_PATH)
     end
   end
-
   class Installer
     attr_reader :xcodes
 
@@ -78,7 +77,7 @@ module XcodeInstall
         return current_seed if current_seed.version == Gem::Version.new(version)
         return current_seed if current_seed.name == version
       end
-      return nil
+      nil
     end
 
     def exist?(version)
