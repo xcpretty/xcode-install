@@ -21,7 +21,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+
+  # CLI parsing
   spec.add_dependency 'claide', '>= 0.9.1', '< 1.1.0'
+
+  # contains spaceship, which is used for auth and dev portal interactions
   spec.add_dependency 'fastlane', '>= 2.1.0', '< 3.0.0'
 
   spec.add_development_dependency 'bundler', '~> 1.7'
