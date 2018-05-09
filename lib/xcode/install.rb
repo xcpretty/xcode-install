@@ -41,6 +41,8 @@ module XcodeInstall
       FileUtils.rm_f(COOKIES_PATH)
     end
   end
+
+  # rubocop:disable Metrics/ClassLength
   class Installer
     attr_reader :xcodes
 
