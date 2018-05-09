@@ -478,12 +478,16 @@ HELP
     end
 
     def approve_license
-      license_path = "#{@path}/Contents/Resources/English.lproj/License.rtf"
-      license_id = IO.read(license_path).match(/\bEA\d{4}\b/)
-      license_plist_path = '/Library/Preferences/com.apple.dt.Xcode.plist'
-      `sudo rm -rf #{license_plist_path}`
-      `sudo /usr/libexec/PlistBuddy -c "add :IDELastGMLicenseAgreedTo string #{license_id}" #{license_plist_path}`
-      `sudo /usr/libexec/PlistBuddy -c "add :IDEXcodeVersionForAgreedToGMLicense string #{@version}" #{license_plist_path}`
+      if Gem::Version.new(version) < Gem::Version.new('7.3')
+        license_path = "#{@path}/Contents/Resources/English.lproj/License.rtf"
+        license_id = IO.read(license_path).match(/\bEA\d{4}\b/)
+        license_plist_path = '/Library/Preferences/com.apple.dt.Xcode.plist'
+        `sudo rm -rf #{license_plist_path}`
+        `sudo /usr/libexec/PlistBuddy -c "add :IDELastGMLicenseAgreedTo string #{license_id}" #{license_plist_path}`
+        `sudo /usr/libexec/PlistBuddy -c "add :IDEXcodeVersionForAgreedToGMLicense string #{@version}" #{license_plist_path}`
+      else
+        `sudo #{@path}/Contents/Developer/usr/bin/xcodebuild -license accept`
+      end
     end
 
     def available_simulators
