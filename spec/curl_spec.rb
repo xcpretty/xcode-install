@@ -18,7 +18,7 @@ module XcodeInstall
       curl = XcodeInstall::Curl.new
       result = nil
       XcodeInstall.silence_stderr do
-        result = curl.fetch('http://0.0.0.0/test')
+        result = curl.fetch(url: 'http://0.0.0.0/test')
       end
       result.should == false
     end
