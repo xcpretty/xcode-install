@@ -83,7 +83,8 @@ module XcodeInstall
     end
 
     def exist?(version)
-      !find_xcode_version(version).nil?
+      return true if find_xcode_version(version)
+      false
     end
 
     def installed?(version)
