@@ -42,6 +42,7 @@ module XcodeInstall
     end
   end
 
+  # rubocop:disable Metrics/ClassLength
   class Installer
     attr_reader :xcodes
 
@@ -58,16 +59,32 @@ module XcodeInstall
     end
 
     def download(version, progress, url = nil)
-      return unless url || exist?(version)
-      xcode = seedlist.find { |x| x.name == version } unless url
+      xcode = find_xcode_version(version) if url.nil?
+      return if url.nil? && xcode.nil?
+
       dmg_file = Pathname.new(File.basename(url || xcode.path))
 
       result = Curl.new.fetch(url || xcode.url, CACHE_DIR, url ? nil : spaceship.cookie, dmg_file, progress)
       result ? CACHE_DIR + dmg_file : nil
     end
 
+    def find_xcode_version(version)
+      # By checking for the name and the version we have the best success rate
+      # Sometimes the user might pass
+      #   "4.3 for Lion"
+      # or they might pass an actual Gem::Version
+      #   Gem::Version.new("8.0.0")
+      # which should automatically match with "Xcode 8"
+      seedlist.each do |current_seed|
+        return current_seed if current_seed.version == Gem::Version.new(version)
+        return current_seed if current_seed.name == version
+      end
+      nil
+    end
+
     def exist?(version)
-      list_versions.include?(version)
+      return true if find_xcode_version(version)
+      false
     end
 
     def installed?(version)
@@ -78,6 +95,31 @@ module XcodeInstall
       installed.map { |x| InstalledXcode.new(x) }.sort do |a, b|
         Gem::Version.new(a.version) <=> Gem::Version.new(b.version)
       end
+    end
+
+    # Returns an array of `XcodeInstall::Xcode`
+    #   <XcodeInstall::Xcode:0x007fa1d451c390
+    #     @date_modified=2015,
+    #     @name="6.4",
+    #     @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+    #     @url=
+    #      "https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+    #     @version=Gem::Version.new("6.4")>,
+    #
+    # the resulting list is sorted with the most recent release as first element
+    def seedlist
+      @xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
+      all_xcodes = (xcodes || fetch_seedlist)
+
+      # We have to set the `installed` value here, as we might still use
+      # the cached list of available Xcode versions, but have a new Xcode
+      # installed in the mean-time
+      cached_installed_versions = installed_versions.map(&:bundle_version)
+      all_xcodes.each do |current_xcode|
+        current_xcode.installed = cached_installed_versions.include?(current_xcode.version)
+      end
+
+      all_xcodes.sort_by(&:version)
     end
 
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
@@ -147,7 +189,7 @@ HELP
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       if install
-        install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean)
+        install_dmg(dmg_path, "-#{version.to_s.split(' ')[0]}", switch, clean)
       else
         puts "Downloaded Xcode #{version} to '#{dmg_path}'"
       end
@@ -312,11 +354,6 @@ HELP
       end
 
       links
-    end
-
-    def seedlist
-      @xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
-      xcodes || fetch_seedlist
     end
 
     def verify_integrity(path)
@@ -514,26 +551,45 @@ HELP
       `touch #{cache_dir}com.apple.dt.Xcode.InstallCheckCache_#{osx_build_version}_#{tools_version}`
     end
 
-    :private
-
-    def plist_entry(keypath)
-      `/usr/libexec/PlistBuddy -c "Print :#{keypath}" "#{path}/Contents/Info.plist"`.chomp
-    end
-
+    # This method might take a few ms, this could be improved by implementing https://github.com/KrauseFx/xcode-install/issues/273
     def fetch_version
       output = `DEVELOPER_DIR='' "#{@path}/Contents/Developer/usr/bin/xcodebuild" -version`
       return '0.0' if output.nil? || output.empty? # ¯\_(ツ)_/¯
       output.split("\n").first.split(' ')[1]
     end
+
+    :private
+
+    def plist_entry(keypath)
+      `/usr/libexec/PlistBuddy -c "Print :#{keypath}" "#{path}/Contents/Info.plist"`.chomp
+    end
   end
 
+  # A version of Xcode we fetched from the Apple Developer Portal
+  # we can download & install.
+  #
+  # Sample object:
+  # <XcodeInstall::Xcode:0x007fa1d451c390
+  #    @date_modified=2015,
+  #    @name="6.4",
+  #    @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+  #    @url=
+  #     "https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+  #    @version=Gem::Version.new("6.4")>,
   class Xcode
     attr_reader :date_modified
+
+    # The name might include extra information like "for Lion" or "beta 2"
     attr_reader :name
     attr_reader :path
     attr_reader :url
     attr_reader :version
     attr_reader :release_notes_url
+
+    # Accessor since it's set by the `Installer`
+    attr_accessor :installed
+
+    alias installed? installed
 
     def initialize(json, url = nil, release_notes_url = nil)
       if url.nil?

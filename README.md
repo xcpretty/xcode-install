@@ -9,6 +9,8 @@ $ gem install xcode-install
 $ xcversion install 6.3
 ```
 
+This tool uses the [Downloads for Apple Developer](https://developer.apple.com/download/more/) page.
+
 ## Installation
 
 ```
