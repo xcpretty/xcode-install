@@ -94,6 +94,7 @@ module XcodeInstall
         current_percent.should.be.close(50, 50)
       end
       # Verify we got a good amount of percentages reported
+      puts percentages
       percentages.count.should.be.close(8, 2)
     end
   end
