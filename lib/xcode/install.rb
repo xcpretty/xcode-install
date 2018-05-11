@@ -29,7 +29,6 @@ module XcodeInstall
               output: nil,
               progress: nil,
               progress_block: nil)
-
       options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
 
       uri = URI.parse(url)
@@ -79,11 +78,13 @@ module XcodeInstall
         command_string += " 2> #{progress_log_file}"
 
         # Non-blocking call
+        # We're not using the block based syntax, as the bacon testing
+        # library doesn't seem to support writing tests for it
         stdin, stdout, stderr, wait_thr = Open3.popen3(command_string)
 
         # Poll the file and see if we're done yet
         while wait_thr.alive?
-          sleep(1) # it's not critical for this to be real-time
+          sleep(0.5) # it's not critical for this to be real-time
           next unless File.exist?(progress_log_file) # it might take longer for it to be created
 
           progress_content = File.read(progress_log_file).split("\r").last
@@ -95,7 +96,7 @@ module XcodeInstall
           end
 
           # Call back the block for other processes that might be interested
-          matched = progress_content.match(/^\s*(\d)/)
+          matched = progress_content.match(/^\s*(\d+)/)
           next unless matched.length == 2
           percent = matched[1].to_i
           progress_block.call(percent) if progress_block
