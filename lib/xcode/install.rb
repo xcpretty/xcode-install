@@ -110,6 +110,7 @@ module XcodeInstall
       false
     ensure
       FileUtils.rm_f(COOKIES_PATH)
+      FileUtils.rm_f(progress_log_file)
     end
   end
 
