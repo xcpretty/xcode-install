@@ -22,6 +22,7 @@ module XcodeInstall
     # @param progress: parse and show the progress?
     # @param progress_block: A block that's called whenever we have an updated progress %
     #                        the parameter is a single number that's literally percent (e.g. 1, 50, 80 or 100)
+    # rubocop:disable Metrics/AbcSize
     def fetch(url: nil,
               directory: nil,
               cookies: nil,
