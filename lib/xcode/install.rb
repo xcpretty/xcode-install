@@ -23,7 +23,6 @@ module XcodeInstall
     # @param progress_block: A block that's called whenever we have an updated progress %
     #                        the parameter is a single number that's literally percent (e.g. 1, 50, 80 or 100)
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/CyclomaticComplexity
     def fetch(url: nil,
               directory: nil,
               cookies: nil,
@@ -81,20 +80,16 @@ module XcodeInstall
         # library doesn't seem to support writing tests for it
         stdin, stdout, stderr, wait_thr = Open3.popen3(command_string)
 
-        # Wait for the process to be up and the log file to be there
-        sleep(0.5) while wait_thr.alive? && !File.exist?(progress_log_file)
-
         # Poll the file and see if we're done yet
-        progress_file_ref ||= File.open(progress_log_file, 'r')
         while wait_thr.alive?
-          progress_file_ref.seek(0, IO::SEEK_END)
-          sleep(1)
-          progress_content = progress_file_ref.gets.to_s.strip
-          next if progress_content.empty?
+          sleep(0.5) # it's not critical for this to be real-time
+          next unless File.exist?(progress_log_file) # it might take longer for it to be created
+
+          progress_content = File.read(progress_log_file).split("\r").last
 
           # Print out the progress for the CLI
           if progress
-            $stdout.print "\r#{progress_content}%"
+            print "\r#{progress_content}%"
             $stdout.flush
           end
 
@@ -117,7 +112,6 @@ module XcodeInstall
     ensure
       FileUtils.rm_f(COOKIES_PATH)
       FileUtils.rm_f(progress_log_file)
-      progress_file_ref.close if defined?(progress_file_ref)
     end
   end
 
