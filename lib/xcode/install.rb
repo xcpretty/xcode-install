@@ -493,7 +493,7 @@ HELP
       end
     end
 
-    def download(progress, progress_block)
+    def download(progress, progress_block = nil)
       result = Curl.new.fetch(
         url: source,
         directory: CACHE_DIR,
