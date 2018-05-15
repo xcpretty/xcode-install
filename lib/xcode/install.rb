@@ -159,6 +159,7 @@ module XcodeInstall
       begin
         parsed_version = Gem::Version.new(version)
       rescue ArgumentError
+        nil
       end
 
       seedlist.each do |current_seed|
