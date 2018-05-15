@@ -241,14 +241,12 @@ HELP
         begin
           Spaceship.login(ENV['XCODE_INSTALL_USER'], ENV['XCODE_INSTALL_PASSWORD'])
         rescue Spaceship::Client::InvalidUserCredentialsError
-          $stderr.puts 'The specified Apple developer account credentials are incorrect.'
-          exit(1)
+          raise 'The specified Apple developer account credentials are incorrect.'
         rescue Spaceship::Client::NoUserCredentialsError
-          $stderr.puts <<-HELP
+          raise <<-HELP
 Please provide your Apple developer account credentials via the
 XCODE_INSTALL_USER and XCODE_INSTALL_PASSWORD environment variables.
 HELP
-          exit(1)
         end
 
         if ENV.key?('XCODE_INSTALL_TEAM_ID')
@@ -296,8 +294,7 @@ HELP
 
     def installed
       unless (`mdutil -s /` =~ /disabled/).nil?
-        $stderr.puts 'Please enable Spotlight indexing for /Applications.'
-        exit(1)
+        raise 'Please enable Spotlight indexing for /Applications.'
       end
 
       `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null`.split("\n")
