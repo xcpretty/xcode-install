@@ -155,9 +155,15 @@ module XcodeInstall
       # or they might pass an actual Gem::Version
       #   Gem::Version.new("8.0.0")
       # which should automatically match with "Xcode 8"
+
+      begin
+        parsed_version = Gem::Version.new(version)
+      rescue ArgumentError
+      end
+
       seedlist.each do |current_seed|
-        return current_seed if current_seed.version == Gem::Version.new(version)
         return current_seed if current_seed.name == version
+        return current_seed if parsed_version && current_seed.version == parsed_version
       end
       nil
     end
