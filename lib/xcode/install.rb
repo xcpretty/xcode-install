@@ -381,11 +381,13 @@ HELP
     end
 
     def installed
-      unless (`mdutil -s /` =~ /disabled/).nil?
-        raise 'Please enable Spotlight indexing for /Applications.'
+      result = `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null`.split("\n")
+      if result.empty?
+        result = `find /Applications -name '*.app' -type d -maxdepth 1 -exec sh -c \
+        'if [ "$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" \
+        "{}/Contents/Info.plist" 2>/dev/null)" == "com.apple.dt.Xcode" ]; then echo "{}"; fi' ';'`.split("\n")
       end
-
-      `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null`.split("\n")
+      result
     end
 
     def parse_seedlist(seedlist)
