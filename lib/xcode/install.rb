@@ -630,7 +630,7 @@ HELP
     def install_components
       # starting with Xcode 9, we have `xcodebuild -runFirstLaunch` available to do package
       # postinstalls using a documented option
-      if Gem::Version.new(@version) >= Gem::Version.new('9')
+      if Gem::Version.new(version) >= Gem::Version.new('9')
         `sudo #{@path}/Contents/Developer/usr/bin/xcodebuild -runFirstLaunch`
       else
         Dir.glob("#{@path}/Contents/Resources/Packages/*.pkg").each do |pkg|
