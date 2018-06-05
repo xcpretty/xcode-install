@@ -297,7 +297,7 @@ HELP
     end
 
     def list
-      list_annotated(list_versions.sort)
+      list_annotated(list_versions.sort_by(&:to_f))
     end
 
     def rm_list_cache
