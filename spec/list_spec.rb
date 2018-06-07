@@ -25,8 +25,8 @@ module XcodeInstall
 
     describe '#list' do
       it 'lists all versions' do
-        fake_xcodes '1', '2.3', '3 some', '4 beta'
-        installer.list.should == "1\n2.3\n3 some\n4 beta"
+        fake_xcodes '1', '2.3', '2.3.1', '2.3.2', '3 some', '4 beta', '10 beta'
+        installer.list.should == "1\n2.3\n2.3.1\n2.3.2\n3 some\n4 beta\n10 beta"
       end
     end
   end
