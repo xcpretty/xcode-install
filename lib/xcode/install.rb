@@ -435,7 +435,7 @@ HELP
         return [] if scan.empty?
 
         version = scan.first.gsub(/<.*?>/, '').gsub(/.*Xcode /, '')
-        link = body.scan(%r{<button .*"(.+?.xip)".*</button>}).first.first
+        link = body.scan(%r{<button .*"(.+?.(dmg|xip))".*</button>}).first.first
         notes = body.scan(%r{<a.+?href="(/go/\?id=xcode-.+?)".*>(.*)</a>}).first.first
         links << Xcode.new(version, link, notes)
       end
