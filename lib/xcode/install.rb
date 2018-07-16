@@ -293,7 +293,12 @@ HELP
 
     def list_annotated(xcodes_list)
       installed = installed_versions.map(&:version)
-      xcodes_list.map { |x| installed.include?(x) ? "#{x} (installed)" : x }.join("\n")
+      xcodes_list.map do |x|
+        xcode_version = x.split(' ').first # exclude "beta N", "for Lion".
+        xcode_version << '.0' unless xcode_version.include?('.')
+
+        installed.include?(xcode_version) ? "#{x} (installed)" : x
+      end.join("\n")
     end
 
     def list
