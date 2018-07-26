@@ -594,7 +594,7 @@ HELP
     end
 
     def bundle_version
-      @bundle_version ||= Gem::Version.new(plist_entry(':DTXcode').to_i.to_s.split(//).join('.'))
+      @bundle_version ||= Gem::Version.new(bundle_version_string)
     end
 
     def uuid
@@ -656,6 +656,15 @@ HELP
     end
 
     :private
+
+    def bundle_version_string
+      digits = plist_entry(':DTXcode').to_i.to_s
+      if digits.length < 3
+        digits.split(//).join('.')
+      else
+        "#{digits[0..-3]}.#{digits[-2]}.#{digits[-1]}"
+      end
+    end
 
     def plist_entry(keypath)
       `/usr/libexec/PlistBuddy -c "Print :#{keypath}" "#{path}/Contents/Info.plist"`.chomp
