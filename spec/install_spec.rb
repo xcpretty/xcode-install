@@ -12,26 +12,26 @@ module XcodeInstall
       end
 
       it 'downloads and installs' do
-        Installer.any_instance.expects(:download).with('6.3', true, nil).returns('/some/path')
+        Installer.any_instance.expects(:download).with('6.3', true, nil, nil).returns('/some/path')
         Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true)
         Command::Install.run(['6.3'])
       end
 
       it 'downloads and installs with custom HTTP URL' do
         url = 'http://yolo.com/xcode.dmg'
-        Installer.any_instance.expects(:download).with('6.3', true, url).returns('/some/path')
+        Installer.any_instance.expects(:download).with('6.3', true, url, nil).returns('/some/path')
         Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true)
         Command::Install.run(['6.3', "--url=#{url}"])
       end
 
       it 'downloads and installs and does not switch if --no-switch given' do
-        Installer.any_instance.expects(:download).with('6.3', true, nil).returns('/some/path')
+        Installer.any_instance.expects(:download).with('6.3', true, nil, nil).returns('/some/path')
         Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', false, true)
         Command::Install.run(['6.3', '--no-switch'])
       end
 
       it 'downloads without progress if switch --no-progress is given' do
-        Installer.any_instance.expects(:download).with('6.3', false, nil).returns('/some/path')
+        Installer.any_instance.expects(:download).with('6.3', false, nil, nil).returns('/some/path')
         Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true)
         Command::Install.run(['6.3', '--no-progress'])
       end

@@ -8,9 +8,14 @@ module XcodeInstall
         CLAide::Argument.new('VERSION', :true)
       ]
 
+      def self.options
+        [['--symlink', 'Update symlink in /Applications with selected Xcode']].concat(super)
+      end
+
       def initialize(argv)
         @installer = Installer.new
         @version = argv.shift_argument
+        @should_symlink = argv.flag?('symlink', false)
         super
       end
 
@@ -24,6 +29,7 @@ module XcodeInstall
       def run
         xcode = @installer.installed_versions.detect { |v| v.version == @version }
         `sudo xcode-select --switch #{xcode.path}`
+        @installer.symlink xcode.version if @should_symlink
       end
     end
   end

@@ -9,6 +9,8 @@ $ gem install xcode-install
 $ xcversion install 6.3
 ```
 
+This tool uses the [Downloads for Apple Developer](https://developer.apple.com/download/more/) page.
+
 ## Installation
 
 ```
@@ -47,7 +49,7 @@ $ xcversion list
 6.3
 ```
 
-Already installed versions are marked with `(installed)`.  
+Already installed versions are marked with `(installed)`.
 (Use `$ xcversion installed` to only list installed Xcodes with their path).
 
 To update the list of available versions, run:
@@ -70,7 +72,7 @@ Xcode 8
 Build version 6D570
 ```
 
-This will download and install that version of Xcode. Then you can start it from `/Applications` as usual.  
+This will download and install that version of Xcode. Then you can start it from `/Applications` as usual.
 The new version will also be automatically selected for CLI commands (see below).
 
 #### GMs and beta versions
@@ -95,6 +97,11 @@ $ xcversion selected
 To select a version as active, run
 ```
 $ xcversion select 8
+```
+
+To select a version as active and change the symlink at `/Applications/Xcode`, run
+```
+$ xcversion select 8 --symlink
 ```
 
 ### Command Line Tools
@@ -142,11 +149,15 @@ XcodeInstall automatically installs additional components so that it is immediat
 commandline. Unfortunately, Xcode will load third-party plugins even in that situation, which leads
 to a dialog popping up. Feel free to dupe [the radar][5]. 📡
 
-XcodeInstall uses the Spotlight index to locate installed versions of Xcode. If you use it while
+XcodeInstall normally relies on the Spotlight index to locate installed versions of Xcode. If you use it while
 indexing is happening, it might show inaccurate results and it will not be able to see installed
-versions on unindexed volumes.
+versions on unindexed volumes. 
+
+To workaround the Spotlight limitation, XcodeInstall searches `/Applications` folder to locate Xcodes when Spotlight is disabled on the machine, or when Spotlight query for Xcode does not return any results. But it still won't work if your Xcodes are located under `/Applications` folder.
 
 ## Thanks
+
+Thanks to [@neonichu](https://github.com/neonichu), the original (and best) author.
 
 [This][3] downloading script which has been used for some inspiration, also [this][4]
 for doing the installation. Additionally, many thanks to everyone who has contributed to this
@@ -159,6 +170,18 @@ project, especially [@henrikhodne][6] and [@lacostej][7] for making XcodeInstall
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+### Running tests
+
+```
+bundle exec rake spec
+```
+
+### Running code style linter
+
+```
+bundle exec rubocop -a
+```
 
 ## License
 

@@ -6,42 +6,116 @@ require 'json'
 require 'rubygems/version'
 require 'xcode/install/command'
 require 'xcode/install/version'
+require 'shellwords'
+require 'open3'
+require 'fileutils'
 
 module XcodeInstall
   CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
   class Curl
     COOKIES_PATH = Pathname.new('/tmp/curl-cookies.txt')
 
-    def fetch(url, directory = nil, cookies = nil, output = nil, progress = true)
+    # @param url: The URL to download
+    # @param directory: The directory to download this file into
+    # @param cookies: Any cookies we should use for the download (used for auth with Apple)
+    # @param output: A PathName for where we want to store the file
+    # @param progress: parse and show the progress?
+    # @param progress_block: A block that's called whenever we have an updated progress %
+    #                        the parameter is a single number that's literally percent (e.g. 1, 50, 80 or 100)
+    # rubocop:disable Metrics/AbcSize
+    def fetch(url: nil,
+              directory: nil,
+              cookies: nil,
+              output: nil,
+              progress: nil,
+              progress_block: nil)
       options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
-      # options << ' -vvv'
 
       uri = URI.parse(url)
       output ||= File.basename(uri.path)
       output = (Pathname.new(directory) + Pathname.new(output)) if directory
 
+      # Piping over all of stderr over to a temporary file
+      # the file content looks like this:
+      #  0 4766M    0 6835k    0     0   573k      0  2:21:58  0:00:11  2:21:47  902k
+      # This way we can parse the current %
+      # The header is
+      #  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+      #
+      # Discussion for this on GH: https://github.com/KrauseFx/xcode-install/issues/276
+      # It was not easily possible to reimplement the same system using built-in methods
+      # especially when it comes to resuming downloads
+      # Piping over stderror to Ruby directly didn't work, due to the lack of flushing
+      # from curl. The only reasonable way to trigger this, is to pipe things directly into a
+      # local file, and parse that, and just poll that. We could get real time updates using
+      # the `tail` command or similar, however the download task is not time sensitive enough
+      # to make this worth the extra complexity, that's why we just poll and
+      # wait for the process to be finished
+      progress_log_file = File.join(CACHE_DIR, "progress.#{Time.now.to_i}.progress")
+      FileUtils.rm_f(progress_log_file)
+
       retry_options = ['--retry', '3']
-      progress = progress ? '--progress-bar' : '--silent'
-      command = ['curl', *options, *retry_options, '--location', '--continue-at', '-', progress, '--output', output, url].map(&:to_s)
+      command = [
+        'curl',
+        *options,
+        *retry_options,
+        '--location',
+        '--continue-at',
+        '-',
+        '--output',
+        output,
+        url
+      ].map(&:to_s)
+
+      command_string = command.collect(&:shellescape).join(' ')
+      command_string += " 2> #{progress_log_file}" # to not run shellescape on the `2>`
 
       # Run the curl command in a loop, retry when curl exit status is 18
       # "Partial file. Only a part of the file was transferred."
       # https://curl.haxx.se/mail/archive-2008-07/0098.html
       # https://github.com/KrauseFx/xcode-install/issues/210
       3.times do
-        io = IO.popen(command)
-        io.each { |line| puts line }
-        io.close
+        # Non-blocking call of Open3
+        # We're not using the block based syntax, as the bacon testing
+        # library doesn't seem to support writing tests for it
+        stdin, stdout, stderr, wait_thr = Open3.popen3(command_string)
 
-        exit_code = $?.exitstatus
-        return exit_code.zero? unless exit_code == 18
+        # Poll the file and see if we're done yet
+        while wait_thr.alive?
+          sleep(0.5) # it's not critical for this to be real-time
+          next unless File.exist?(progress_log_file) # it might take longer for it to be created
+
+          progress_content = File.read(progress_log_file).split("\r").last
+
+          # Print out the progress for the CLI
+          if progress
+            print "\r#{progress_content}%"
+            $stdout.flush
+          end
+
+          # Call back the block for other processes that might be interested
+          matched = progress_content.match(/^\s*(\d+)/)
+          next unless matched.length == 2
+          percent = matched[1].to_i
+          progress_block.call(percent) if progress_block
+        end
+
+        # as we're not making use of the block-based syntax
+        # we need to manually close those
+        stdin.close
+        stdout.close
+        stderr.close
+
+        return wait_thr.value.success? if wait_thr.value.success?
       end
       false
     ensure
       FileUtils.rm_f(COOKIES_PATH)
+      FileUtils.rm_f(progress_log_file)
     end
   end
 
+  # rubocop:disable Metrics/ClassLength
   class Installer
     attr_reader :xcodes
 
@@ -57,17 +131,47 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
-    def download(version, progress, url = nil)
-      return unless url || exist?(version)
-      xcode = seedlist.find { |x| x.name == version } unless url
+    def download(version, progress, url = nil, progress_block = nil)
+      xcode = find_xcode_version(version) if url.nil?
+      return if url.nil? && xcode.nil?
+
       dmg_file = Pathname.new(File.basename(url || xcode.path))
 
-      result = Curl.new.fetch(url || xcode.url, CACHE_DIR, url ? nil : spaceship.cookie, dmg_file, progress)
+      result = Curl.new.fetch(
+        url: url || xcode.url,
+        directory: CACHE_DIR,
+        cookies: url ? nil : spaceship.cookie,
+        output: dmg_file,
+        progress: progress,
+        progress_block: progress_block
+      )
       result ? CACHE_DIR + dmg_file : nil
     end
 
+    def find_xcode_version(version)
+      # By checking for the name and the version we have the best success rate
+      # Sometimes the user might pass
+      #   "4.3 for Lion"
+      # or they might pass an actual Gem::Version
+      #   Gem::Version.new("8.0.0")
+      # which should automatically match with "Xcode 8"
+
+      begin
+        parsed_version = Gem::Version.new(version)
+      rescue ArgumentError
+        nil
+      end
+
+      seedlist.each do |current_seed|
+        return current_seed if current_seed.name == version
+        return current_seed if parsed_version && current_seed.version == parsed_version
+      end
+      nil
+    end
+
     def exist?(version)
-      list_versions.include?(version)
+      return true if find_xcode_version(version)
+      false
     end
 
     def installed?(version)
@@ -78,6 +182,31 @@ module XcodeInstall
       installed.map { |x| InstalledXcode.new(x) }.sort do |a, b|
         Gem::Version.new(a.version) <=> Gem::Version.new(b.version)
       end
+    end
+
+    # Returns an array of `XcodeInstall::Xcode`
+    #   <XcodeInstall::Xcode:0x007fa1d451c390
+    #     @date_modified=2015,
+    #     @name="6.4",
+    #     @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+    #     @url=
+    #      "https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+    #     @version=Gem::Version.new("6.4")>,
+    #
+    # the resulting list is sorted with the most recent release as first element
+    def seedlist
+      @xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
+      all_xcodes = (xcodes || fetch_seedlist)
+
+      # We have to set the `installed` value here, as we might still use
+      # the cached list of available Xcode versions, but have a new Xcode
+      # installed in the mean-time
+      cached_installed_versions = installed_versions.map(&:bundle_version)
+      all_xcodes.each do |current_xcode|
+        current_xcode.installed = cached_installed_versions.include?(current_xcode.version)
+      end
+
+      all_xcodes.sort_by(&:version)
     end
 
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
@@ -142,12 +271,13 @@ HELP
       FileUtils.rm_f(dmg_path) if clean
     end
 
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true)
-      dmg_path = get_dmg(version, progress, url)
+    # rubocop:disable Metrics/ParameterLists
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil)
+      dmg_path = get_dmg(version, progress, url, progress_block)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       if install
-        install_dmg(dmg_path, "-#{version.split(' ')[0]}", switch, clean)
+        install_dmg(dmg_path, "-#{version.to_s.split(' ')[0]}", switch, clean)
       else
         puts "Downloaded Xcode #{version} to '#{dmg_path}'"
       end
@@ -163,11 +293,16 @@ HELP
 
     def list_annotated(xcodes_list)
       installed = installed_versions.map(&:version)
-      xcodes_list.map { |x| installed.include?(x) ? "#{x} (installed)" : x }.join("\n")
+      xcodes_list.map do |x|
+        xcode_version = x.split(' ').first # exclude "beta N", "for Lion".
+        xcode_version << '.0' unless xcode_version.include?('.')
+
+        installed.include?(xcode_version) ? "#{x} (installed)" : x
+      end.join("\n")
     end
 
     def list
-      list_annotated(list_versions.sort)
+      list_annotated(list_versions.sort_by(&:to_f))
     end
 
     def rm_list_cache
@@ -199,14 +334,12 @@ HELP
         begin
           Spaceship.login(ENV['XCODE_INSTALL_USER'], ENV['XCODE_INSTALL_PASSWORD'])
         rescue Spaceship::Client::InvalidUserCredentialsError
-          $stderr.puts 'The specified Apple developer account credentials are incorrect.'
-          exit(1)
+          raise 'The specified Apple developer account credentials are incorrect.'
         rescue Spaceship::Client::NoUserCredentialsError
-          $stderr.puts <<-HELP
+          raise <<-HELP
 Please provide your Apple developer account credentials via the
 XCODE_INSTALL_USER and XCODE_INSTALL_PASSWORD environment variables.
 HELP
-          exit(1)
         end
 
         if ENV.key?('XCODE_INSTALL_TEAM_ID')
@@ -225,7 +358,7 @@ HELP
       `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
     end
 
-    def get_dmg(version, progress = true, url = nil)
+    def get_dmg(version, progress = true, url = nil, progress_block = nil)
       if url
         path = Pathname.new(url)
         return path if path.exist?
@@ -237,7 +370,7 @@ HELP
         return cache_path_xip if cache_path_xip.exist?
       end
 
-      download(version, progress, url)
+      download(version, progress, url, progress_block)
     end
 
     def fetch_seedlist
@@ -255,12 +388,13 @@ HELP
     end
 
     def installed
-      unless (`mdutil -s /` =~ /disabled/).nil?
-        $stderr.puts 'Please enable Spotlight indexing for /Applications.'
-        exit(1)
+      result = `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null`.split("\n")
+      if result.empty?
+        result = `find /Applications -name '*.app' -type d -maxdepth 1 -exec sh -c \
+        'if [ "$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" \
+        "{}/Contents/Info.plist" 2>/dev/null)" == "com.apple.dt.Xcode" ]; then echo "{}"; fi' ';'`.split("\n")
       end
-
-      `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null`.split("\n")
+      result
     end
 
     def parse_seedlist(seedlist)
@@ -308,17 +442,12 @@ HELP
         return [] if scan.empty?
 
         version = scan.first.gsub(/<.*?>/, '').gsub(/.*Xcode /, '')
-        link = body.scan(%r{<button .*"(.+?.xip)".*</button>}).first.first
+        link = body.scan(%r{<button .*"(.+?.(dmg|xip))".*</button>}).first.first
         notes = body.scan(%r{<a.+?href="(/go/\?id=xcode-.+?)".*>(.*)</a>}).first.first
         links << Xcode.new(version, link, notes)
       end
 
       links
-    end
-
-    def seedlist
-      @xcodes = Marshal.load(File.read(LIST_FILE)) if LIST_FILE.exist? && xcodes.nil?
-      xcodes || fetch_seedlist
     end
 
     def verify_integrity(path)
@@ -377,8 +506,13 @@ HELP
       end
     end
 
-    def download(progress)
-      result = Curl.new.fetch(source, CACHE_DIR, nil, nil, progress)
+    def download(progress, progress_block = nil)
+      result = Curl.new.fetch(
+        url: source,
+        directory: CACHE_DIR,
+        progress: progress,
+        progress_block: progress_block
+      )
       result ? dmg_path : nil
     end
 
@@ -462,7 +596,7 @@ HELP
     end
 
     def bundle_version
-      @bundle_version ||= Gem::Version.new(plist_entry(':DTXcode').to_i.to_s.split(//).join('.'))
+      @bundle_version ||= Gem::Version.new(bundle_version_string)
     end
 
     def uuid
@@ -480,12 +614,16 @@ HELP
     end
 
     def approve_license
-      license_path = "#{@path}/Contents/Resources/English.lproj/License.rtf"
-      license_id = IO.read(license_path).match(/\bEA\d{4}\b/)
-      license_plist_path = '/Library/Preferences/com.apple.dt.Xcode.plist'
-      `sudo rm -rf #{license_plist_path}`
-      `sudo /usr/libexec/PlistBuddy -c "add :IDELastGMLicenseAgreedTo string #{license_id}" #{license_plist_path}`
-      `sudo /usr/libexec/PlistBuddy -c "add :IDEXcodeVersionForAgreedToGMLicense string #{@version}" #{license_plist_path}`
+      if Gem::Version.new(version) < Gem::Version.new('7.3')
+        license_path = "#{@path}/Contents/Resources/English.lproj/License.rtf"
+        license_id = IO.read(license_path).match(/\bEA\d{4}\b/)
+        license_plist_path = '/Library/Preferences/com.apple.dt.Xcode.plist'
+        `sudo rm -rf #{license_plist_path}`
+        `sudo /usr/libexec/PlistBuddy -c "add :IDELastGMLicenseAgreedTo string #{license_id}" #{license_plist_path}`
+        `sudo /usr/libexec/PlistBuddy -c "add :IDEXcodeVersionForAgreedToGMLicense string #{@version}" #{license_plist_path}`
+      else
+        `sudo #{@path}/Contents/Developer/usr/bin/xcodebuild -license accept`
+      end
     end
 
     def available_simulators
@@ -499,7 +637,7 @@ HELP
     def install_components
       # starting with Xcode 9, we have `xcodebuild -runFirstLaunch` available to do package
       # postinstalls using a documented option
-      if Gem::Version.new(@version) >= Gem::Version.new('9')
+      if Gem::Version.new(version) >= Gem::Version.new('9')
         `sudo #{@path}/Contents/Developer/usr/bin/xcodebuild -runFirstLaunch`
       else
         Dir.glob("#{@path}/Contents/Resources/Packages/*.pkg").each do |pkg|
@@ -512,26 +650,54 @@ HELP
       `touch #{cache_dir}com.apple.dt.Xcode.InstallCheckCache_#{osx_build_version}_#{tools_version}`
     end
 
-    :private
-
-    def plist_entry(keypath)
-      `/usr/libexec/PlistBuddy -c "Print :#{keypath}" "#{path}/Contents/Info.plist"`.chomp
-    end
-
+    # This method might take a few ms, this could be improved by implementing https://github.com/KrauseFx/xcode-install/issues/273
     def fetch_version
       output = `DEVELOPER_DIR='' "#{@path}/Contents/Developer/usr/bin/xcodebuild" -version`
       return '0.0' if output.nil? || output.empty? # ¯\_(ツ)_/¯
       output.split("\n").first.split(' ')[1]
     end
+
+    :private
+
+    def bundle_version_string
+      digits = plist_entry(':DTXcode').to_i.to_s
+      if digits.length < 3
+        digits.split(//).join('.')
+      else
+        "#{digits[0..-3]}.#{digits[-2]}.#{digits[-1]}"
+      end
+    end
+
+    def plist_entry(keypath)
+      `/usr/libexec/PlistBuddy -c "Print :#{keypath}" "#{path}/Contents/Info.plist"`.chomp
+    end
   end
 
+  # A version of Xcode we fetched from the Apple Developer Portal
+  # we can download & install.
+  #
+  # Sample object:
+  # <XcodeInstall::Xcode:0x007fa1d451c390
+  #    @date_modified=2015,
+  #    @name="6.4",
+  #    @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+  #    @url=
+  #     "https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+  #    @version=Gem::Version.new("6.4")>,
   class Xcode
     attr_reader :date_modified
+
+    # The name might include extra information like "for Lion" or "beta 2"
     attr_reader :name
     attr_reader :path
     attr_reader :url
     attr_reader :version
     attr_reader :release_notes_url
+
+    # Accessor since it's set by the `Installer`
+    attr_accessor :installed
+
+    alias installed? installed
 
     def initialize(json, url = nil, release_notes_url = nil)
       if url.nil?
