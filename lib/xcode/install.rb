@@ -95,7 +95,7 @@ module XcodeInstall
 
           # Call back the block for other processes that might be interested
           matched = progress_content.match(/^\s*(\d+)/)
-          next unless matched.length == 2
+          next unless matched && matched.length == 2
           percent = matched[1].to_i
           progress_block.call(percent) if progress_block
         end
