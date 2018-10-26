@@ -8,7 +8,7 @@ require 'xcode/install/command'
 require 'xcode/install/version'
 require 'shellwords'
 require 'open3'
-require 'fileutils'
+require 'fastlane/actions/actions_helper'
 
 module XcodeInstall
   CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
@@ -450,7 +450,14 @@ HELP
 
     def verify_integrity(path)
       puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{path}`
-      $?.exitstatus.zero?
+      $?.exitstatus.zero? && verify_cert(path)
+    end
+
+    def verify_cert(path)
+      cert_info = Fastlane::Actions::VerifyBuildAction.gather_cert_info(path)
+      apple_team_identifier_result = cert_info['team_identifier'] == '59GAB85EFG'
+      apple_authority_result = cert_info['authority'].include?('Apple Mac OS Application Signing')
+      apple_team_identifier_result && apple_authority_result
     end
 
     def hdiutil(*args)
