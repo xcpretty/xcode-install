@@ -449,11 +449,6 @@ HELP
       links
     end
 
-    def verify_integrity(path)
-      puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{path}`
-      $?.exitstatus.zero?
-    end
-
     def hdiutil(*args)
       io = IO.popen(['hdiutil', *args])
       result = io.read
