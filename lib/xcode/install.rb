@@ -250,13 +250,14 @@ HELP
         `umount "/Volumes/Xcode"`
       end
 
-      unless verify_integrity(xcode_path)
+      xcode = InstalledXcode.new(xcode_path)
+
+      unless xcode.verify_integrity
         `sudo rm -rf #{xcode_path}`
         return
       end
 
       enable_developer_mode
-      xcode = InstalledXcode.new(xcode_path)
       xcode.approve_license
       xcode.install_components
 
@@ -450,14 +451,7 @@ HELP
 
     def verify_integrity(path)
       puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{path}`
-      $?.exitstatus.zero? && verify_cert(path)
-    end
-
-    def verify_cert(path)
-      cert_info = Fastlane::Actions::VerifyBuildAction.gather_cert_info(path)
-      apple_team_identifier_result = cert_info['team_identifier'] == '59GAB85EFG'
-      apple_authority_result = cert_info['authority'].include?('Apple Mac OS Application Signing')
-      apple_team_identifier_result && apple_authority_result
+      $?.exitstatus.zero?
     end
 
     def hdiutil(*args)
@@ -585,6 +579,9 @@ HELP
   end
 
   class InstalledXcode
+    TEAM_IDENTIFIER = '59GAB85EFG'.freeze
+    AUTHORITY = 'Apple Mac OS Application Signing'.freeze
+
     attr_reader :path
     attr_reader :version
     attr_reader :bundle_version
@@ -662,6 +659,10 @@ HELP
       output.split("\n").first.split(' ')[1]
     end
 
+    def verify_integrity
+      verify_app_security_assessment && verify_app_cert
+    end
+
     :private
 
     def bundle_version_string
@@ -675,6 +676,18 @@ HELP
 
     def plist_entry(keypath)
       `/usr/libexec/PlistBuddy -c "Print :#{keypath}" "#{path}/Contents/Info.plist"`.chomp
+    end
+
+    def verify_app_security_assessment
+      puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{@path}`
+      $?.exitstatus.zero?
+    end
+
+    def verify_app_cert
+      cert_info = Fastlane::Actions::VerifyBuildAction.gather_cert_info(@path)
+      apple_team_identifier_result = cert_info['team_identifier'] == TEAM_IDENTIFIER
+      apple_authority_result = cert_info['authority'].include?(AUTHORITY)
+      apple_team_identifier_result && apple_authority_result
     end
   end
 
