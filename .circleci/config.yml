@@ -8,9 +8,10 @@ jobs:
     steps:
       - checkout
 
+      # See Also: https://discuss.circleci.com/t/circleci-2-0-ios-error-installing-gems/23291/4
       - run:
-          name: Update gem
-          command: gem update --system
+          name: Set Ruby Version
+          command: echo "ruby-2.4" > ~/.ruby-version
 
       - run:
           name: Install ruby dependencies
