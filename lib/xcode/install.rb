@@ -388,7 +388,7 @@ HELP
     def installed
       result = `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null`.split("\n")
       if result.empty?
-        result = `find /Applications -name '*.app' -type d -maxdepth 1 -exec sh -c \
+        result = `find /Applications -maxdepth 1 -name '*.app' -type d -exec sh -c \
         'if [ "$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" \
         "{}/Contents/Info.plist" 2>/dev/null)" == "com.apple.dt.Xcode" ]; then echo "{}"; fi' ';'`.split("\n")
       end
