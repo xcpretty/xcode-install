@@ -22,7 +22,7 @@ module XcodeInstall
 
       def initialize(argv)
         @installer = Installer.new
-        @version = argv.shift_argument
+        @version = argv.shift_argument || File.read('.xcode-version') rescue nil # rubocop:disable Style/RescueModifier, Lint/RescueWithoutErrorClass
         @url = argv.option('url')
         @force = argv.flag?('force', false)
         @should_clean = argv.flag?('clean', true)
