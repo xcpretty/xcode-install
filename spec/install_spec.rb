@@ -39,6 +39,7 @@ module XcodeInstall
       it 'reads .xcode-version' do
         Installer.any_instance.expects(:download).with('6.3', true, nil, nil).returns('/some/path')
         Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true)
+        File.expects(:exist?).with('.xcode-version').returns(true)
         File.expects(:read).returns('6.3')
         Command::Install.run([])
       end
