@@ -5,7 +5,10 @@ module XcodeInstall
       self.summary = 'Installs Xcode Command Line Tools.'
 
       def run
-        fail Informative, 'Xcode CLI Tools are already installed.' if installed?
+        if installed?
+          print 'Xcode CLI Tools are already installed.'
+          exit(0)
+        end
         install
       end
 
