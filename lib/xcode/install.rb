@@ -364,8 +364,10 @@ HELP
         return path if path.exist?
       end
       if ENV.key?('XCODE_INSTALL_CACHE_DIR')
-        cache_path = Pathname.new(ENV['XCODE_INSTALL_CACHE_DIR']) + Pathname.new("xcode-#{version}.dmg")
-        return cache_path if cache_path.exist?
+        dmg_cache_path = Pathname.new(ENV['XCODE_INSTALL_CACHE_DIR']) + Pathname.new("xcode-#{version}.dmg")
+        xip_cache_path = Pathname.new(ENV['XCODE_INSTALL_CACHE_DIR']) + Pathname.new("xcode_#{version}.xip")
+        return dmg_cache_path if dmg_cache_path.exist?
+        return xip_cache_path if xip_cache_path.exist?
       end
 
       download(version, progress, url, progress_block)
