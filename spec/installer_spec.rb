@@ -35,6 +35,7 @@ module XcodeInstall
 
       command = [
         'curl',
+        '--disable',
         '--cookie customCookie',
         '--cookie-jar /tmp/curl-cookies.txt',
         '--retry 3',
