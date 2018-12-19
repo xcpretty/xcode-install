@@ -364,8 +364,8 @@ HELP
         return path if path.exist?
       end
       if ENV.key?('XCODE_INSTALL_CACHE_DIR')
-        Pathname.glob(ENV['XCODE_INSTALL_CACHE_DIR'] '/*')).each do |path|
-          return path if /^xcode_#{version}\.dmg|xip$/ =~ path.basename.to_s
+        Pathname.glob(ENV['XCODE_INSTALL_CACHE_DIR'] + '/*').each do |fpath|
+          return fpath if /^xcode_#{version}\.dmg|xip$/ =~ fpath.basename.to_s
         end
       end
 
