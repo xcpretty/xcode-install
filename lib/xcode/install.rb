@@ -366,8 +366,9 @@ HELP
         return path if path.exist?
       end
       if ENV.key?('XCODE_INSTALL_CACHE_DIR')
-        cache_path = Pathname.new(ENV['XCODE_INSTALL_CACHE_DIR']) + Pathname.new("xcode-#{version}.dmg")
-        return cache_path if cache_path.exist?
+        Pathname.glob(ENV['XCODE_INSTALL_CACHE_DIR'] + '/*').each do |fpath|
+          return fpath if /^xcode_#{version}\.dmg|xip$/ =~ fpath.basename.to_s
+        end
       end
 
       download(version, progress, url, progress_block)
