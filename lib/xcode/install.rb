@@ -57,6 +57,7 @@ module XcodeInstall
       retry_options = ['--retry', '3']
       command = [
         'curl',
+        '--disable',
         *options,
         *retry_options,
         '--location',
