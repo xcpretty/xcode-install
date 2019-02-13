@@ -1,7 +1,0 @@
-machine:
-  xcode:
-    version: 9.0
-test:
-  override:
-    - bundle exec rake spec
-    - bundle exec rake rubocop
