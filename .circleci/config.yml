@@ -25,3 +25,9 @@ jobs:
       - run:
           name: Run lint
           command: bundle exec rake rubocop
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
