@@ -211,14 +211,13 @@ module XcodeInstall
     end
 
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
-      archive_util = '/System/Library/CoreServices/Applications/Archive Utility.app/Contents/MacOS/Archive Utility'
       prompt = "Please authenticate for Xcode installation.\nPassword: "
       xcode_path = "/Applications/Xcode#{suffix}.app"
 
       if dmg_path.extname == '.xip'
-        `'#{archive_util}' #{dmg_path}`
-        xcode_orig_path = dmg_path.dirname + 'Xcode.app'
-        xcode_beta_path = dmg_path.dirname + 'Xcode-beta.app'
+        `xip -x #{dmg_path}`
+        xcode_orig_path = File.join(Dir.pwd, 'Xcode.app')
+        xcode_beta_path = File.join(Dir.pwd, 'Xcode-beta.app')
         if Pathname.new(xcode_orig_path).exist?
           `sudo -p "#{prompt}" mv "#{xcode_orig_path}" "#{xcode_path}"`
         elsif Pathname.new(xcode_beta_path).exist?
