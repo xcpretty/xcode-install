@@ -688,7 +688,7 @@ HELP
     end
 
     def verify_app_cert
-      cert_info = Fastlane::Actions::VerifyBuildAction.gather_cert_info(@path)
+      cert_info = Fastlane::Actions::VerifyBuildAction.gather_cert_info(@path.to_s)
       apple_team_identifier_result = cert_info['team_identifier'] == TEAM_IDENTIFIER
       apple_authority_result = cert_info['authority'].include?(AUTHORITY)
       apple_team_identifier_result && apple_authority_result
