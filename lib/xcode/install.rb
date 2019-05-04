@@ -578,7 +578,7 @@ HELP
 
   class InstalledXcode
     TEAM_IDENTIFIER = '59GAB85EFG'.freeze
-    AUTHORITY = 'Apple Mac OS Application Signing'.freeze
+    AUTHORITY = 'Software Signing'.freeze
 
     attr_reader :path
     attr_reader :version
