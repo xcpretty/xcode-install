@@ -8,7 +8,8 @@ require 'xcode/install/command'
 require 'xcode/install/version'
 require 'shellwords'
 require 'open3'
-require 'fastlane/actions/actions_helper'
+require 'fastlane/action'
+require 'fastlane/actions/verify_build'
 
 module XcodeInstall
   CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
