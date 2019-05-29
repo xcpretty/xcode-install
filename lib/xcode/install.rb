@@ -577,6 +577,7 @@ HELP
   class InstalledXcode
     TEAM_IDENTIFIER = '59GAB85EFG'.freeze
     AUTHORITY = 'Apple Mac OS Application Signing'.freeze
+    COMPONENT_SIGNING_COMMON_NAME = 'Apple Software'.freeze
 
     attr_reader :path
     attr_reader :version
@@ -644,7 +645,7 @@ HELP
       if Gem::Version.new(version) >= Gem::Version.new('9')
         `sudo #{@path}/Contents/Developer/usr/bin/xcodebuild -runFirstLaunch`
       else
-        Dir.glob("#{@path}/Contents/Resources/Packages/*.pkg").each do |pkg|
+        component_pkg_paths.each do |pkg|
           `sudo installer -pkg #{pkg} -target /`
         end
       end
@@ -662,7 +663,7 @@ HELP
     end
 
     def verify_integrity
-      verify_app_security_assessment && verify_app_cert
+      verify_app_security_assessment && verify_app_cert && verify_components
     end
 
     :private
@@ -690,6 +691,20 @@ HELP
       apple_team_identifier_result = cert_info['team_identifier'] == TEAM_IDENTIFIER
       apple_authority_result = cert_info['authority'].include?(AUTHORITY)
       apple_team_identifier_result && apple_authority_result
+    end
+
+    def verify_components
+      return true if Gem::Version.new(version) >= Gem::Version.new('9')
+
+      result = component_pkg_paths.map do |pkg|
+        result = `pkgutil --verbose --check-signature #{pkg} | grep 'Status'`
+        result.strip.split(':')[1].strip == "signed #{COMPONENT_SIGNING_COMMON_NAME}"
+      end
+      result.all?
+    end
+
+    def component_pkg_paths
+      @component_pkg_paths ||= Dir.glob(File.join(@path, 'Contents/Resources/Packages/*.pkg'))
     end
   end
 
