@@ -682,7 +682,7 @@ HELP
     end
 
     def verify_app_security_assessment
-      puts `/usr/sbin/spctl --assess --verbose=4 --type execute #{@path}`
+      puts `/usr/bin/codesign --verify --verbose #{@path}`
       $?.exitstatus.zero?
     end
 
