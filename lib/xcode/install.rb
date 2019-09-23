@@ -31,7 +31,6 @@ module XcodeInstall
               progress: nil,
               progress_block: nil)
       options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
-
       uri = URI.parse(url)
       output ||= File.basename(uri.path)
       output = (Pathname.new(directory) + Pathname.new(output)) if directory
@@ -329,7 +328,7 @@ HELP
       node.text
     end
 
-    private
+    #private
 
     def spaceship
       @spaceship ||= begin
