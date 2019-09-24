@@ -436,7 +436,7 @@ HELP
         scan = body.scan(rg)
 
         if scan.count.zero?
-          rg = %r{Xcode.* GM.*<\/p>}
+          rg = %r{platform-title.*Xcode.* GM.*<\/p>}
           scan = body.scan(rg)
         end
 
