@@ -28,7 +28,7 @@ module XcodeInstall
 
       def run
         xcode = @installer.installed_versions.detect { |v| v.version == @version }
-        `sudo xcode-select --switch #{xcode.path}`
+        `sudo xcode-select --switch "#{xcode.path}"`
         @installer.symlink xcode.version if @should_symlink
       end
     end
