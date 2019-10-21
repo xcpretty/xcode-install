@@ -26,6 +26,7 @@ module XcodeInstall
         return if installed_path.nil? || installed_path.path.nil?
 
         `sudo rm -rf #{installed_path.path}`
+        `xcrun simctl delete unavailable`
 
         return unless @installer.symlinks_to == installed_path.path
         newest_version = @installer.installed_versions.last
