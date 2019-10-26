@@ -687,7 +687,7 @@ HELP
 
     def verify_app_cert
       begin
-        Fastlane::Actions::VerifyXcodeAction.run({ xcode_path: @path.to_s })
+        Fastlane::Actions::VerifyXcodeAction.run(xcode_path: @path.to_s)
       rescue
         return false
       end
