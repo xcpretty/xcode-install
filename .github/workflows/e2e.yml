@@ -1,0 +1,31 @@
+name: "E2E test"
+on: [push]
+
+jobs:
+  check_install:
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        os: [macos-latest]
+        xcode: ["10.0", "10.1", "10.2.1", "10.3", "11.0", "11.1"]
+
+    runs-on: ${{ matrix.os }}
+    env:
+      XCODE_INSTALL_USER: ${{ secrets.XCODE_INSTALL_USER }}
+      XCODE_INSTALL_PASSWORD: ${{ secrets.XCODE_INSTALL_PASSWORD }}
+    steps:
+    - name: Show macOS version
+      run: sw_vers
+    - name: Show ruby version
+      run: ruby --version
+      
+    - run: gem install xcode-install
+    - run: xcversion update
+    - run: xcversion uninstall ${{ matrix.xcode }}
+    - run: xcversion installed
+    - run: xcversion install ${{ matrix.xcode }}
+
+    - run: xcversion installed
+    - name: Check Xcode installation was successful
+      run: xcversion installed | grep "${{ matrix.xcode }}"
