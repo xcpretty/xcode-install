@@ -668,12 +668,11 @@ HELP
     :private
 
     def bundle_version_string
-      digits = plist_entry(':DTXcode').to_i.to_s
-      if digits.length < 3
-        digits.split(//).join('.')
-      else
-        "#{digits[0..-3]}.#{digits[-2]}.#{digits[-1]}"
+      bundle_version_components = plist_entry(':CFBundleShortVersionString').split('.')
+      while bundle_version_components.count < 3
+        bundle_version_components.add('0')
       end
+      return bundle_version_components.join('.')
     end
 
     def plist_entry(keypath)
