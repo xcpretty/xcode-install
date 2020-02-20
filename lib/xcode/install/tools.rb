@@ -29,33 +29,12 @@ module XcodeInstall
 
       :private
 
-      def download(package)
-        puts("Downloading #{package}")
-        url = 'https://developer.apple.com/devcenter/download.action?path=' + package
-        dmg_file = File.basename(url)
-        Curl.new.fetch(
-          url: url,
-          directory: XcodeInstall::CACHE_DIR,
-          cookies: @installer.spaceship.cookie,
-          output: dmg_file,
-          progress: false
-        )
-        XcodeInstall::CACHE_DIR + dmg_file
-      end
-
       def install
-        dmg_path = download(@install)
-        puts("Downloaded to from #{dmg_path}")
-        mount_dir = @installer.mount(dmg_path)
-        puts("Mounted to #{mount_dir}")
-        pkg_path = Dir.glob(File.join(mount_dir, '*.pkg')).first
-        puts("Installing from #{pkg_path}")
-        prompt = "Please authenticate to install Command Line Tools.\nPassword: "
-        `sudo -p "#{prompt}" installer -verbose -pkg "#{pkg_path}" -target /`
+        @installer.install_tools(@install)
       end
 
       def list
-        raise NotImplementedError, 'Listing is not implemented'
+        puts @installer.toolslist
       end
     end
   end

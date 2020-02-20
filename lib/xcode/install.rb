@@ -119,6 +119,7 @@ module XcodeInstall
   # rubocop:disable Metrics/ClassLength
   class Installer
     attr_reader :xcodes
+    attr_reader :tools
 
     def initialize
       FileUtils.mkdir_p(CACHE_DIR)
@@ -149,6 +150,23 @@ module XcodeInstall
       result ? CACHE_DIR + dmg_file : nil
     end
 
+    def download_tools(version, progress, url = nil, progress_block = nil)
+      tool = find_tools_version(version) if url.nil?
+      return if url.nil? && tool.nil?
+
+      dmg_file = Pathname.new(File.basename(url || tool.path))
+
+      result = Curl.new.fetch(
+        url: url || tool.url,
+        directory: CACHE_DIR,
+        cookies: url ? nil : spaceship.cookie,
+        output: dmg_file,
+        progress: progress,
+        progress_block: progress_block
+      )
+      result ? CACHE_DIR + dmg_file : nil
+    end
+
     def find_xcode_version(version)
       # By checking for the name and the version we have the best success rate
       # Sometimes the user might pass
@@ -166,6 +184,15 @@ module XcodeInstall
       seedlist.each do |current_seed|
         return current_seed if current_seed.name == version
         return current_seed if parsed_version && current_seed.version == parsed_version
+      end
+      nil
+    end
+
+    def find_tools_version(version)
+      # Right now this only matches names exactly
+      # "Command Line Tools for Xcode 11.3.1" for example
+      toolslist.each do |current_tool|
+        return current_tool if current_tool.name == version
       end
       nil
     end
@@ -208,6 +235,11 @@ module XcodeInstall
       end
 
       all_xcodes.sort_by(&:version)
+    end
+
+    def toolslist
+      @tools = Marshal.load(File.read(TOOLS_LIST_FILE)) if TOOLS_LIST_FILE.exist? && tools.nil?
+      all_tools = (tools || fetch_toolslist)
     end
 
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
@@ -286,6 +318,45 @@ HELP
       open_release_notes_url(version) if show_release_notes && !url
     end
 
+    def install_tools(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil)
+      dmg_path = get_tools_dmg(version, progress, url, progress_block)
+      fail Informative, "Failed to download #{version}." if dmg_path.nil?
+
+      if install
+        mount_dir = mount(dmg_path)
+        pkg_path = Dir.glob(File.join(mount_dir, '*.pkg')).first
+
+        macos_version = `sw_vers -productVersion`.strip.split('.')
+        if (macos_version[0].to_i == 10 && macos_version[1].to_i > 9)
+          `pkgutil --expand "#{pkg_path}" #{CACHE_DIR}/clt`
+
+          target_version_xml = REXML::Document.new(`cat #{CACHE_DIR}/clt/CLTools_Executables.pkg/PackageInfo`)
+
+          target_version = target_version_xml.root.attributes["version"]
+        end
+
+        puts("Installing version #{target_version} from #{pkg_path}")
+
+        prompt = "Please authenticate to install Command Line Tools.\nPassword: "
+        `sudo -p "#{prompt}" installer -verbose -pkg "#{pkg_path}" -target /`
+        `umount "#{mount_dir}"`
+
+        if (macos_version[0].to_i == 10 && macos_version[1].to_i > 9)
+          installed_version = `pkgutil --pkg-info=com.apple.pkg.CLTools_Executables | grep version`.strip.sub("version: ", "")
+          if (installed_version == target_version)
+            puts "Command Line Tools version #{installed_version} installed successfully"
+          else
+            puts "Error installing Command Line Tools"
+          end
+        end
+
+        `rm -rf #{CACHE_DIR}/clt`
+
+      else
+        puts "Downloaded #{version} to '#{dmg_path}'"
+      end
+    end
+
     def open_release_notes_url(version)
       return if version.nil?
       xcode = seedlist.find { |x| x.name == version }
@@ -304,6 +375,10 @@ HELP
 
     def list
       list_annotated(list_versions.sort_by(&:to_f))
+    end
+
+    def list_tools
+      list_tools_versions.sort_by(&:to_f)
     end
 
     def rm_list_cache
@@ -351,6 +426,7 @@ HELP
     end
 
     LIST_FILE = CACHE_DIR + Pathname.new('xcodes.bin')
+    TOOLS_LIST_FILE = CACHE_DIR + Pathname.new('tools.bin')
     MINIMUM_VERSION = Gem::Version.new('4.3')
     SYMLINK_PATH = Pathname.new('/Applications/Xcode.app')
 
@@ -373,10 +449,24 @@ HELP
       download(version, progress, url, progress_block)
     end
 
+    def get_tools_dmg(version, progress = true, url = nil, progress_block = nil)
+      if url
+        path = Pathname.new(url)
+        return path if path.exist?
+      end
+
+      if ENV.key?('XCODE_INSTALL_CACHE_DIR')
+        Pathname.glob(ENV['XCODE_INSTALL_CACHE_DIR'] + '/*').each do |fpath|
+          return fpath if /^#{version.tr(" ", "_")}\.dmg$/ =~ fpath.basename.to_s
+        end
+      end
+
+      download_tools(version, progress, url, progress_block)
+    end
+
     def fetch_seedlist
       @xcodes = parse_seedlist(spaceship.send(:request, :post,
                                               '/services-account/QH65B2/downloadws/listDownloads.action').body)
-
       names = @xcodes.map(&:name)
       # @xcodes += prereleases.reject { |pre| names.include?(pre.name) }
 
@@ -385,6 +475,18 @@ HELP
       end
 
       xcodes
+    end
+
+    def fetch_toolslist
+      @tools = parse_toolslist(spaceship.send(:request, :post,
+                                              '/services-account/QH65B2/downloadws/listDownloads.action').body)
+      names = @tools.map(&:name)
+
+      File.open(TOOLS_LIST_FILE, 'wb') do |f|
+        f << Marshal.dump(tools)
+      end
+
+      tools
     end
 
     def installed
@@ -411,8 +513,26 @@ HELP
       xcodes.select { |x| x.url.end_with?('.dmg') || x.url.end_with?('.xip') }
     end
 
+    def parse_toolslist(toolslist)
+      fail Informative, toolslist['resultString'] unless toolslist['resultCode'].eql? 0
+
+      seeds = Array(toolslist['downloads']).select do |t|
+        /^Command Line Tools /.match(t['name'])
+      end
+
+      tools = seeds.map { |x| CLTool.new(x) }.sort do |a, b|
+        a.date_modified <=> b.date_modified
+      end
+
+      tools.select { |x| x.url.end_with?('.dmg') }
+    end
+
     def list_versions
       seedlist.map(&:name)
+    end
+
+    def list_tools_versions
+      toolslist.map(&name)
     end
 
     def prereleases
@@ -642,6 +762,11 @@ HELP
       return []
     end
 
+    def available_command_line_tools
+      (spaceship.send(:request, :post,
+                                              '/services-account/QH65B2/downloadws/listDownloads.action').body)
+    end
+
     def install_components
       # starting with Xcode 9, we have `xcodebuild -runFirstLaunch` available to do package
       # postinstalls using a documented option
@@ -759,6 +884,49 @@ HELP
       new('name' => version,
           'files' => [{ 'remotePath' => url.split('=').last }],
           'release_notes_path' => release_notes_path)
+    end
+  end
+
+  class CLTool
+    attr_reader :date_modified
+
+    # The name might include extra information like "for Lion" or "beta 2"
+    attr_reader :name
+    attr_reader :path
+    attr_reader :url
+    attr_reader :version
+    attr_reader :release_notes_url
+
+    # Accessor since it's set by the `Installer`
+    #attr_accessor :installed
+
+    #alias installed? installed
+
+    def initialize(json, url = nil, release_notes_url = nil)
+      if url.nil?
+        @date_modified = json['dateModified'].to_i
+        @name = json['name']
+        @path = json['files'].first['remotePath']
+        url_prefix = 'https://developer.apple.com/devcenter/download.action?path='
+        @url = "#{url_prefix}#{@path}"
+        @release_notes_url = "#{url_prefix}#{json['release_notes_path']}" if json['release_notes_path']
+      else
+        @name = json
+        @path = url.split('/').last
+        url_prefix = 'https://developer.apple.com/'
+        @url = "#{url_prefix}#{url}"
+        @release_notes_url = "#{url_prefix}#{release_notes_url}"
+      end
+    end
+
+    def to_s
+      #"#{name} -- #{url}"
+      "#{name}"
+    end
+
+    def ==(other)
+      date_modified == other.date_modified && name == other.name && path == other.path && \
+        url == other.url && version == other.version
     end
   end
 end
