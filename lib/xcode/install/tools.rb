@@ -1,5 +1,4 @@
 require 'claide'
-require 'spaceship'
 
 module XcodeInstall
   class Command
@@ -8,7 +7,7 @@ module XcodeInstall
       self.summary = 'List or install Xcode CLI tools.'
 
       def self.options
-        [['--install=name', 'Install simulator beginning with name, e.g. \'iOS 8.4\', \'tvOS 9.0\'.'],
+        [['--install=name', 'Install CLI tools with the name specified'],
          ['--force', 'Install even if the same version is already installed.'],
          ['--no-install', 'Only download DMG, but do not install it.'],
          ['--no-progress', 'Don’t show download progress.']].concat(super)
