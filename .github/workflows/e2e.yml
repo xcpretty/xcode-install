@@ -1,0 +1,47 @@
+name: "E2E test"
+on: [pull_request]
+
+jobs:
+  check_install:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        xcode: ["10.0", "10.1", "10.2.1", "10.3", "11.0", "11.1", "11.2.1"]
+
+    runs-on: ${{ matrix.os }}
+    env:
+      # It needs AppleID that has disabled 2FA.
+      XCODE_INSTALL_USER: ${{ secrets.XCODE_INSTALL_USER }}
+      XCODE_INSTALL_PASSWORD: ${{ secrets.XCODE_INSTALL_PASSWORD }}
+    steps:
+    # Prepare env
+    - uses: actions/checkout@master
+    - uses: actions/setup-ruby@master
+      with:
+        ruby-version: '2.6'
+
+    # Show env
+    - name: Show macOS version
+      run: sw_vers
+    - name: Show ruby version
+      run: |
+        ruby --version
+        bundler --version
+    
+    # Prepare
+    - run: bundle install -j4 --clean --path=vendor
+    - run: bundle exec xcversion update
+    - name: Show installed versions before install
+      run: bundle exec xcversion installed
+    - name: Uninstall installed target Xcode version
+      run: bundle exec xcversion uninstall ${{ matrix.xcode }} || true
+
+    # Exec
+    - run: bundle exec xcversion install ${{ matrix.xcode }}
+
+    # Check
+    - name: Show installed versions after install
+      run: bundle exec xcversion installed
+    - name: Check Xcode installation was successful
+      run: bundle exec xcversion installed | grep "${{ matrix.xcode }}"
