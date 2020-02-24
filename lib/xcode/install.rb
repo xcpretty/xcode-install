@@ -326,16 +326,19 @@ HELP
         mount_dir = mount(dmg_path)
         pkg_path = Dir.glob(File.join(mount_dir, '*.pkg')).first
 
+        # macOS 10.9 and above use a different type of package
+        # TODO: Add checks for 10.9 and below
         macos_version = `sw_vers -productVersion`.strip.split('.')
         if (macos_version[0].to_i == 10 && macos_version[1].to_i > 9)
           `pkgutil --expand "#{pkg_path}" #{CACHE_DIR}/clt`
 
           target_version_xml = REXML::Document.new(`cat #{CACHE_DIR}/clt/CLTools_Executables.pkg/PackageInfo`)
-
           target_version = target_version_xml.root.attributes["version"]
-        end
 
-        puts("Installing version #{target_version} from #{pkg_path}")
+          puts("Installing version #{target_version} from #{pkg_path}")
+        else 
+          puts("Installing from #{pkg_path}")
+        end
 
         prompt = "Please authenticate to install Command Line Tools.\nPassword: "
         `sudo -p "#{prompt}" installer -verbose -pkg "#{pkg_path}" -target /`
@@ -348,6 +351,8 @@ HELP
           else
             puts "Error installing Command Line Tools"
           end
+        else
+          puts "Installed Command Line Tools"
         end
 
         `rm -rf #{CACHE_DIR}/clt`
@@ -763,8 +768,8 @@ HELP
     end
 
     def available_command_line_tools
-      (spaceship.send(:request, :post,
-                                              '/services-account/QH65B2/downloadws/listDownloads.action').body)
+      (spaceship.send(:request, :post, 
+        '/services-account/QH65B2/downloadws/listDownloads.action').body)
     end
 
     def install_components
@@ -889,18 +894,11 @@ HELP
 
   class CLTool
     attr_reader :date_modified
-
-    # The name might include extra information like "for Lion" or "beta 2"
     attr_reader :name
     attr_reader :path
     attr_reader :url
     attr_reader :version
     attr_reader :release_notes_url
-
-    # Accessor since it's set by the `Installer`
-    #attr_accessor :installed
-
-    #alias installed? installed
 
     def initialize(json, url = nil, release_notes_url = nil)
       if url.nil?
@@ -920,7 +918,6 @@ HELP
     end
 
     def to_s
-      #"#{name} -- #{url}"
       "#{name}"
     end
 
