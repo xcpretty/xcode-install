@@ -168,8 +168,12 @@ module XcodeInstall
 
       seedlist.each do |current_seed|
         return current_seed if current_seed.name == version
+      end
+
+      seedlist.each do |current_seed|
         return current_seed if parsed_version && current_seed.version == parsed_version
       end
+      
       nil
     end
 
