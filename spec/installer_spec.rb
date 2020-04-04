@@ -105,17 +105,17 @@ module XcodeInstall
 
       xcodes = [
         XcodeInstall::Xcode.new('name' => '11.4 beta 2',
-          'files' => [{
-            'remotePath' => '/Developer_Tools/Xcode_11.4_beta_2/Xcode_11.4_beta_2.xip'
-          }]),
+                                'files' => [{
+                                  'remotePath' => '/Developer_Tools/Xcode_11.4_beta_2/Xcode_11.4_beta_2.xip'
+                                }]),
         XcodeInstall::Xcode.new('name' => '11.4',
-          'files' => [{
-            'remotePath' => '/Developer_Tools/Xcode_11.4/Xcode_11.4.xip'
-          }])
+                                'files' => [{
+                                  'remotePath' => '/Developer_Tools/Xcode_11.4/Xcode_11.4.xip'
+                                }])
       ]
 
       installer.stubs(:fetch_seedlist).returns(xcodes)
-      installer.find_xcode_version("11.4").name.should.be.equal("11.4")
+      installer.find_xcode_version('11.4').name.should.be.equal('11.4')
     end
   end
 end
