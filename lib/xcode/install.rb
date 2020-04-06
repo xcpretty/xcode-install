@@ -300,12 +300,16 @@ HELP
     end
 
     def list_annotated(xcodes_list)
-      installed = installed_versions.map(&:version)
-      xcodes_list.map do |x|
-        xcode_version = x.split(' ').first # exclude "beta N", "for Lion".
-        xcode_version << '.0' unless xcode_version.include?('.')
+      installed = installed_versions.map(&:appname_version)
 
-        installed.include?(xcode_version) ? "#{x} (installed)" : x
+      xcodes_list.map do |x|
+        xcode_version = x.split(' ') # split version and "beta N", "for Lion"
+        xcode_version[0] << '.0' unless xcode_version[0].include?('.')
+
+        # to match InstalledXcode.appname_version format
+        version = Gem::Version.new(xcode_version.join('.'))
+
+        installed.include?(version) ? "#{x} (installed)" : x
       end.join("\n")
     end
 
@@ -599,6 +603,12 @@ HELP
 
     def bundle_version
       @bundle_version ||= Gem::Version.new(bundle_version_string)
+    end
+
+    def appname_version
+      appname = @path.basename('.app').to_s
+      version_string = appname.split('-').last
+      Gem::Version.new(version_string)
     end
 
     def uuid
