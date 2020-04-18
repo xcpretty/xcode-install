@@ -23,8 +23,9 @@ module XcodeInstall
     end
 
     def fake_installed_xcode(name)
-      xcode_path = "/Applications/Xcode-#{name}.app"
-      xcode_version = name
+      installed_name = name.split(' ').join('.')
+      xcode_path = "/Applications/Xcode-#{installed_name}.app"
+      xcode_version = name.split(' ').first
       xcode_version << '.0' unless name.include? '.'
 
       installed_xcode = InstalledXcode.new(xcode_path)
@@ -49,8 +50,20 @@ module XcodeInstall
     describe '#list_annotated' do
       it 'lists all versions with annotations' do
         fake_xcodes '1', '2.3', '2.3.1', '2.3.2', '3 some', '4.3.1 for Lion', '9.4.1', '10 beta'
-        fake_installed_xcodes '2.3', '4.3.1', '10'
+        fake_installed_xcodes '2.3', '4.3.1 for Lion', '10 beta'
         installer.list.should == "1\n2.3 (installed)\n2.3.1\n2.3.2\n3 some\n4.3.1 for Lion (installed)\n9.4.1\n10 beta (installed)"
+      end
+
+      it 'distinguish between beta and official_version' do
+        fake_xcodes '11.4', '11.4 beta'
+        fake_installed_xcodes '11.4'
+        installer.list.should == "11.4 (installed)\n11.4 beta"
+      end
+
+      it 'distinguish each beta versions' do
+        fake_xcodes '11.4 beta', '11.4 beta 3'
+        fake_installed_xcodes '11.4 beta'
+        installer.list.should == "11.4 beta (installed)\n11.4 beta 3"
       end
     end
   end
