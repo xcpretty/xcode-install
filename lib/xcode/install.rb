@@ -767,6 +767,7 @@ HELP
 
     def self.new_prerelease(version, url, release_notes_path)
       new('name' => version,
+          'dateModified' => '01/01/70 00:00',
           'files' => [{ 'remotePath' => url.split('=').last }],
           'release_notes_path' => release_notes_path)
     end
