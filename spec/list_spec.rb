@@ -51,7 +51,7 @@ module XcodeInstall
       it 'lists all versions with annotations' do
         fake_xcodes '1', '2.3', '2.3.1', '2.3.2', '3 some', '4.3.1 for Lion', '9.4.1', '10 beta'
         fake_installed_xcodes '2.3', '4.3.1 for Lion', '10 beta'
-        installer.list.should == "1\n2.3.2\n2.3.1\n2.3 (installed)\n3 some\n4.3.1 for Lion (installed)\n9.4.1\n10 beta"
+        installer.list.should == "1\n2.3.2\n2.3.1\n2.3 (installed)\n3 some\n4.3.1 for Lion (installed)\n9.4.1\n10 beta (installed)"
       end
 
       it 'distinguish between beta and official_version' do
