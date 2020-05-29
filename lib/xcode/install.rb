@@ -119,7 +119,6 @@ module XcodeInstall
     end
   end
 
-  # rubocop:disable Metrics/ClassLength
   class Installer
     attr_reader :xcodes
 
@@ -388,9 +387,6 @@ HELP
       @xcodes = parse_seedlist(spaceship.send(:request, :post,
                                               '/services-account/QH65B2/downloadws/listDownloads.action').body)
 
-      names = @xcodes.map(&:name)
-      @xcodes += prereleases.reject { |pre| names.include?(pre.name) }
-
       File.open(LIST_FILE, 'wb') do |f|
         f << Marshal.dump(xcodes)
       end
@@ -424,41 +420,6 @@ HELP
 
     def list_versions
       seedlist.map(&:name)
-    end
-
-    def prereleases
-      body = spaceship.send(:request, :get, '/download/').body
-
-      links = body.scan(%r{<a.+?href="(.+?/Xcode.+?/Xcode_(.+?)\.(dmg|xip))".*>(.*)</a>})
-      links = links.map do |link|
-        parent = link[0].scan(%r{path=(/.*/.*/)}).first.first
-        match = body.scan(/#{Regexp.quote(parent)}(.+?.pdf)/).first
-        if match
-          link + [parent + match.first]
-        else
-          link + [nil]
-        end
-      end
-      links = links.map { |pre| Xcode.new_prerelease(pre[1].strip.tr('_', ' '), pre[0], pre[4]) }
-
-      if links.count.zero?
-        rg = %r{platform-title.*Xcode.* beta.*<\/p>}
-        scan = body.scan(rg)
-
-        if scan.count.zero?
-          rg = %r{Xcode.* GM.*<\/p>}
-          scan = body.scan(rg)
-        end
-
-        return [] if scan.empty?
-
-        version = scan.first.gsub(/<.*?>/, '').gsub(/.*Xcode /, '')
-        link = body.scan(%r{<button .*"(.+?.(dmg|xip))".*</button>}).first.first
-        notes = body.scan(%r{<a.+?href="(/go/\?id=xcode-.+?)".*>(.*)</a>}).first.first
-        links << Xcode.new(version, link, notes)
-      end
-
-      links
     end
 
     def hdiutil(*args)
@@ -763,12 +724,6 @@ HELP
     def ==(other)
       date_modified == other.date_modified && name == other.name && path == other.path && \
         url == other.url && version == other.version
-    end
-
-    def self.new_prerelease(version, url, release_notes_path)
-      new('name' => version,
-          'files' => [{ 'remotePath' => url.split('=').last }],
-          'release_notes_path' => release_notes_path)
     end
   end
 end
