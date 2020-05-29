@@ -214,7 +214,7 @@ module XcodeInstall
         current_xcode.installed = cached_installed_versions.include?(current_xcode.version)
       end
 
-      all_xcodes.sort_by(&:version)
+      all_xcodes.sort_by { |seed| [seed.version, -seed.date_modified] }.reverse
     end
 
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
@@ -712,7 +712,7 @@ HELP
   #
   # Sample object:
   # <XcodeInstall::Xcode:0x007fa1d451c390
-  #    @date_modified=2015,
+  #    @date_modified=1573661580,
   #    @name="6.4",
   #    @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
   #    @url=
@@ -735,7 +735,7 @@ HELP
 
     def initialize(json, url = nil, release_notes_url = nil)
       if url.nil?
-        @date_modified = json['dateModified'].to_i
+        @date_modified = DateTime.strptime(json['dateModified'], '%m/%d/%y %H:%M').strftime('%s').to_i
         @name = json['name'].gsub(/^Xcode /, '')
         @path = json['files'].first['remotePath']
         url_prefix = 'https://developer.apple.com/devcenter/download.action?path='
