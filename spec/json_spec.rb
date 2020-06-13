@@ -6,9 +6,9 @@ module XcodeInstall
       fixture = Pathname.new('spec/fixtures/xcode.json').read
       xcode = Xcode.new(JSON.parse(fixture))
 
-      xcode.date_modified.should == 1_413_472_373_000
-      xcode.name.should == 'Command Line Tools (OS X 10.9) for Xcode - Xcode 6.1'
-      xcode.url.should == 'https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/command_line_tools_os_x_10.9_for_xcode__xcode_6.1/command_line_tools_for_osx_10.9_for_xcode_6.1.dmg'
+      xcode.date_modified.should == 1_572_613_080
+      xcode.name.should == '9.3'
+      xcode.url.should == 'https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_9.3/Xcode_9.3.xip'
     end
 
     it 'can parse list of all Xcodes' do
@@ -19,7 +19,17 @@ module XcodeInstall
       installer.stubs(:installed_versions).returns([])
       installer.stubs(:xcodes).returns(seedlist)
 
-      installer.list.should == "6.1\n6.1.1\n6.2"
+      versions = [
+        '4.3 for Lion', '4.3.1 for Lion', '4.3.2 for Lion', '4.3.3 for Lion', '4.4.1', '4.5', '4.6.2', '4.6', '4.6.1', '4.6.3',
+        '5.0.1', '5', '5.0.2', '5.1', '5.1.1',
+        '6.0.1', '6.1', '6.1.1', '6.2', '6.3', '6.3.1', '6.3.2', '6.4',
+        '7', '7.0.1', '7.1', '7.1.1', '7.2.1', '7.2', '7.3', '7.3.1',
+        '8', '8.1', '8.2', '8.2.1', '8.3.2', '8.3.3', '8.3',
+        '9', '9.0.1', '9.1', '9.2', '9.3', '9.3.1', '9.4', '9.4.1',
+        '10', '10.1', '10.2.1', '10.2', '10.3',
+        '11', '11.1', '11.2', '11.2.1', '11.3 beta', '11.3', '11.3.1', '11.4 beta', '11.4', '11.4 beta 3', '11.4 beta 2', '11.4.1', '11.5 beta 2', '11.5', '11.5 GM Seed', '11.5 beta'
+      ]
+      installer.list.split("\n").should == versions
     end
 
     it 'raises informative error when account is not registered as a developer' do

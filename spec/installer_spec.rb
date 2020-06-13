@@ -108,10 +108,12 @@ module XcodeInstall
 
       xcodes = [
         XcodeInstall::Xcode.new('name' => '11.4 beta 2',
+                                'dateModified' => '12/11/19 14:28',
                                 'files' => [{
                                   'remotePath' => '/Developer_Tools/Xcode_11.4_beta_2/Xcode_11.4_beta_2.xip'
                                 }]),
         XcodeInstall::Xcode.new('name' => '11.4',
+                                'dateModified' => '12/15/19 11:28',
                                 'files' => [{
                                   'remotePath' => '/Developer_Tools/Xcode_11.4/Xcode_11.4.xip'
                                 }])
