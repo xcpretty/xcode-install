@@ -1,3 +1,3 @@
 module XcodeInstall
-  VERSION = '2.6.4'.freeze
+  VERSION = '2.6.5'.freeze
 end
