@@ -608,7 +608,12 @@ HELP
     def appname_version
       appname = @path.basename('.app').to_s
       version_string = appname.split('-').last
-      Gem::Version.new(version_string)
+      begin
+        Gem::Version.new(version_string)
+      rescue ArgumentError
+        puts 'Unable to determine Xcode version from path name, installed list may not correctly identify installed betas'
+        Gem::Version.new(nil)
+      end
     end
 
     def uuid
