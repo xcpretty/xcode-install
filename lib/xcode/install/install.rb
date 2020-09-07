@@ -51,7 +51,7 @@ module XcodeInstall
 
       def run
         @installer.install_version(@version, @should_switch, @should_clean, @should_install,
-                                   @progress, @url, @show_release_notes, nil, @retry_download_count.to_i + 1)
+                                   @progress, @url, @show_release_notes, nil, @retry_download_count.to_i)
       end
     end
   end
