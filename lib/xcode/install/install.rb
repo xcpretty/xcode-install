@@ -46,7 +46,7 @@ module XcodeInstall
         end
         fail Informative, "Version #{@version} doesn't exist." unless @url || @installer.exist?(@version)
         fail Informative, "Invalid URL: `#{@url}`" unless !@url || @url =~ /\A#{URI.regexp}\z/
-        fail Informative, "Invalid Retry: `#{@retry_download_count} is not positive number.`" unless (@retry_download_count =~ /\A[0-9]*\z/) != nil 
+        fail Informative, "Invalid Retry: `#{@retry_download_count} is not positive number.`" if (@retry_download_count =~ /\A[0-9]*\z/).nil?
       end
 
       def run
