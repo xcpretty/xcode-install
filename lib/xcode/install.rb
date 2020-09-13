@@ -31,10 +31,12 @@ module XcodeInstall
               cookies: nil,
               output: nil,
               progress: nil,
-              progress_block: nil)
+              progress_block: nil,
+              number_of_try: nil)
       options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
 
       uri = URI.parse(url)
+      
       output ||= File.basename(uri.path)
       output = (Pathname.new(directory) + Pathname.new(output)) if directory
 
@@ -57,7 +59,7 @@ module XcodeInstall
       progress_log_file = File.join(CACHE_DIR, "progress.#{Time.now.to_i}.progress")
       FileUtils.rm_f(progress_log_file)
 
-      retry_options = ['--retry', '3']
+      retry_options = ['--retry', number_of_try]
       command = [
         'curl',
         '--disable',
@@ -78,7 +80,7 @@ module XcodeInstall
       # "Partial file. Only a part of the file was transferred."
       # https://curl.haxx.se/mail/archive-2008-07/0098.html
       # https://github.com/KrauseFx/xcode-install/issues/210
-      3.times do
+      number_of_try.times do
         # Non-blocking call of Open3
         # We're not using the block based syntax, as the bacon testing
         # library doesn't seem to support writing tests for it
@@ -135,7 +137,7 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
-    def download(version, progress, url = nil, progress_block = nil)
+    def download(version, progress, url = nil, progress_block = nil, number_of_try = 3)
       xcode = find_xcode_version(version) if url.nil?
       return if url.nil? && xcode.nil?
 
@@ -147,7 +149,8 @@ module XcodeInstall
         cookies: url ? nil : spaceship.cookie,
         output: dmg_file,
         progress: progress,
-        progress_block: progress_block
+        progress_block: progress_block,
+        number_of_try: number_of_try
       )
       result ? CACHE_DIR + dmg_file : nil
     end
@@ -280,8 +283,8 @@ HELP
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil)
-      dmg_path = get_dmg(version, progress, url, progress_block)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, number_of_try)
+      dmg_path = get_dmg(version, progress, url, progress_block, number_of_try)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       if install
@@ -370,7 +373,7 @@ HELP
       `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
     end
 
-    def get_dmg(version, progress = true, url = nil, progress_block = nil)
+    def get_dmg(version, progress = true, url = nil, progress_block = nil, number_of_try = 3)
       if url
         path = Pathname.new(url)
         return path if path.exist?
@@ -381,7 +384,7 @@ HELP
         end
       end
 
-      download(version, progress, url, progress_block)
+      download(version, progress, url, progress_block, number_of_try)
     end
 
     def fetch_seedlist
@@ -512,12 +515,13 @@ HELP
       end
     end
 
-    def download(progress, progress_block = nil)
+    def download(progress, progress_block = nil, number_of_try = 3)
       result = Curl.new.fetch(
         url: source,
         directory: CACHE_DIR,
         progress: progress,
-        progress_block: progress_block
+        progress_block: progress_block,
+        number_of_try: number_of_try
       )
       result ? dmg_path : nil
     end

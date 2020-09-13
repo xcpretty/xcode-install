@@ -10,7 +10,8 @@ module XcodeInstall
         [['--install=name', 'Install simulator beginning with name, e.g. \'iOS 8.4\', \'tvOS 9.0\'.'],
          ['--force', 'Install even if the same version is already installed.'],
          ['--no-install', 'Only download DMG, but do not install it.'],
-         ['--no-progress', 'Don’t show download progress.']].concat(super)
+         ['--no-progress', 'Don’t show download progress.']],
+         ['--retry', 'How many times retry to download DMG file if fails. Default is 3.']].concat(super)
       end
 
       def initialize(argv)
