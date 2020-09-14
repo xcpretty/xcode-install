@@ -25,7 +25,7 @@ module XcodeInstall
     # @param progress: parse and show the progress?
     # @param progress_block: A block that's called whenever we have an updated progress %
     #                        the parameter is a single number that's literally percent (e.g. 1, 50, 80 or 100)
-    # @param number_of_try: A count to retry the downloading Xcode dmg/xip
+    # @param number_of_try: How many times try to download DMG file if downloading fails. Default is 3.
     # rubocop:disable Metrics/AbcSize
     def fetch(url: nil,
               directory: nil,
@@ -98,9 +98,7 @@ module XcodeInstall
           end
 
           # Call back the block for other processes that might be interested
-          puts "progress_content: #{progress_content}"
           matched = progress_content.match(/^\s*(\d+)/)
-          puts "matched: #{matched}"
           next unless matched && matched.length == 2
           percent = matched[1].to_i
           progress_block.call(percent) if progress_block
