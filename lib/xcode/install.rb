@@ -33,10 +33,11 @@ module XcodeInstall
               output: nil,
               progress: nil,
               progress_block: nil,
-              number_of_try: 3)
+              number_of_try: nil)
       options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
 
       uri = URI.parse(url)
+      
       output ||= File.basename(uri.path)
       output = (Pathname.new(directory) + Pathname.new(output)) if directory
 
@@ -281,7 +282,7 @@ HELP
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, number_of_try = 3)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, number_of_try)
       dmg_path = get_dmg(version, progress, url, progress_block, number_of_try)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
@@ -513,7 +514,7 @@ HELP
       end
     end
 
-    def download(progress, progress_block = nil, number_of_try = 3)
+    def download(progress, progress_block = nil, number_of_try)
       result = Curl.new.fetch(
         url: source,
         directory: CACHE_DIR,
@@ -524,8 +525,8 @@ HELP
       result ? dmg_path : nil
     end
 
-    def install(progress, should_install)
-      dmg_path = download(progress)
+    def install(progress, should_install, number_of_try)
+      dmg_path = download(progress, number_of_try)
       fail Informative, "Failed to download #{@name}." if dmg_path.nil?
 
       return unless should_install
