@@ -44,6 +44,7 @@ module XcodeInstall
         simulator = filtered_simulators.first
         fail Informative, "#{simulator.name} is already installed." if simulator.installed? && !@force
         puts "Installing #{simulator.name} for Xcode #{simulator.xcode.bundle_version}..."
+        fail Informative, "Invalid Retry: `#{@retry_download_count} is not positive number.`" if (@retry_download_count =~ /\A[0-9]*\z/).nil?
         simulator.install(@progress, @should_install, @retry_download_count.to_i)
       else
         puts "[!] More than one simulator matching #{@install} was found. Please specify the full version.".ansi.red
