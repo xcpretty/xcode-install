@@ -11,7 +11,7 @@ module XcodeInstall
          ['--force', 'Install even if the same version is already installed.'],
          ['--no-install', 'Only download DMG, but do not install it.'],
          ['--no-progress', 'Don’t show download progress.'],
-         ['--retry-download-count', 'Count of retrying download when the curl operation fails.']].concat(super)
+         ['--number-of-try', 'How many times try to download DMG file if downloading fails. Default is 3.']].concat(super)
       end
 
       def initialize(argv)
@@ -20,7 +20,7 @@ module XcodeInstall
         @force = argv.flag?('force', false)
         @should_install = argv.flag?('install', true)
         @progress = argv.flag?('progress', true)
-        @retry_download_count = argv.option('retry-download-count', '3')
+        @number_of_try = argv.option('number-of-try', '3')
         super
       end
 
@@ -44,8 +44,8 @@ module XcodeInstall
         simulator = filtered_simulators.first
         fail Informative, "#{simulator.name} is already installed." if simulator.installed? && !@force
         puts "Installing #{simulator.name} for Xcode #{simulator.xcode.bundle_version}..."
-        fail Informative, "Invalid Retry: `#{@retry_download_count} is not positive number.`" if (@retry_download_count =~ /\A[0-9]*\z/).nil?
-        simulator.install(@progress, @should_install, @retry_download_count.to_i)
+        fail Informative, "Invalid Retry: `#{@number_of_try} is not positive number.`" if (@number_of_try =~ /\A[0-9]*\z/).nil?
+        simulator.install(@progress, @should_install, @number_of_try.to_i)
       else
         puts "[!] More than one simulator matching #{@install} was found. Please specify the full version.".ansi.red
         filtered_simulators.each do |candidate|
