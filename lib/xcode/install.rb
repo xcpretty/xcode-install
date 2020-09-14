@@ -59,7 +59,7 @@ module XcodeInstall
       progress_log_file = File.join(CACHE_DIR, "progress.#{Time.now.to_i}.progress")
       FileUtils.rm_f(progress_log_file)
 
-      retry_options = ['--retry', '3']
+      retry_options = ['--retry', retry_download_count]
       command = [
         'curl',
         '--disable',
