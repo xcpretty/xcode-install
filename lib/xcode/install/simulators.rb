@@ -11,7 +11,7 @@ module XcodeInstall
          ['--force', 'Install even if the same version is already installed.'],
          ['--no-install', 'Only download DMG, but do not install it.'],
          ['--no-progress', 'Don’t show download progress.'],
-         ['--retry', 'How many times retry to download DMG file if fails. Default is 3.']].concat(super)
+         ['--retry=number', 'How many times try to download DMG file if fails. Default is 3.']].concat(super)
       end
 
       def initialize(argv)
@@ -20,6 +20,7 @@ module XcodeInstall
         @force = argv.flag?('force', false)
         @should_install = argv.flag?('install', true)
         @progress = argv.flag?('progress', true)
+        @number_of_try = argv.option('retry', 3)
         super
       end
 
@@ -43,7 +44,7 @@ module XcodeInstall
         simulator = filtered_simulators.first
         fail Informative, "#{simulator.name} is already installed." if simulator.installed? && !@force
         puts "Installing #{simulator.name} for Xcode #{simulator.xcode.bundle_version}..."
-        simulator.install(@progress, @should_install)
+        simulator.install(@progress, @should_install, @number_of_try)
       else
         puts "[!] More than one simulator matching #{@install} was found. Please specify the full version.".ansi.red
         filtered_simulators.each do |candidate|

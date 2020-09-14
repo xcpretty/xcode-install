@@ -515,7 +515,7 @@ HELP
       end
     end
 
-    def download(progress, progress_block = nil, number_of_try = 3)
+    def download(progress, progress_block = nil, number_of_try)
       result = Curl.new.fetch(
         url: source,
         directory: CACHE_DIR,
@@ -526,8 +526,8 @@ HELP
       result ? dmg_path : nil
     end
 
-    def install(progress, should_install)
-      dmg_path = download(progress)
+    def install(progress, should_install, number_of_try)
+      dmg_path = download(progress, number_of_try)
       fail Informative, "Failed to download #{@name}." if dmg_path.nil?
 
       return unless should_install
