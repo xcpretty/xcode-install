@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('../spec_helper', __FILE__)
 
 module XcodeInstall
@@ -22,6 +24,13 @@ module XcodeInstall
         Installer.any_instance.expects(:download).with('6.3', true, url, nil).returns('/some/path')
         Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true)
         Command::Install.run(['6.3', "--url=#{url}"])
+      end
+
+      it 'downloads with retry option set to 5' do
+        number_of_try = 5
+        Installer.any_instance.expects(:download).with('6.3', true, nil, nil, number_of_try).returns('/some/path')
+        Installer.any_instance.expects(:install_dmg).with('/some/path', '-6.3', true, true, number_of_try)
+        Command::Install.run(['6.3', "--retry=#{number_of_try}"])
       end
 
       it 'downloads and installs and does not switch if --no-switch given' do
