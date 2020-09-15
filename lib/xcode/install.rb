@@ -33,7 +33,7 @@ module XcodeInstall
               output: nil,
               progress: nil,
               progress_block: nil,
-              number_of_try: nil)
+              number_of_try: 3)
       options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
 
       uri = URI.parse(url)
