@@ -281,7 +281,7 @@ HELP
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, number_of_try)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, number_of_try = 3)
       dmg_path = get_dmg(version, progress, url, progress_block, number_of_try)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
@@ -513,7 +513,7 @@ HELP
       end
     end
 
-    def download(progress, progress_block = nil, number_of_try)
+    def download(progress, progress_block = nil, number_of_try = 3)
       result = Curl.new.fetch(
         url: source,
         directory: CACHE_DIR,
@@ -525,7 +525,7 @@ HELP
     end
 
     def install(progress, should_install, number_of_try)
-      dmg_path = download(progress, number_of_try)
+      dmg_path = download(progress, nil, number_of_try)
       fail Informative, "Failed to download #{@name}." if dmg_path.nil?
 
       return unless should_install
