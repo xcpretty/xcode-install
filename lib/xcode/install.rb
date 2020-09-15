@@ -26,7 +26,6 @@ module XcodeInstall
     # @param progress_block: A block that's called whenever we have an updated progress %
     #                        the parameter is a single number that's literally percent (e.g. 1, 50, 80 or 100)
     # @param number_of_try: How many times try to download DMG file if downloading fails. Default is 3.
-    # rubocop:disable Metrics/AbcSize
     def fetch(url: nil,
               directory: nil,
               cookies: nil,
@@ -37,7 +36,7 @@ module XcodeInstall
       options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
 
       uri = URI.parse(url)
-      
+
       output ||= File.basename(uri.path)
       output = (Pathname.new(directory) + Pathname.new(output)) if directory
 
