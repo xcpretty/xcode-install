@@ -123,4 +123,58 @@ module XcodeInstall
       installer.find_xcode_version('11.4').name.should.be.equal('11.4')
     end
   end
+
+  describe '#installed?' do
+    before do
+      @installer = Installer.new
+    end
+
+    describe 'when the version format is correct' do
+      before do
+        @input_versions = ['12', '12.0', '12.0.0']
+        @make_installed_mocks = lambda do |versions|
+          versions.map do |version|
+            installed_mock = mock(version)
+            installed_mock.expects(:version).times(@input_versions.count).returns(version)
+            installed_mock
+          end
+        end
+      end
+
+      describe 'xcode version is installed' do
+        it 'finds installed xcode with matching version' do
+          installed_versions = @make_installed_mocks.call(['11.3.1', '12.0'])
+          @installer.stubs(:installed_versions).times(@input_versions.count).returns(installed_versions)
+          @input_versions.each do |version|
+            @installer.installed?(version).should.be.true
+          end
+        end
+      end
+
+      describe 'xcode version is not installed' do
+        it 'does not find installed xcode' do
+          installed_versions = @make_installed_mocks.call(['9.3', '11.3.1'])
+          @installer.stubs(:installed_versions).times(@input_versions.count).returns(installed_versions)
+          @input_versions.each do |version|
+            @installer.installed?(version).should.be.false
+          end
+        end
+      end
+    end
+
+    describe 'when the version is malformed' do
+      before do
+        @version = 'a, b, c'
+        @installer.stubs(:installed_versions).never
+      end
+
+      it 'does not throw ArgumentError' do
+        should.not.raise(ArgumentError) { @installer.installed?(@version) }
+      end
+
+      it 'does not find installed excode' do
+        @installer.installed?(@version).should.be.false
+      end
+    end
+  end
 end

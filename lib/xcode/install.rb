@@ -186,7 +186,12 @@ module XcodeInstall
     end
 
     def installed?(version)
-      installed_versions.map(&:version).include?(version)
+      comparable_version = Gem::Version.new(version)
+      !installed_versions.find do |installed_xcode|
+        Gem::Version.new(installed_xcode.version) == comparable_version
+      end.nil?
+    rescue
+      false
     end
 
     def installed_versions
