@@ -32,7 +32,7 @@ module XcodeInstall
         @should_switch = argv.flag?('switch', true)
         @progress = argv.flag?('progress', true)
         @show_release_notes = argv.flag?('show-release-notes', true)
-        @number_of_try = argv.option('number-of-try', '3')
+        @number_of_try = argv.option('retry-count', '3')
         super
       end
 
