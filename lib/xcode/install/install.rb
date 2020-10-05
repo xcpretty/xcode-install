@@ -18,7 +18,7 @@ module XcodeInstall
          ['--no-progress', 'Don’t show download progress.'],
          ['--no-clean', 'Don’t delete DMG after installation.'],
          ['--no-show-release-notes', 'Don’t open release notes in browser after installation.'],
-         ['--number-of-try', 'How many times try to download DMG file if downloading fails. Default is 3.']].concat(super)
+         ['--retry-count', 'How many times try to download DMG file if downloading fails. Default is 3.']].concat(super)
       end
 
       def initialize(argv)
