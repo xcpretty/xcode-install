@@ -20,7 +20,7 @@ module XcodeInstall
         @force = argv.flag?('force', false)
         @should_install = argv.flag?('install', true)
         @progress = argv.flag?('progress', true)
-        @number_of_try = argv.option('number-of-try', '3')
+        @number_of_try = argv.option('retry-count', '3')
         super
       end
 
