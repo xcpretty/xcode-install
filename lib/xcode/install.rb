@@ -58,11 +58,13 @@ module XcodeInstall
       # wait for the process to be finished
       progress_log_file = File.join(CACHE_DIR, "progress.#{Time.now.to_i}.progress")
       FileUtils.rm_f(progress_log_file)
-
+      
+      retry_options = ['--retry', number_of_try]
       command = [
         'curl',
         '--disable',
         *options,
+        *retry_options,
         '--location',
         '--continue-at',
         '-',
