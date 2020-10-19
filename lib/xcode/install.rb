@@ -317,7 +317,7 @@ HELP
     end
 
     def list
-      list_annotated(list_versions.sort_by(&:to_f))
+      list_annotated(list_versions.sort { |first, second| compare_versions(first, second) })
     end
 
     def rm_list_cache
@@ -462,6 +462,27 @@ HELP
       end
 
       links
+    end
+
+    def compare_versions(first, second)
+        # Sort by version number
+        numeric_comparation = first.to_f <=> second.to_f
+        return numeric_comparation if numeric_comparation != 0
+
+        # Return beta versions before others
+        is_first_beta = first.include?('beta')
+        is_second_beta = second.include?('beta')
+        return -1 if is_first_beta && !is_second_beta
+        return 1 if !is_first_beta && is_second_beta
+
+        # Return GM versions before others
+        is_first_gm = first.include?('GM')
+        is_second_gm = second.include?('GM')
+        return -1 if is_first_gm && !is_second_gm
+        return 1 if !is_first_gm && is_second_gm
+
+        # Sort alphabetically
+        return first <=> second
     end
 
     def hdiutil(*args)
