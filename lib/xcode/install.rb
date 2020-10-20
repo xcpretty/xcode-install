@@ -465,24 +465,24 @@ HELP
     end
 
     def compare_versions(first, second)
-        # Sort by version number
-        numeric_comparation = first.to_f <=> second.to_f
-        return numeric_comparation if numeric_comparation != 0
+      # Sort by version number
+      numeric_comparation = first.to_f <=> second.to_f
+      return numeric_comparation if numeric_comparation != 0
 
-        # Return beta versions before others
-        is_first_beta = first.include?('beta')
-        is_second_beta = second.include?('beta')
-        return -1 if is_first_beta && !is_second_beta
-        return 1 if !is_first_beta && is_second_beta
+      # Return beta versions before others
+      is_first_beta = first.include?('beta')
+      is_second_beta = second.include?('beta')
+      return -1 if is_first_beta && !is_second_beta
+      return 1 if !is_first_beta && is_second_beta
 
-        # Return GM versions before others
-        is_first_gm = first.include?('GM')
-        is_second_gm = second.include?('GM')
-        return -1 if is_first_gm && !is_second_gm
-        return 1 if !is_first_gm && is_second_gm
+      # Return GM versions before others
+      is_first_gm = first.include?('GM')
+      is_second_gm = second.include?('GM')
+      return -1 if is_first_gm && !is_second_gm
+      return 1 if !is_first_gm && is_second_gm
 
-        # Sort alphabetically
-        return first <=> second
+      # Sort alphabetically
+      first <=> second
     end
 
     def hdiutil(*args)

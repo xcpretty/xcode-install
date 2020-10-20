@@ -47,9 +47,19 @@ module XcodeInstall
       end
 
       it 'lists all versions in the correct order' do
-        fake_xcodes '12 beta 4', '12 beta 3', '12 beta 2', '12 for macOS Universal Apps beta 2', '12 beta', '12 for macOS Universal Apps beta', '12.0.1', '12', '12 beta 6', '12 beta 5', '12.1 GM seed', '12.2 beta 3', '12.2 beta', '12.2 beta 2'
+        fake_xcodes(
+          '12 beta 4', '12 beta 3', '12 beta 2', '12 for macOS Universal Apps beta 2',
+          '12 beta', '12 for macOS Universal Apps beta', '12.0.1', '12', '12 beta 6',
+          '12 beta 5', '12.1 GM seed', '12.2 beta 3', '12.2 beta', '12.2 beta 2'
+        )
         fake_installed_xcodes
-        installer.list.should == "12 beta\n12 beta 2\n12 beta 3\n12 beta 4\n12 beta 5\n12 beta 6\n12 for macOS Universal Apps beta\n12 for macOS Universal Apps beta 2\n12\n12.0.1\n12.1 GM seed\n12.2 beta\n12.2 beta 2\n12.2 beta 3"
+
+        versions = [
+          '12 beta', '12 beta 2', '12 beta 3', '12 beta 4', '12 beta 5', '12 beta 6',
+          '12 for macOS Universal Apps beta', '12 for macOS Universal Apps beta 2',
+          '12', '12.0.1', '12.1 GM seed', '12.2 beta', '12.2 beta 2', '12.2 beta 3'
+        ]
+        installer.list.split("\n").should == versions
       end
     end
 
