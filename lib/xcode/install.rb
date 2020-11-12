@@ -464,7 +464,7 @@ HELP
       links
     end
 
-    def compare_versions(first, second)
+    def compare_versions(first, second) # rubocop:disable Metrics/CyclomaticComplexity
       # Sort by version number
       numeric_comparation = first.to_f <=> second.to_f
       return numeric_comparation if numeric_comparation != 0
