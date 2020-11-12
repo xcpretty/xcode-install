@@ -481,6 +481,12 @@ HELP
       return -1 if is_first_gm && !is_second_gm
       return 1 if !is_first_gm && is_second_gm
 
+      # Return Release Candidate versions before others
+      is_first_rc = first.include?('RC') || first.include?('Release Candidate')
+      is_second_rc = second.include?('RC') || second.include?('Release Candidate')
+      return -1 if is_first_rc && !is_second_rc
+      return 1 if !is_first_rc && is_second_rc
+
       # Sort alphabetically
       first <=> second
     end
