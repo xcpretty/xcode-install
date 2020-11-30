@@ -464,6 +464,7 @@ HELP
       links
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def compare_versions(first, second)
       # Sort by version number
       numeric_comparation = first.to_f <=> second.to_f
@@ -481,9 +482,16 @@ HELP
       return -1 if is_first_gm && !is_second_gm
       return 1 if !is_first_gm && is_second_gm
 
+      # Return Release Candidate versions before others
+      is_first_rc = first.include?('RC') || first.include?('Release Candidate')
+      is_second_rc = second.include?('RC') || second.include?('Release Candidate')
+      return -1 if is_first_rc && !is_second_rc
+      return 1 if !is_first_rc && is_second_rc
+
       # Sort alphabetically
       first <=> second
     end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     def hdiutil(*args)
       io = IO.popen(['hdiutil', *args])
