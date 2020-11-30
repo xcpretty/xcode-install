@@ -464,7 +464,8 @@ HELP
       links
     end
 
-    def compare_versions(first, second) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def compare_versions(first, second)
       # Sort by version number
       numeric_comparation = first.to_f <=> second.to_f
       return numeric_comparation if numeric_comparation != 0
@@ -490,6 +491,7 @@ HELP
       # Sort alphabetically
       first <=> second
     end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     def hdiutil(*args)
       io = IO.popen(['hdiutil', *args])
