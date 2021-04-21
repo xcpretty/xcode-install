@@ -1,6 +1,6 @@
 # Xcode::Install
 
-[![Gem Version](http://img.shields.io/gem/v/xcode-install.svg?style=flat)](http://badge.fury.io/rb/xcode-install) [![Build Status](https://github.com/xcpretty/xcode-install/workflows/ci.yml/badge.svg)](https://github.com/xcpretty/xcode-install/actions)
+[![Gem Version](http://img.shields.io/gem/v/xcode-install.svg?style=flat)](http://badge.fury.io/rb/xcode-install) [![Build Status](https://github.com/xcpretty/xcode-install/actions/workflows/ci.yml/badge.svg)](https://github.com/xcpretty/xcode-install/actions)
 
 Install and update your Xcodes automatically.
 
