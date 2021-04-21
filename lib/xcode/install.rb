@@ -709,7 +709,7 @@ HELP
     def fetch_version
       output = `/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "#{@path}/Contents/version.plist"`
       return '0.0' if output.nil? || output.empty? # ¯\_(ツ)_/¯
-      output.sub("\n", "")
+      output.sub("\n", '')
     end
 
     def verify_integrity
