@@ -91,7 +91,7 @@ module XcodeInstall
           sleep(0.5) # it's not critical for this to be real-time
           next unless File.exist?(progress_log_file) # it might take longer for it to be created
 
-          progress_content = File.read(progress_log_file).split("\r").last
+          progress_content = File.read(progress_log_file).split("\r").last || ""
 
           # Print out the progress for the CLI
           if progress
