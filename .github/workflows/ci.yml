@@ -19,16 +19,21 @@ jobs:
     # Show env
     - name: Show macOS version
       run: sw_vers
-    - name: Show ruby version
+    - name: Show env versions
       run: |
         ruby --version
         bundler --version
     
     # Prepare
-    - name: Install bundler 1.7
-      run: gem install bundler -v "~> 1.7"
+    - name: Install bundler 2.2.14
+      run: gem install bundler -v "~> 2.2.14"
     - name: Install ruby dependencies
-      run: bundle install -j4 --clean --path=vendor
+      run: |
+        bundle config --local clean 'true'
+        bundle config --local path '.vendor'
+        bundle config --local jobs 8
+        bundle config --local without 'system_tests'
+        bundle install
 
     - name: Run test
       run: bundle exec rake spec
