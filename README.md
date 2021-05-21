@@ -1,6 +1,6 @@
 # Xcode::Install
 
-[![Gem Version](http://img.shields.io/gem/v/xcode-install.svg?style=flat)](http://badge.fury.io/rb/xcode-install) [![CircleCI](https://circleci.com/gh/xcpretty/xcode-install.svg?style=svg)](https://circleci.com/gh/xcpretty/xcode-install)
+[![Gem Version](http://img.shields.io/gem/v/xcode-install.svg?style=flat)](http://badge.fury.io/rb/xcode-install) [![Build Status](https://github.com/xcpretty/xcode-install/actions/workflows/ci.yml/badge.svg)](https://github.com/xcpretty/xcode-install/actions)
 
 Install and update your Xcodes automatically.
 
@@ -87,6 +87,16 @@ $ xcversion list
 
 They have to be installed using the full name, e.g. `xcversion install '7 GM seed'`.
 
+#### `.xcode-version`
+
+We recommend the creation of a `.xcode-version` file to explicitly declare and store the Xcode version to be used by your CI environment as well as your team.
+
+```
+12.5
+```
+
+Read [the proposal](/XCODE_VERSION.md) of `.xcode-version`.
+
 ### Select
 
 To see the currently selected version, run
@@ -151,7 +161,7 @@ to a dialog popping up. Feel free to dupe [the radar][5]. 📡
 
 XcodeInstall normally relies on the Spotlight index to locate installed versions of Xcode. If you use it while
 indexing is happening, it might show inaccurate results and it will not be able to see installed
-versions on unindexed volumes. 
+versions on unindexed volumes.
 
 To workaround the Spotlight limitation, XcodeInstall searches `/Applications` folder to locate Xcodes when Spotlight is disabled on the machine, or when Spotlight query for Xcode does not return any results. But it still won't work if your Xcodes are not located under `/Applications` folder.
 
@@ -165,7 +175,7 @@ project, especially [@henrikhodne][6] and [@lacostej][7] for making XcodeInstall
 
 ## Contributing
 
-1. Fork it ( https://github.com/KrauseFx/xcode-install/fork )
+1. Fork it ( https://github.com/xcpretty/xcode-install/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

@@ -24,7 +24,7 @@ module XcodeInstall
       def initialize(argv)
         @installer = Installer.new
         @version = argv.shift_argument
-        @version ||= File.read('.xcode-version') if File.exist?('.xcode-version')
+        @version ||= File.read('.xcode-version').strip if File.exist?('.xcode-version')
         @url = argv.option('url')
         @force = argv.flag?('force', false)
         @should_clean = argv.flag?('clean', true)
