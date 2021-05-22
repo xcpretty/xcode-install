@@ -11,7 +11,7 @@ module XcodeInstall
          ['--force', 'Install even if the same version is already installed.'],
          ['--no-install', 'Only download DMG, but do not install it.'],
          ['--no-progress', 'Don’t show download progress.'],
-         ['--retry-count', 'How many times try to download DMG file if downloading fails. Default is 3.']].concat(super)
+         ['--retry-count', 'How many times try to download DMG file if downloading fails. Default is 10.']].concat(super)
       end
 
       def initialize(argv)
@@ -20,7 +20,7 @@ module XcodeInstall
         @force = argv.flag?('force', false)
         @should_install = argv.flag?('install', true)
         @progress = argv.flag?('progress', true)
-        @number_of_try = argv.option('retry-count', '3')
+        @number_of_try = argv.option('retry-count', '10')
         super
       end
 
