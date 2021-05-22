@@ -25,7 +25,7 @@ module XcodeInstall
     # @param progress: parse and show the progress?
     # @param progress_block: A block that's called whenever we have an updated progress %
     #                        the parameter is a single number that's literally percent (e.g. 1, 50, 80 or 100)
-    # @param number_of_try: How many times try to download DMG file if downloading fails. Default is 3.
+    # @param number_of_try: How many times try to download DMG file if downloading fails. Default is 10.
     def curl_file(command_string,
                   progress,
                   progress_block,
@@ -78,7 +78,7 @@ module XcodeInstall
               output: nil,
               progress: nil,
               progress_block: nil,
-              number_of_try: 3)
+              number_of_try: 10)
       options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
 
       uri = URI.parse(url)
@@ -189,7 +189,7 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
-    def download(version, progress, url = nil, progress_block = nil, number_of_try = 3)
+    def download(version, progress, url = nil, progress_block = nil, number_of_try = 10)
       xcode = find_xcode_version(version) if url.nil?
       return if url.nil? && xcode.nil?
 
@@ -335,7 +335,7 @@ HELP
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, number_of_try = 3)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, number_of_try = 10)
       dmg_path = get_dmg(version, progress, url, progress_block, number_of_try)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
@@ -425,7 +425,7 @@ HELP
       `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
     end
 
-    def get_dmg(version, progress = true, url = nil, progress_block = nil, number_of_try = 3)
+    def get_dmg(version, progress = true, url = nil, progress_block = nil, number_of_try = 10)
       if url
         path = Pathname.new(url)
         return path if path.exist?
@@ -596,7 +596,7 @@ HELP
       end
     end
 
-    def download(progress, progress_block = nil, number_of_try = 3)
+    def download(progress, progress_block = nil, number_of_try = 10)
       result = Curl.new.fetch(
         url: source,
         directory: CACHE_DIR,
