@@ -14,3 +14,4 @@
 mkmf.log
 .DS_Store
 test
+.vendor

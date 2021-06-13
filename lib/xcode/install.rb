@@ -26,7 +26,6 @@ module XcodeInstall
     # @param progress_block: A block that's called whenever we have an updated progress %
     #                        the parameter is a single number that's literally percent (e.g. 1, 50, 80 or 100)
     # @param retry_download_count: A count to retry the downloading Xcode dmg/xip
-    # rubocop:disable Metrics/AbcSize
     def fetch(url: nil,
               directory: nil,
               cookies: nil,
@@ -81,43 +80,48 @@ module XcodeInstall
       # https://curl.haxx.se/mail/archive-2008-07/0098.html
       # https://github.com/KrauseFx/xcode-install/issues/210
       retry_download_count.times do
-        # Non-blocking call of Open3
-        # We're not using the block based syntax, as the bacon testing
-        # library doesn't seem to support writing tests for it
-        stdin, stdout, stderr, wait_thr = Open3.popen3(command_string)
-
-        # Poll the file and see if we're done yet
-        while wait_thr.alive?
-          sleep(0.5) # it's not critical for this to be real-time
-          next unless File.exist?(progress_log_file) # it might take longer for it to be created
-
-          progress_content = File.read(progress_log_file).split("\r").last
-
-          # Print out the progress for the CLI
-          if progress
-            print "\r#{progress_content}%"
-            $stdout.flush
-          end
-
-          # Call back the block for other processes that might be interested
-          matched = progress_content.match(/^\s*(\d+)/)
-          next unless matched && matched.length == 2
-          percent = matched[1].to_i
-          progress_block.call(percent) if progress_block
-        end
-
-        # as we're not making use of the block-based syntax
-        # we need to manually close those
-        stdin.close
-        stdout.close
-        stderr.close
-
+        wait_thr = poll_file(command_string: command_string, progress_log_file: progress_log_file, progress: progress, progress_block: progress_block)
         return wait_thr.value.success? if wait_thr.value.success?
       end
       false
     ensure
       FileUtils.rm_f(COOKIES_PATH)
       FileUtils.rm_f(progress_log_file)
+    end
+
+    def poll_file(command_string:, progress_log_file:, progress: nil, progress_block: nil)
+      # Non-blocking call of Open3
+      # We're not using the block based syntax, as the bacon testing
+      # library doesn't seem to support writing tests for it
+      stdin, stdout, stderr, wait_thr = Open3.popen3(command_string)
+
+      # Poll the file and see if we're done yet
+      while wait_thr.alive?
+        sleep(0.5) # it's not critical for this to be real-time
+        next unless File.exist?(progress_log_file) # it might take longer for it to be created
+
+        progress_content = File.read(progress_log_file).split("\r").last || ''
+
+        # Print out the progress for the CLI
+        if progress
+          print "\r#{progress_content}%"
+          $stdout.flush
+        end
+
+        # Call back the block for other processes that might be interested
+        matched = progress_content.match(/^\s*(\d+)/)
+        next unless matched && matched.length == 2
+        percent = matched[1].to_i
+        progress_block.call(percent) if progress_block
+      end
+
+      # as we're not making use of the block-based syntax
+      # we need to manually close those
+      stdin.close
+      stdout.close
+      stderr.close
+
+      wait_thr
     end
   end
 
