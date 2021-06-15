@@ -710,11 +710,10 @@ HELP
       `touch #{cache_dir}com.apple.dt.Xcode.InstallCheckCache_#{osx_build_version}_#{tools_version}`
     end
 
-    # This method might take a few ms, this could be improved by implementing https://github.com/KrauseFx/xcode-install/issues/273
     def fetch_version
-      output = `DEVELOPER_DIR='' "#{@path}/Contents/Developer/usr/bin/xcodebuild" -version`
+      output = `/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "#{@path}/Contents/version.plist"`
       return '0.0' if output.nil? || output.empty? # ¯\_(ツ)_/¯
-      output.split("\n").first.split(' ')[1]
+      output.sub("\n", '')
     end
 
     def verify_integrity
