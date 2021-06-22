@@ -320,8 +320,15 @@ HELP
       end.join("\n")
     end
 
-    def list
-      list_annotated(list_versions.sort { |first, second| compare_versions(first, second) })
+    def list(requirement = nil)
+      versions = list_versions
+
+      unless requirement.nil?
+        req = Gem::Requirement.new(requirement.split(','))
+        versions.select! { |ver| req =~ Gem::Version.new(ver.split(' ')[0])}
+      end
+
+      list_annotated(versions.sort { |first, second| compare_versions(first, second) })
     end
 
     def rm_list_cache

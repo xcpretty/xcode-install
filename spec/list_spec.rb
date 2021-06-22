@@ -46,6 +46,12 @@ module XcodeInstall
         installer.list.should == "1\n2.3\n2.3.1\n2.3.2\n3 some\n4 beta\n10 beta"
       end
 
+      it 'lists all versions filtered by requirements' do
+        fake_xcodes '1', '2.3', '2.3.1', '2.3.2', '3 some', '4 beta', '10 beta'
+        fake_installed_xcodes
+        installer.list('>= 2.0, < 10.0').should == "2.3\n2.3.1\n2.3.2\n3 some\n4 beta"
+      end
+
       it 'lists all versions in the correct order' do
         fake_xcodes(
           '12 beta 4', '12 beta 3', '12 beta 2', '12 for macOS Universal Apps beta 2',
