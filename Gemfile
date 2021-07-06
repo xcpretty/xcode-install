@@ -8,5 +8,5 @@ group :development do
   gem 'mocha', '~> 0.11.4'
   gem 'mocha-on-bacon'
   gem 'prettybacon'
-  gem 'rubocop', '~> 0.49.1', require: false
+  gem 'rubocop', '~> 1.18', require: false
 end
