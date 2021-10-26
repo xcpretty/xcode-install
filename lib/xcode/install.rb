@@ -141,21 +141,28 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
-    def download(version, progress, url = nil, progress_block = nil, retry_download_count = 3)
+    def download(version, progress, url = nil, local_url = nil, progress_block = nil, retry_download_count = 3)
       xcode = find_xcode_version(version) if url.nil?
       return if url.nil? && xcode.nil?
 
       dmg_file = Pathname.new(File.basename(url || xcode.path))
 
-      result = Curl.new.fetch(
-        url: url || xcode.url,
-        directory: CACHE_DIR,
-        cookies: url ? nil : spaceship.cookie,
-        output: dmg_file,
-        progress: progress,
-        progress_block: progress_block,
-        retry_download_count: retry_download_count
-      )
+      result = false
+      unless local_url.nil?
+        local_url += dmg_file.to_s
+        result = Curl.new.fetch(local_url, CACHE_DIR, local_url ? nil : spaceship.cookie, dmg_file, progress)
+      end
+
+      if result == false
+        result = Curl.new.fetch(
+          url: url || xcode.url,
+          directory: CACHE_DIR,
+          cookies: url ? nil : spaceship.cookie,
+          output: dmg_file,
+          progress: progress,
+          progress_block: progress_block,
+          retry_download_count: retry_download_count
+        )
       result ? CACHE_DIR + dmg_file : nil
     end
 
@@ -287,8 +294,8 @@ HELP
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, retry_download_count = 3)
-      dmg_path = get_dmg(version, progress, url, progress_block, retry_download_count)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, local_url = nil, progress_block = nil, retry_download_count = 3)
+      dmg_path = get_dmg(version, progress, url, local_url, progress_block, retry_download_count)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       if install
@@ -377,7 +384,7 @@ HELP
       `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
     end
 
-    def get_dmg(version, progress = true, url = nil, progress_block = nil, retry_download_count = 3)
+    def get_dmg(version, progress = true, url = nil, local_url = nil, progress_block = nil, retry_download_count = 3)
       if url
         path = Pathname.new(url)
         return path if path.exist?
@@ -388,7 +395,7 @@ HELP
         end
       end
 
-      download(version, progress, url, progress_block, retry_download_count)
+      download(version, progress, url, local_url, progress_block, retry_download_count)
     end
 
     def fetch_seedlist
