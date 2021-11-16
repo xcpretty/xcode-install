@@ -1,0 +1,42 @@
+name: "CI"
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ["2.5", "2.6", "2.7", "3.0"]
+
+    runs-on: macos-latest
+    steps:
+    # Setup env
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: "${{ matrix.ruby }}"
+
+    # Show env
+    - name: Show macOS version
+      run: sw_vers
+    - name: Show env versions
+      run: |
+        ruby --version
+        bundler --version
+        echo $HOME
+    
+    # Prepare
+    - name: Install bundler 2.2.20
+      run: gem install bundler -v "~> 2.2.20"
+    - name: Install ruby dependencies
+      run: |
+        bundle config --local clean 'true'
+        bundle config --local path '.vendor'
+        bundle config --local jobs 8
+        bundle config --local without 'system_tests'
+        bundle install
+
+    - name: Run test
+      run: bundle exec rake spec
+    - name: Run lint
+      run: bundle exec rake rubocop

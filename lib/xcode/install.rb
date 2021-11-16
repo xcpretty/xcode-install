@@ -25,13 +25,14 @@ module XcodeInstall
     # @param progress: parse and show the progress?
     # @param progress_block: A block that's called whenever we have an updated progress %
     #                        the parameter is a single number that's literally percent (e.g. 1, 50, 80 or 100)
-    # rubocop:disable Metrics/AbcSize
+    # @param retry_download_count: A count to retry the downloading Xcode dmg/xip
     def fetch(url: nil,
               directory: nil,
               cookies: nil,
               output: nil,
               progress: nil,
-              progress_block: nil)
+              progress_block: nil,
+              retry_download_count: 3)
       options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
 
       uri = URI.parse(url)
@@ -78,44 +79,49 @@ module XcodeInstall
       # "Partial file. Only a part of the file was transferred."
       # https://curl.haxx.se/mail/archive-2008-07/0098.html
       # https://github.com/KrauseFx/xcode-install/issues/210
-      3.times do
-        # Non-blocking call of Open3
-        # We're not using the block based syntax, as the bacon testing
-        # library doesn't seem to support writing tests for it
-        stdin, stdout, stderr, wait_thr = Open3.popen3(command_string)
-
-        # Poll the file and see if we're done yet
-        while wait_thr.alive?
-          sleep(0.5) # it's not critical for this to be real-time
-          next unless File.exist?(progress_log_file) # it might take longer for it to be created
-
-          progress_content = File.read(progress_log_file).split("\r").last
-
-          # Print out the progress for the CLI
-          if progress
-            print "\r#{progress_content}%"
-            $stdout.flush
-          end
-
-          # Call back the block for other processes that might be interested
-          matched = progress_content.match(/^\s*(\d+)/)
-          next unless matched && matched.length == 2
-          percent = matched[1].to_i
-          progress_block.call(percent) if progress_block
-        end
-
-        # as we're not making use of the block-based syntax
-        # we need to manually close those
-        stdin.close
-        stdout.close
-        stderr.close
-
+      retry_download_count.times do
+        wait_thr = poll_file(command_string: command_string, progress_log_file: progress_log_file, progress: progress, progress_block: progress_block)
         return wait_thr.value.success? if wait_thr.value.success?
       end
       false
     ensure
       FileUtils.rm_f(COOKIES_PATH)
       FileUtils.rm_f(progress_log_file)
+    end
+
+    def poll_file(command_string:, progress_log_file:, progress: nil, progress_block: nil)
+      # Non-blocking call of Open3
+      # We're not using the block based syntax, as the bacon testing
+      # library doesn't seem to support writing tests for it
+      stdin, stdout, stderr, wait_thr = Open3.popen3(command_string)
+
+      # Poll the file and see if we're done yet
+      while wait_thr.alive?
+        sleep(0.5) # it's not critical for this to be real-time
+        next unless File.exist?(progress_log_file) # it might take longer for it to be created
+
+        progress_content = File.read(progress_log_file).split("\r").last || ''
+
+        # Print out the progress for the CLI
+        if progress
+          print "\r#{progress_content}%"
+          $stdout.flush
+        end
+
+        # Call back the block for other processes that might be interested
+        matched = progress_content.match(/^\s*(\d+)/)
+        next unless matched && matched.length == 2
+        percent = matched[1].to_i
+        progress_block.call(percent) if progress_block
+      end
+
+      # as we're not making use of the block-based syntax
+      # we need to manually close those
+      stdin.close
+      stdout.close
+      stderr.close
+
+      wait_thr
     end
   end
 
@@ -135,7 +141,7 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
-    def download(version, progress, url = nil, progress_block = nil)
+    def download(version, progress, url = nil, progress_block = nil, retry_download_count = 3)
       xcode = find_xcode_version(version) if url.nil?
       return if url.nil? && xcode.nil?
 
@@ -147,7 +153,8 @@ module XcodeInstall
         cookies: url ? nil : spaceship.cookie,
         output: dmg_file,
         progress: progress,
-        progress_block: progress_block
+        progress_block: progress_block,
+        retry_download_count: retry_download_count
       )
       result ? CACHE_DIR + dmg_file : nil
     end
@@ -168,8 +175,12 @@ module XcodeInstall
 
       seedlist.each do |current_seed|
         return current_seed if current_seed.name == version
+      end
+
+      seedlist.each do |current_seed|
         return current_seed if parsed_version && current_seed.version == parsed_version
       end
+
       nil
     end
 
@@ -210,7 +221,7 @@ module XcodeInstall
         current_xcode.installed = cached_installed_versions.include?(current_xcode.version)
       end
 
-      all_xcodes.sort_by(&:version)
+      all_xcodes.sort_by { |seed| [seed.version, -seed.date_modified] }.reverse
     end
 
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
@@ -276,8 +287,8 @@ HELP
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil)
-      dmg_path = get_dmg(version, progress, url, progress_block)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, retry_download_count = 3)
+      dmg_path = get_dmg(version, progress, url, progress_block, retry_download_count)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       if install
@@ -296,17 +307,21 @@ HELP
     end
 
     def list_annotated(xcodes_list)
-      installed = installed_versions.map(&:version)
-      xcodes_list.map do |x|
-        xcode_version = x.split(' ').first # exclude "beta N", "for Lion".
-        xcode_version << '.0' unless xcode_version.include?('.')
+      installed = installed_versions.map(&:appname_version)
 
-        installed.include?(xcode_version) ? "#{x} (installed)" : x
+      xcodes_list.map do |x|
+        xcode_version = x.split(' ') # split version and "beta N", "for Lion"
+        xcode_version[0] << '.0' unless xcode_version[0].include?('.')
+
+        # to match InstalledXcode.appname_version format
+        version = Gem::Version.new(xcode_version.join('.'))
+
+        installed.include?(version) ? "#{x} (installed)" : x
       end.join("\n")
     end
 
     def list
-      list_annotated(list_versions.sort_by(&:to_f))
+      list_annotated(list_versions.sort { |first, second| compare_versions(first, second) })
     end
 
     def rm_list_cache
@@ -362,7 +377,7 @@ HELP
       `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
     end
 
-    def get_dmg(version, progress = true, url = nil, progress_block = nil)
+    def get_dmg(version, progress = true, url = nil, progress_block = nil, retry_download_count = 3)
       if url
         path = Pathname.new(url)
         return path if path.exist?
@@ -373,7 +388,7 @@ HELP
         end
       end
 
-      download(version, progress, url, progress_block)
+      download(version, progress, url, progress_block, retry_download_count)
     end
 
     def fetch_seedlist
@@ -453,6 +468,35 @@ HELP
       links
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def compare_versions(first, second)
+      # Sort by version number
+      numeric_comparation = first.to_f <=> second.to_f
+      return numeric_comparation if numeric_comparation != 0
+
+      # Return beta versions before others
+      is_first_beta = first.include?('beta')
+      is_second_beta = second.include?('beta')
+      return -1 if is_first_beta && !is_second_beta
+      return 1 if !is_first_beta && is_second_beta
+
+      # Return GM versions before others
+      is_first_gm = first.include?('GM')
+      is_second_gm = second.include?('GM')
+      return -1 if is_first_gm && !is_second_gm
+      return 1 if !is_first_gm && is_second_gm
+
+      # Return Release Candidate versions before others
+      is_first_rc = first.include?('RC') || first.include?('Release Candidate')
+      is_second_rc = second.include?('RC') || second.include?('Release Candidate')
+      return -1 if is_first_rc && !is_second_rc
+      return 1 if !is_first_rc && is_second_rc
+
+      # Sort alphabetically
+      first <=> second
+    end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
     def hdiutil(*args)
       io = IO.popen(['hdiutil', *args])
       result = io.read
@@ -504,12 +548,13 @@ HELP
       end
     end
 
-    def download(progress, progress_block = nil)
+    def download(progress, progress_block = nil, retry_download_count = 3)
       result = Curl.new.fetch(
         url: source,
         directory: CACHE_DIR,
         progress: progress,
-        progress_block: progress_block
+        progress_block: progress_block,
+        retry_download_count: retry_download_count
       )
       result ? dmg_path : nil
     end
@@ -597,6 +642,17 @@ HELP
       @bundle_version ||= Gem::Version.new(bundle_version_string)
     end
 
+    def appname_version
+      appname = @path.basename('.app').to_s
+      version_string = appname.split('-').last
+      begin
+        Gem::Version.new(version_string)
+      rescue ArgumentError
+        puts 'Unable to determine Xcode version from path name, installed list may not correctly identify installed betas'
+        Gem::Version.new(nil)
+      end
+    end
+
     def uuid
       @uuid ||= plist_entry(':DVTPlugInCompatibilityUUID')
     end
@@ -654,11 +710,10 @@ HELP
       `touch #{cache_dir}com.apple.dt.Xcode.InstallCheckCache_#{osx_build_version}_#{tools_version}`
     end
 
-    # This method might take a few ms, this could be improved by implementing https://github.com/KrauseFx/xcode-install/issues/273
     def fetch_version
-      output = `DEVELOPER_DIR='' "#{@path}/Contents/Developer/usr/bin/xcodebuild" -version`
+      output = `/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "#{@path}/Contents/version.plist"`
       return '0.0' if output.nil? || output.empty? # ¯\_(ツ)_/¯
-      output.split("\n").first.split(' ')[1]
+      output.sub("\n", '')
     end
 
     def verify_integrity
@@ -698,7 +753,7 @@ HELP
   #
   # Sample object:
   # <XcodeInstall::Xcode:0x007fa1d451c390
-  #    @date_modified=2015,
+  #    @date_modified=1573661580,
   #    @name="6.4",
   #    @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
   #    @url=
@@ -721,7 +776,7 @@ HELP
 
     def initialize(json, url = nil, release_notes_url = nil)
       if url.nil?
-        @date_modified = json['dateModified'].to_i
+        @date_modified = DateTime.strptime(json['dateModified'], '%m/%d/%y %H:%M').strftime('%s').to_i
         @name = json['name'].gsub(/^Xcode /, '')
         @path = json['files'].first['remotePath']
         url_prefix = 'https://developer.apple.com/devcenter/download.action?path='
@@ -753,6 +808,7 @@ HELP
 
     def self.new_prerelease(version, url, release_notes_path)
       new('name' => version,
+          'dateModified' => '01/01/70 00:00',
           'files' => [{ 'remotePath' => url.split('=').last }],
           'release_notes_path' => release_notes_path)
     end
