@@ -233,9 +233,9 @@ module XcodeInstall
         xcode_orig_path = File.join(Dir.pwd, 'Xcode.app')
         xcode_beta_path = File.join(Dir.pwd, 'Xcode-beta.app')
         if Pathname.new(xcode_orig_path).exist?
-          `sudo -p "#{prompt}" mv "#{xcode_orig_path}" "#{xcode_path}"`
+          `mv "#{xcode_orig_path}" "#{xcode_path}"`
         elsif Pathname.new(xcode_beta_path).exist?
-          `sudo -p "#{prompt}" mv "#{xcode_beta_path}" "#{xcode_path}"`
+          `mv "#{xcode_beta_path}" "#{xcode_path}"`
         else
           out = <<-HELP
 No `Xcode.app(or Xcode-beta.app)` found in XIP. Please remove #{dmg_path} if you
@@ -260,14 +260,14 @@ HELP
           return
         end
 
-        `sudo -p "#{prompt}" ditto "#{source}" "#{xcode_path}"`
+        `ditto "#{source}" "#{xcode_path}"`
         `umount "/Volumes/Xcode"`
       end
 
       xcode = InstalledXcode.new(xcode_path)
 
       unless xcode.verify_integrity
-        `sudo rm -rf #{xcode_path}`
+        `rm -rf #{xcode_path}`
         return
       end
 
@@ -276,8 +276,8 @@ HELP
       xcode.install_components
 
       if switch
-        `sudo rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
-        `sudo ln -sf #{xcode_path} #{SYMLINK_PATH}` unless SYMLINK_PATH.exist?
+        `rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
+        `ln -sf #{xcode_path} #{SYMLINK_PATH}` unless SYMLINK_PATH.exist?
 
         `sudo xcode-select --switch #{xcode_path}`
         puts `xcodebuild -version`
@@ -330,8 +330,8 @@ HELP
 
     def symlink(version)
       xcode = installed_versions.find { |x| x.version == version }
-      `sudo rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
-      `sudo ln -sf #{xcode.path} #{SYMLINK_PATH}` unless xcode.nil? || SYMLINK_PATH.exist?
+      `rm -f #{SYMLINK_PATH}` unless current_symlink.nil?
+      `ln -sf #{xcode.path} #{SYMLINK_PATH}` unless xcode.nil? || SYMLINK_PATH.exist?
     end
 
     def symlinks_to
