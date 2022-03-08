@@ -225,7 +225,6 @@ module XcodeInstall
     end
 
     def install_dmg(dmg_path, suffix = '', switch = true, clean = true)
-      prompt = "Please authenticate for Xcode installation.\nPassword: "
       xcode_path = "/Applications/Xcode#{suffix}.app"
 
       if dmg_path.extname == '.xip'
