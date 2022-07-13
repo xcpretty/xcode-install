@@ -324,8 +324,8 @@ HELP
       versions = list_versions
 
       unless requirement.nil?
-        req = Gem::Requirement.new(requirement.split(','))
-        versions.select! { |ver| req =~ Gem::Version.new(ver.split(' ')[0])}
+        req = Gem::Requirement.create(requirement.split(',').map { |x| Xcode.to_semver(x) })
+        versions.select! { |ver| req =~ Gem::Version.create(Xcode.to_semver(ver)) }
       end
 
       list_annotated(versions.sort { |first, second| compare_versions(first, second) })

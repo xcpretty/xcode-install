@@ -47,9 +47,20 @@ module XcodeInstall
       end
 
       it 'lists all versions filtered by requirements' do
-        fake_xcodes '1', '2.3', '2.3.1', '2.3.2', '3 some', '4 beta', '10 beta'
+        fake_xcodes(
+          '12.5', '12.5.1',
+          '13.2', '13.2.1',
+          '13.3 beta', '13.3 beta 2', '13.3 beta 3', '13.3 Release Candidate', '13.3',
+          '13.3.1',
+          '13.4 Release Candidate', '13.4',
+          '13.4.1',
+          '14 beta', '14 beta 2'
+        )
         fake_installed_xcodes
-        installer.list('>= 2.0, < 10.0').should == "2.3\n2.3.1\n2.3.2\n3 some\n4 beta"
+        installer.list('14 Beta 2').should == "14 beta 2"
+        installer.list('~> 12.5').split("\n").should == ['12.5', '12.5.1']
+        installer.list('> 13.4').split("\n").should == ['13.4.1', '14 beta', '14 beta 2']
+        installer.list('> 13.3 beta 2, < 13.3').split("\n").should == ['13.3 beta 3', '13.3 Release Candidate']
       end
 
       it 'lists all versions in the correct order' do
