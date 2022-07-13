@@ -819,5 +819,20 @@ HELP
           'files' => [{ 'remotePath' => url.split('=').last }],
           'release_notes_path' => release_notes_path)
     end
+
+    def self.to_semver(version)
+      start = version.index(/\d/)
+      raise "Invalid version #{version}" if start.nil?
+
+      operator = version[0...start]
+      version_parts = version[start...].split(' ')
+      if version_parts.count > 2
+        semver = "#{version_parts[0]}-#{version_parts[1...].join('.')}"
+      else
+        semver = version_parts.join('-')
+      end
+
+      operator + semver.downcase
+    end
   end
 end
