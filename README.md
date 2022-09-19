@@ -2,6 +2,8 @@
 
 [![Gem Version](http://img.shields.io/gem/v/xcode-install.svg?style=flat)](http://badge.fury.io/rb/xcode-install) [![Build Status](https://github.com/xcpretty/xcode-install/actions/workflows/ci.yml/badge.svg)](https://github.com/xcpretty/xcode-install/actions)
 
+# This project has been sunset. See the migration guide here: [MIGRATION.md](/MIGRATION.md)
+
 Install and update your Xcodes automatically.
 
 ```
