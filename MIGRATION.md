@@ -1,4 +1,6 @@
-# Sunsetting `xcode-install` aka `xcversion`
+# This project is being sunset
+
+A brief history of `xcode-install` aka `xcversion`, as well as a guide on how to migrate from it, to a more modern tool.
 
 <sub>For brevity sake I'm going to refer to this project always as `xcode-install` in this document.</sub>
 
@@ -53,7 +55,7 @@ xcodes(
 
 ## 2. `xcversion`
 
-`xcversion` used to receive an Xcode version and select it, if possible, which in `xcodes` action that's the `select_only` option.
+`xcversion` used to receive an Xcode version and select it for the current build steps, which in `xcodes` action that's the `select_for_current_build_only` option.
 
 Before:
 
@@ -66,13 +68,13 @@ Now:
 ```ruby
 xcodes(
   version: '14',
-  select_only: true,
+  select_for_current_build_only: true,
 )
 ```
 
 ## 3. `ensure_xcode_version`
 
-This action wasn't migrated to use `xcodes` within _fastlane_ yet, mainly because of the somewhat complex logic around the non-strict version checking. This document as well as fastlane's `ensure_xcode_version` action documentation will be updated when the new `xcodes` action officially deprecates the `ensure_xcode_version` action. For now, if you don't use the `strict: false` option of `ensure_xcode_version`, you can migrate to `xcodes` action by passing `select_only: true`, which will raise an error if the given version can't be selected:
+This action wasn't migrated to use `xcodes` within _fastlane_ yet, mainly because of the somewhat complex logic around the non-strict version checking. This document as well as fastlane's `ensure_xcode_version` action documentation will be updated when the new `xcodes` action officially deprecates the `ensure_xcode_version` action. For now, if you don't use the `strict: false` option of `ensure_xcode_version`, you can migrate to `xcodes` action by passing `select_for_current_build_only: true`, which will raise an error if the given version can't be selected:
 
 Before:
 
@@ -92,7 +94,7 @@ Now:
 ```ruby
 xcodes(
   version: '14',
-  select_only: true,
+  select_for_current_build_only: true,
 )
 ```
 
