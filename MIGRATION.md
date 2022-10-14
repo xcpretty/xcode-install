@@ -25,6 +25,8 @@ These features, plus the fact that this project wasn't getting the attention it 
 
 As of https://github.com/fastlane/fastlane/pull/20672, a new action was introduced to _fastlane_ called `xcodes`. You can find its full documentation here: https://docs.fastlane.tools/actions/xcodes
 
+Keep in mind that the `xcodes` action depends on [`xcodes`](https://github.com/RobotsAndPencils/xcodes) CLI, so make sure you have it installed in your environment. For the installation guide, see: https://github.com/RobotsAndPencils/xcodes#installation
+
 There are 3 actions that depend on `xcode-install` gem. Below you can find how to migrate each one of them:
 
 ## 1. `xcode_install`
