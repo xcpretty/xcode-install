@@ -29,7 +29,7 @@ There are 3 actions that depend on `xcode-install` gem. Below you can find how t
 
 ## 1. `xcode_install`
 
-`xcode_install` used to receive an Xcode version and "install if needed", which the new `xcodes` action's main purpose.
+`xcode_install` used to receive an Xcode version and "install if needed", which is the new `xcodes` action's main purpose.
 
 Before:
 
