@@ -100,6 +100,16 @@ xcodes(
 )
 ```
 
+## Managing Simulator Runtimes
+
+You can install them via, e.g.:
+
+```sh
+xcodes runtimes install 'iOS 16.0'
+```
+
+More documentation about this will be created soon, directly in the `xcodes` repository.
+
 ## Advanced Usage
 
 If there are other use cases that you don't see covered so far, check out the full documentation here: https://docs.fastlane.tools/actions/xcodes
@@ -111,10 +121,6 @@ All the lanes that supported `.xcode-version` still support it :tada:
 If you're using `xcode-install` as a CLI, the process to migrate to `xcodes` is more straightforward: simply visit https://github.com/RobotsAndPencils/xcodes and check their installation and usage guide.
 
 `xcode-install` CLI supported `.xcode-version` and so does `xcodes` :tada:
-
-# Known limitations
-
-Unfortunately, managing Simulators runtime (a feature available only via `xcode-install` CLI) isn't supported in `xcodes` yet. You can follow this issue to be notified when there are new developments around this feature: https://github.com/RobotsAndPencils/xcodes/issues/91
 
 ## Shout Outs & Mentions
 
