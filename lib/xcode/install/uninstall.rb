@@ -25,7 +25,7 @@ module XcodeInstall
         installed_path = @installer.installed_versions.find { |x| x.version == @version }
         return if installed_path.nil? || installed_path.path.nil?
 
-        `sudo rm -rf #{installed_path.path}`
+        `rm -rf #{installed_path.path}`
 
         return unless @installer.symlinks_to == installed_path.path
         newest_version = @installer.installed_versions.last
