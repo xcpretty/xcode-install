@@ -25,6 +25,52 @@ module XcodeInstall
     # @param progress: parse and show the progress?
     # @param progress_block: A block that's called whenever we have an updated progress %
     #                        the parameter is a single number that's literally percent (e.g. 1, 50, 80 or 100)
+    # @param number_of_try: How many times try to download DMG file if downloading fails. Default is 10.
+    def curl_file(command_string,
+                  progress,
+                  progress_block,
+                  progress_log_file,
+                  number_of_try)
+      # Run the curl command in a loop, retry when curl exit status is 18
+      # "Partial file. Only a part of the file was transferred."
+      # https://curl.haxx.se/mail/archive-2008-07/0098.html
+      # https://github.com/KrauseFx/xcode-install/issues/210
+      number_of_try.times do
+        # Non-blocking call of Open3
+        # We're not using the block based syntax, as the bacon testing
+        # library doesn't seem to support writing tests for it
+        stdin, stdout, stderr, wait_thr = Open3.popen3(command_string)
+
+        # Poll the file and see if we're done yet
+        while wait_thr.alive?
+          sleep(0.5) # it's not critical for this to be real-time
+          next unless File.exist?(progress_log_file) # it might take longer for it to be created
+
+          progress_content = File.read(progress_log_file).split("\r").last
+
+          # Print out the progress for the CLI
+          if progress
+            print "\r#{progress_content}%"
+            $stdout.flush
+          end
+
+          # Call back the block for other processes that might be interested
+          matched = progress_content.match(/^\s*(\d+)/)
+          next unless matched && matched.length == 2
+          percent = matched[1].to_i
+          progress_block.call(percent) if progress_block
+        end
+
+        # as we're not making use of the block-based syntax
+        # we need to manually close those
+        stdin.close
+        stdout.close
+        stderr.close
+
+        return wait_thr.value.success? if wait_thr.value.success?
+      end
+    end
+
     # @param retry_download_count: A count to retry the downloading Xcode dmg/xip
     def fetch(url: nil,
               directory: nil,
@@ -32,10 +78,11 @@ module XcodeInstall
               output: nil,
               progress: nil,
               progress_block: nil,
-              retry_download_count: 3)
+              number_of_try: 10)
       options = cookies.nil? ? [] : ['--cookie', cookies, '--cookie-jar', COOKIES_PATH]
 
       uri = URI.parse(url)
+
       output ||= File.basename(uri.path)
       output = (Pathname.new(directory) + Pathname.new(output)) if directory
 
@@ -58,7 +105,7 @@ module XcodeInstall
       progress_log_file = File.join(CACHE_DIR, "progress.#{Time.now.to_i}.progress")
       FileUtils.rm_f(progress_log_file)
 
-      retry_options = ['--retry', '3']
+      retry_options = ['--retry', number_of_try]
       command = [
         'curl',
         '--disable',
@@ -75,6 +122,7 @@ module XcodeInstall
       command_string = command.collect(&:shellescape).join(' ')
       command_string += " 2> #{progress_log_file}" # to not run shellescape on the `2>`
 
+      curl_file(command_string, progress, progress_block, progress_log_file, number_of_try)
       # Run the curl command in a loop, retry when curl exit status is 18
       # "Partial file. Only a part of the file was transferred."
       # https://curl.haxx.se/mail/archive-2008-07/0098.html
@@ -141,7 +189,7 @@ module XcodeInstall
       File.symlink?(SYMLINK_PATH) ? SYMLINK_PATH : nil
     end
 
-    def download(version, progress, url = nil, progress_block = nil, retry_download_count = 3)
+    def download(version, progress, url = nil, progress_block = nil, number_of_try = 10)
       xcode = find_xcode_version(version) if url.nil?
       return if url.nil? && xcode.nil?
 
@@ -154,7 +202,7 @@ module XcodeInstall
         output: dmg_file,
         progress: progress,
         progress_block: progress_block,
-        retry_download_count: retry_download_count
+        number_of_try: number_of_try
       )
       result ? CACHE_DIR + dmg_file : nil
     end
@@ -287,8 +335,8 @@ HELP
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, retry_download_count = 3)
-      dmg_path = get_dmg(version, progress, url, progress_block, retry_download_count)
+    def install_version(version, switch = true, clean = true, install = true, progress = true, url = nil, show_release_notes = true, progress_block = nil, number_of_try = 10)
+      dmg_path = get_dmg(version, progress, url, progress_block, number_of_try)
       fail Informative, "Failed to download Xcode #{version}." if dmg_path.nil?
 
       if install
@@ -377,7 +425,7 @@ HELP
       `sudo /usr/sbin/dseditgroup -o edit -t group -a staff _developer`
     end
 
-    def get_dmg(version, progress = true, url = nil, progress_block = nil, retry_download_count = 3)
+    def get_dmg(version, progress = true, url = nil, progress_block = nil, number_of_try = 10)
       if url
         path = Pathname.new(url)
         return path if path.exist?
@@ -388,7 +436,7 @@ HELP
         end
       end
 
-      download(version, progress, url, progress_block, retry_download_count)
+      download(version, progress, url, progress_block, number_of_try)
     end
 
     def fetch_seedlist
@@ -548,19 +596,19 @@ HELP
       end
     end
 
-    def download(progress, progress_block = nil, retry_download_count = 3)
+    def download(progress, progress_block = nil, number_of_try = 10)
       result = Curl.new.fetch(
         url: source,
         directory: CACHE_DIR,
         progress: progress,
         progress_block: progress_block,
-        retry_download_count: retry_download_count
+        number_of_try: number_of_try
       )
       result ? dmg_path : nil
     end
 
-    def install(progress, should_install)
-      dmg_path = download(progress)
+    def install(progress, should_install, number_of_try)
+      dmg_path = download(progress, nil, number_of_try)
       fail Informative, "Failed to download #{@name}." if dmg_path.nil?
 
       return unless should_install
