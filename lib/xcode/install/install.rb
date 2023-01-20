@@ -18,6 +18,7 @@ module XcodeInstall
          ['--no-progress', 'Don’t show download progress.'],
          ['--no-clean', 'Don’t delete DMG after installation.'],
          ['--no-show-release-notes', 'Don’t open release notes in browser after installation.'],
+         ['--cache-url-base', 'Base URL containing the Xcode DMG (e.g. "http://10.1.1.1/XcodeCache". Overrides --url unless a failure occurs.'],
          ['--retry-download-count', 'Count of retrying download when curl is failed.']].concat(super)
       end
 
@@ -33,6 +34,7 @@ module XcodeInstall
         @progress = argv.flag?('progress', true)
         @show_release_notes = argv.flag?('show-release-notes', true)
         @retry_download_count = argv.option('retry-download-count', '3')
+        @local_url = argv.option('cache-url-base')
         super
       end
 
@@ -46,12 +48,13 @@ module XcodeInstall
         end
         fail Informative, "Version #{@version} doesn't exist." unless @url || @installer.exist?(@version)
         fail Informative, "Invalid URL: `#{@url}`" unless !@url || @url =~ /\A#{URI.regexp}\z/
+        fail Informative, "Invalid Cache URL: `#{@local_url}`" unless !@local_url || @local_url =~ /\A#{URI.regexp}\z/
         fail Informative, "Invalid Retry: `#{@retry_download_count} is not positive number.`" if (@retry_download_count =~ /\A[0-9]*\z/).nil?
       end
 
       def run
         @installer.install_version(@version, @should_switch, @should_clean, @should_install,
-                                   @progress, @url, @show_release_notes, nil, @retry_download_count.to_i)
+                                   @progress, @url, @show_release_notes, @local_url, nil, @retry_download_count.to_i)
       end
     end
   end
