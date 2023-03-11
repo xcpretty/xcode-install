@@ -14,7 +14,7 @@ require 'fastlane/action'
 require 'fastlane/actions/verify_xcode'
 
 module XcodeInstall
-  CACHE_DIR = Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
+  CACHE_DIR = ENV['XCODE_INSTALL_CACHE_DIR'] || Pathname.new("#{ENV['HOME']}/Library/Caches/XcodeInstall")
   class Curl
     COOKIES_PATH = Pathname.new('/tmp/curl-cookies.txt')
 
