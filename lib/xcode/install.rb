@@ -205,7 +205,7 @@ module XcodeInstall
     #     @name="6.4",
     #     @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
     #     @url=
-    #      "https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+    #      "https://developer.apple.com/services-account/download?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
     #     @version=Gem::Version.new("6.4")>,
     #
     # the resulting list is sorted with the most recent release as first element
@@ -757,7 +757,7 @@ HELP
   #    @name="6.4",
   #    @path="/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
   #    @url=
-  #     "https://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
+  #     "https://developer.apple.com/services-account/download?path=/Developer_Tools/Xcode_6.4/Xcode_6.4.dmg",
   #    @version=Gem::Version.new("6.4")>,
   class Xcode
     attr_reader :date_modified
@@ -779,7 +779,7 @@ HELP
         @date_modified = DateTime.strptime(json['dateModified'], '%m/%d/%y %H:%M').strftime('%s').to_i
         @name = json['name'].gsub(/^Xcode /, '')
         @path = json['files'].first['remotePath']
-        url_prefix = 'https://developer.apple.com/devcenter/download.action?path='
+        url_prefix = 'https://developer.apple.com/services-account/download?path='
         @url = "#{url_prefix}#{@path}"
         @release_notes_url = "#{url_prefix}#{json['release_notes_path']}" if json['release_notes_path']
       else
